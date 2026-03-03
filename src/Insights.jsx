@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { CATEGORIES, SAVING_TIPS, THEME } from "./constants.js";
 import { PremiumGate, SectionHeader } from "./Shared.jsx";
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, Cell } from "recharts";
 
 export default function Insights() {
   const { curr, isPremium, expenses, currentMonthExpenses, totalSpent, budget, profile, showPaywall } = useApp();
@@ -160,24 +161,60 @@ export default function Insights() {
             background: THEME.cardBg, borderRadius: 16, padding: "16px", marginBottom: 16,
             border: `1px solid ${THEME.cardBorder}`,
           }}>
-            <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 100 }}>
-              {daySpending.map((val, i) => (
-                <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                  <div style={{
-                    width: "100%", borderRadius: 4,
-                    background: i === now.getDay()
-                      ? `linear-gradient(180deg, ${THEME.accent}, ${THEME.accentDark})`
-                      : `linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05))`,
-                    height: `${Math.max(4, (val / maxDay) * 80)}px`,
-                    transition: "height 0.5s ease",
-                  }} />
-                  <span style={{
-                    color: i === now.getDay() ? THEME.accent : THEME.white30,
-                    fontSize: 9, fontWeight: 600, fontFamily: THEME.font,
-                  }}>{dayLabels[i]}</span>
-                </div>
-              ))}
-            </div>
+            <ResponsiveContainer width="100%" height={120}>
+              <BarChart data={dayLabels.map((label, i) => ({ name: label, amount: daySpending[i] }))}>
+                <XAxis dataKey="name" axisLine={false} tickLine={false}
+                  tick={{ fill: THEME.white30, fontSize: 10, fontFamily: THEME.font }} />
+                <Tooltip
+                  contentStyle={{ background: THEME.bg, border: `1px solid ${THEME.cardBorder}`, borderRadius: 10, fontFamily: THEME.font, fontSize: 12 }}
+                  labelStyle={{ color: THEME.white50 }}
+                  itemStyle={{ color: THEME.accent }}
+                  formatter={(val) => [`${curr.symbol} ${val.toLocaleString()}`, "Spent"]}
+                />
+                <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
+                  {dayLabels.map((_, i) => (
+                    <Cell key={i} fill={i === now.getDay() ? THEME.accent : "rgba(255,255,255,0.12)"} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Spending Trend (daily totals this month) */}
+          <SectionHeader title="Spending Trend" />
+          <div style={{
+            background: THEME.cardBg, borderRadius: 16, padding: "16px 8px 8px", marginBottom: 16,
+            border: `1px solid ${THEME.cardBorder}`,
+          }}>
+            <ResponsiveContainer width="100%" height={140}>
+              <AreaChart data={(() => {
+                const days = [];
+                for (let d = 1; d <= now.getDate(); d++) {
+                  const dayExpenses = currentMonthExpenses.filter(e => new Date(e.date).getDate() === d);
+                  days.push({ day: d, amount: dayExpenses.reduce((s, e) => s + e.amount, 0) });
+                }
+                return days;
+              })()}>
+                <defs>
+                  <linearGradient id="spendGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={THEME.accent} stopOpacity={0.3} />
+                    <stop offset="95%" stopColor={THEME.accent} stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="day" axisLine={false} tickLine={false}
+                  tick={{ fill: THEME.white30, fontSize: 9, fontFamily: THEME.font }}
+                  interval={4} />
+                <YAxis hide />
+                <Tooltip
+                  contentStyle={{ background: THEME.bg, border: `1px solid ${THEME.cardBorder}`, borderRadius: 10, fontFamily: THEME.font, fontSize: 12 }}
+                  labelStyle={{ color: THEME.white50 }}
+                  formatter={(val) => [`${curr.symbol} ${val.toLocaleString()}`, "Spent"]}
+                  labelFormatter={(d) => `Day ${d}`}
+                />
+                <Area type="monotone" dataKey="amount" stroke={THEME.accent}
+                  fill="url(#spendGrad)" strokeWidth={2} dot={false} />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
 
           {/* Projected Spending */}

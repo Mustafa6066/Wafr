@@ -2,6 +2,55 @@ import { useState, useRef, useEffect } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { SAVING_TIPS, CATEGORIES, FREE_LIMITS, THEME } from "./constants.js";
 
+// GPT integration — tries OpenAI, falls back to rule-based
+async function callGPT(userMsg, context) {
+  const apiKey = import.meta.env.VITE_OPENAI_API_KEY;
+  if (!apiKey) return null; // Fallback to rule-based
+
+  try {
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: `You are Wafr's AI financial coach for MENA users. You give personalized, actionable advice.
+
+User context:
+- Name: ${context.name || "User"}
+- Country: ${context.country || "Egypt"}
+- Monthly income: ${context.curr.symbol} ${context.budget.toLocaleString()}
+- Total spent this month: ${context.curr.symbol} ${context.totalSpent.toLocaleString()}
+- Remaining budget: ${context.curr.symbol} ${(context.budget - context.totalSpent).toLocaleString()}
+- Top spending categories: ${context.topCats.map(([id, amt]) => `${id}: ${context.curr.symbol}${amt.toLocaleString()}`).join(", ") || "None yet"}
+- Savings goals: ${context.goals.map(g => `${g.name} (${Math.round((g.saved / g.target) * 100)}%)`).join(", ") || "None"}
+- Savings rate: ${context.savingsRate}%
+
+Rules:
+- Use emoji for visual appeal
+- Be concise but thorough
+- Give specific actionable advice based on their data
+- Reference MENA-specific tips (local markets, apps like Fawry/InstaPay)
+- Encourage good habits, don't shame
+- Keep responses under 300 words
+- Use markdown bold for key points`,
+          },
+          { role: "user", content: userMsg },
+        ],
+        max_tokens: 500,
+        temperature: 0.7,
+      }),
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content || null;
+  } catch {
+    return null; // Fallback to rule-based
+  }
+}
+
 export default function AICoach() {
   const { curr, isPremium, expenses, currentMonthExpenses, totalSpent, budget, profile, goals,
     aiChatHistory, setAiChatHistory, canSendAiMessage, incrementAiCount, aiMessageCount,
@@ -67,7 +116,7 @@ export default function AICoach() {
     return `Based on your spending pattern, here's a tip:\n\n💡 ${tip.tip}\n\n📊 Potential savings: ${curr.symbol} ${tip.saving}/month\n\nYour top spending category is **${topCatName}** at ${curr.symbol} ${(topCat[0]?.[1] || 0).toLocaleString()} this month.\n\nTry asking me:\n• "Analyze my spending"\n• "How can I save on food?"\n• "Help me set a budget"\n• "Show my savings goals"`;
   };
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!input.trim()) return;
     if (!canSendAiMessage()) {
       showPaywall();
@@ -80,11 +129,29 @@ export default function AICoach() {
     incrementAiCount();
     setTyping(true);
 
-    setTimeout(() => {
-      const response = generateResponse(userMsg);
-      setAiChatHistory(prev => [...prev, { role: "ai", text: response, time: Date.now() }]);
-      setTyping(false);
-    }, 800 + Math.random() * 800);
+    // Build context for GPT
+    const catTotals = {};
+    currentMonthExpenses.forEach(e => { catTotals[e.category] = (catTotals[e.category] || 0) + e.amount; });
+    const topCat = Object.entries(catTotals).sort((a, b) => b[1] - a[1]);
+    const savingsRate = budget > 0 ? Math.round(((budget - totalSpent) / budget) * 100) : 0;
+
+    // Try GPT first (Pro users only), fallback to rule-based
+    let response = null;
+    if (isPremium) {
+      response = await callGPT(userMsg, {
+        name: profile.name, country: profile.country, curr, budget, totalSpent,
+        topCats: topCat, goals, savingsRate,
+      });
+    }
+
+    if (!response) {
+      // Rule-based fallback
+      await new Promise(r => setTimeout(r, 600 + Math.random() * 600));
+      response = generateResponse(userMsg);
+    }
+
+    setAiChatHistory(prev => [...prev, { role: "ai", text: response, time: Date.now() }]);
+    setTyping(false);
   };
 
   return (

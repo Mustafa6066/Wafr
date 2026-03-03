@@ -2,13 +2,27 @@ import { useState } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { CURRENCIES, COUNTRIES, SUBSCRIPTION_PLANS, THEME } from "./constants.js";
 import { ProBadge } from "./Shared.jsx";
+import { useAuth } from "./auth/AuthProvider.jsx";
+import { useI18n } from "./i18n/i18nProvider.jsx";
+import { useSettingsStore, usePrivacyStore } from "./store/index.js";
+import { PRIVACY_GUARANTEES } from "./services/privacyEngine.js";
+import { getSupportedBanks } from "./services/notificationParser.js";
 
 export default function Settings() {
   const { profile, setProfile, curr, isPremium, subscription, cancelSubscription,
     settings, setSettings, exportData, resetAllData, showPaywall, showToast } = useApp();
+  const { signOut, user } = useAuth();
+  const { locale, toggleLocale, t } = useI18n();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [showCurrencyPicker, setShowCurrencyPicker] = useState(false);
+  const [showAuditLog, setShowAuditLog] = useState(false);
+  const [showSupportedBanks, setShowSupportedBanks] = useState(false);
+
+  const updateSettingsDirect = useSettingsStore(s => s.updateSettings);
+  const privacyStats = usePrivacyStore(s => s.stats);
+  const auditLog = usePrivacyStore(s => s.auditLog);
+  const clearAuditLog = usePrivacyStore(s => s.clearAuditLog);
 
   return (
     <div style={{ padding: "16px 24px" }}>
@@ -85,6 +99,87 @@ export default function Settings() {
           value={settings.notifications}
           onChange={() => setSettings(s => ({ ...s, notifications: !s.notifications }))}
         />
+        <SettingsRow
+          label="Language"
+          value={locale === "ar" ? "العربية 🇪🇬" : "English 🇬🇧"}
+          action="Toggle"
+          onAction={toggleLocale}
+        />
+      </SettingsSection>
+
+      {/* Privacy & Auto-Tracking — 5-Layer Security Architecture */}
+      <SettingsSection title="Privacy & Auto-Tracking 🔒">
+        <SettingsToggle
+          label="Auto-Track Expenses"
+          value={settings.autoTrackingEnabled}
+          onChange={() => updateSettingsDirect({
+            autoTrackingEnabled: !settings.autoTrackingEnabled,
+            notificationListenerEnabled: !settings.autoTrackingEnabled,
+          })}
+        />
+        {settings.autoTrackingEnabled && (
+          <>
+            <SettingsToggle
+              label="Auto-approve high confidence"
+              value={settings.autoApproveHighConfidence}
+              onChange={() => updateSettingsDirect({
+                autoApproveHighConfidence: !settings.autoApproveHighConfidence,
+              })}
+            />
+          </>
+        )}
+        <SettingsToggle
+          label="Privacy Mode"
+          value={settings.privacyModeEnabled}
+          onChange={() => updateSettingsDirect({
+            privacyModeEnabled: !settings.privacyModeEnabled,
+          })}
+        />
+
+        {/* Privacy Stats Bar */}
+        {privacyStats.total > 0 && (
+          <div style={{
+            padding: "14px 16px", borderBottom: `1px solid ${THEME.white04}`,
+          }}>
+            <p style={{
+              color: THEME.white50, fontSize: 11, fontWeight: 600,
+              margin: "0 0 10px", fontFamily: THEME.font,
+            }}>Security Dashboard</p>
+            <div style={{ display: "flex", gap: 8 }}>
+              {[
+                { label: "Blocked", value: privacyStats.blocked, color: THEME.red, icon: "🛡️" },
+                { label: "Ignored", value: privacyStats.ignored, color: THEME.white40, icon: "⏭️" },
+                { label: "Parsed", value: privacyStats.parsed, color: THEME.accent, icon: "✅" },
+              ].map(s => (
+                <div key={s.label} style={{
+                  flex: 1, background: THEME.white04, borderRadius: 10, padding: "10px 8px",
+                  textAlign: "center",
+                }}>
+                  <span style={{ fontSize: 14 }}>{s.icon}</span>
+                  <p style={{ color: s.color, fontSize: 16, fontWeight: 800, margin: "2px 0", fontFamily: THEME.font }}>
+                    {s.value}
+                  </p>
+                  <p style={{ color: THEME.white30, fontSize: 9, margin: 0, fontFamily: THEME.font }}>
+                    {s.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <SettingsAction
+          label="View Privacy Audit Log"
+          desc={`${auditLog.length} entries — see what was blocked/parsed`}
+          icon="👁️"
+          onClick={() => setShowAuditLog(true)}
+        />
+        <SettingsAction
+          label="Supported Banks"
+          desc="See all banks we can auto-detect"
+          icon="🏦"
+          onClick={() => setShowSupportedBanks(true)}
+        />
       </SettingsSection>
 
       {/* Data */}
@@ -105,9 +200,26 @@ export default function Settings() {
         />
       </SettingsSection>
 
+      {/* Account */}
+      {user && (
+        <SettingsSection title="Account">
+          <SettingsRow label="Email" value={user.email || "N/A"} />
+          <SettingsAction
+            label="Sign Out"
+            desc="Log out of your account"
+            icon="🚪"
+            onClick={async () => {
+              await signOut();
+              showToast("Signed out", "info");
+            }}
+            danger
+          />
+        </SettingsSection>
+      )}
+
       {/* About */}
       <SettingsSection title="About">
-        <SettingsRow label="Version" value="1.0.0" />
+        <SettingsRow label="Version" value="2.0.0" />
         <SettingsRow label="Built for" value="Middle East 🌍" />
       </SettingsSection>
 
@@ -182,6 +294,139 @@ export default function Settings() {
                 <span style={{ color: THEME.white40, fontSize: 14, fontFamily: THEME.font }}>{c.symbol}</span>
               </button>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Privacy Audit Log Modal */}
+      {showAuditLog && (
+        <div style={{
+          position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)",
+          backdropFilter: "blur(8px)", zIndex: 300,
+          display: "flex", alignItems: "flex-end", justifyContent: "center",
+        }} onClick={() => setShowAuditLog(false)}>
+          <div onClick={e => e.stopPropagation()} style={{
+            background: `linear-gradient(180deg, ${THEME.bgTertiary}, ${THEME.bg})`,
+            borderRadius: "28px 28px 0 0", width: "100%", maxWidth: 440,
+            padding: "28px 24px 40px", border: `1px solid ${THEME.cardBorder}`, borderBottom: "none",
+            maxHeight: "75vh", overflowY: "auto",
+          }}>
+            <div style={{ width: 40, height: 4, borderRadius: 2, background: THEME.white10, margin: "0 auto 20px" }} />
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+              <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
+                🔒 Privacy Audit Log
+              </h3>
+              {auditLog.length > 0 && (
+                <button onClick={() => { clearAuditLog(); showToast("Audit log cleared"); }} style={{
+                  background: "rgba(255,107,107,0.1)", border: "none", borderRadius: 8,
+                  padding: "6px 12px", color: THEME.red, fontSize: 11, fontWeight: 600,
+                  cursor: "pointer", fontFamily: THEME.font,
+                }}>Clear</button>
+              )}
+            </div>
+
+            <p style={{ color: THEME.white40, fontSize: 12, margin: "0 0 16px", fontFamily: THEME.font, lineHeight: 1.4 }}>
+              This log shows every notification we processed. OTP messages are blocked automatically.
+              Raw text is <strong style={{ color: THEME.accent }}>never stored</strong>.
+            </p>
+
+            {auditLog.length === 0 ? (
+              <div style={{ textAlign: "center", padding: "32px 16px" }}>
+                <div style={{ fontSize: 32, marginBottom: 8 }}>📋</div>
+                <p style={{ color: THEME.white40, fontSize: 13, margin: 0, fontFamily: THEME.font }}>
+                  No notifications processed yet.
+                  {!settings.autoTrackingEnabled && " Enable auto-tracking to start."}
+                </p>
+              </div>
+            ) : (
+              auditLog.slice(0, 50).map((entry, i) => (
+                <div key={i} style={{
+                  display: "flex", alignItems: "center", gap: 10, padding: "10px 0",
+                  borderBottom: `1px solid ${THEME.white04}`,
+                }}>
+                  <span style={{ fontSize: 16, flexShrink: 0 }}>
+                    {entry.action === 'blocked' ? '🛡️' : entry.action === 'parsed' ? '✅' : '⏭️'}
+                  </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{
+                      color: entry.action === 'blocked' ? THEME.red :
+                        entry.action === 'parsed' ? THEME.accent : THEME.white40,
+                      fontSize: 13, fontWeight: 600, margin: 0, fontFamily: THEME.font,
+                    }}>
+                      {entry.action === 'blocked' ? 'OTP Blocked' :
+                        entry.action === 'parsed' ? 'Transaction Detected' : 'Ignored'}
+                    </p>
+                    <p style={{
+                      color: THEME.white30, fontSize: 11, margin: "2px 0 0", fontFamily: THEME.font,
+                      overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                    }}>
+                      From: {entry.sender} — {entry.reason}
+                    </p>
+                  </div>
+                  <span style={{ color: THEME.white20, fontSize: 10, fontFamily: THEME.font, flexShrink: 0 }}>
+                    {new Date(entry.timestamp).toLocaleDateString()}
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Supported Banks Modal */}
+      {showSupportedBanks && (
+        <div style={{
+          position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)",
+          backdropFilter: "blur(8px)", zIndex: 300,
+          display: "flex", alignItems: "flex-end", justifyContent: "center",
+        }} onClick={() => setShowSupportedBanks(false)}>
+          <div onClick={e => e.stopPropagation()} style={{
+            background: `linear-gradient(180deg, ${THEME.bgTertiary}, ${THEME.bg})`,
+            borderRadius: "28px 28px 0 0", width: "100%", maxWidth: 440,
+            padding: "28px 24px 40px", border: `1px solid ${THEME.cardBorder}`, borderBottom: "none",
+            maxHeight: "75vh", overflowY: "auto",
+          }}>
+            <div style={{ width: 40, height: 4, borderRadius: 2, background: THEME.white10, margin: "0 auto 20px" }} />
+            <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: "0 0 6px", fontFamily: THEME.font }}>
+              🏦 Supported Banks & Wallets
+            </h3>
+            <p style={{ color: THEME.white40, fontSize: 12, margin: "0 0 16px", fontFamily: THEME.font }}>
+              We can auto-detect transactions from these providers
+            </p>
+
+            {['EG', 'SA', 'AE'].map(country => {
+              const countryName = { EG: '🇪🇬 Egypt', SA: '🇸🇦 Saudi Arabia', AE: '🇦🇪 UAE' }[country];
+              const banks = getSupportedBanks().filter(b => b.country === country);
+              if (banks.length === 0) return null;
+              return (
+                <div key={country} style={{ marginBottom: 16 }}>
+                  <p style={{
+                    color: THEME.accent, fontSize: 12, fontWeight: 700, margin: "0 0 8px",
+                    fontFamily: THEME.font, textTransform: "uppercase",
+                  }}>{countryName}</p>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                    {banks.map(b => (
+                      <span key={b.name} style={{
+                        background: THEME.white04, borderRadius: 8, padding: "6px 12px",
+                        color: THEME.white70, fontSize: 12, fontWeight: 600, fontFamily: THEME.font,
+                        border: `1px solid ${THEME.white06}`,
+                      }}>
+                        {b.type === 'wallet' ? '📱' : b.type === 'payment' ? '💳' : '🏦'} {b.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+
+            <div style={{
+              background: "rgba(0,212,170,0.06)", borderRadius: 12, padding: "12px 14px",
+              border: "1px solid rgba(0,212,170,0.1)", marginTop: 8,
+            }}>
+              <p style={{ color: THEME.accent, fontSize: 12, fontWeight: 600, margin: 0, fontFamily: THEME.font }}>
+                🔜 Open Banking APIs coming soon — direct bank connections for Egypt, Saudi & UAE
+              </p>
+            </div>
           </div>
         </div>
       )}

@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { COUNTRIES, CURRENCIES, CATEGORIES, INCOME_RANGES, SUBSCRIPTION_PLANS, THEME } from "./constants.js";
 import { AnimatedNumber } from "./Shared.jsx";
+import { PRIVACY_GUARANTEES } from "./services/privacyEngine.js";
+import { useSettingsStore, usePrivacyStore } from "./store/index.js";
 
 export default function Onboarding({ onComplete }) {
   const { profile, setProfile, subscribe } = useApp();
   const [step, setStep] = useState(0);
 
   const next = () => {
-    if (step >= 4) onComplete();
+    if (step >= 5) onComplete();
     else setStep(s => s + 1);
   };
 
@@ -16,8 +18,9 @@ export default function Onboarding({ onComplete }) {
     <WelcomeScreen key={0} onNext={next} />,
     <CountryScreen key={1} onNext={next} profile={profile} setProfile={setProfile} />,
     <SpendingQuizScreen key={2} onNext={next} profile={profile} setProfile={setProfile} />,
-    <ResultsScreen key={3} onNext={next} profile={profile} />,
-    <PaywallScreen key={4} onNext={next} profile={profile} onSubscribe={subscribe} />,
+    <TrustScreen key={3} onNext={next} />,
+    <ResultsScreen key={4} onNext={next} profile={profile} />,
+    <PaywallScreen key={5} onNext={next} profile={profile} onSubscribe={subscribe} />,
   ];
 
   return screens[step] || null;
@@ -411,6 +414,172 @@ function PaywallScreen({ onNext, profile, onSubscribe }) {
 
         <p style={{ color: "rgba(255,255,255,0.2)", fontSize: 11, textAlign: "center", fontFamily: THEME.font, marginTop: 4 }}>
           Cancel anytime. No charge during trial period.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── TRUST SCREEN — Layer 2 Privacy Onboarding ───
+function TrustScreen({ onNext }) {
+  const [show, setShow] = useState(false);
+  const [autoTrackEnabled, setAutoTrackEnabled] = useState(false);
+  const updateSettings = useSettingsStore(s => s.updateSettings);
+  const markTrustScreenSeen = usePrivacyStore(s => s.markTrustScreenSeen);
+
+  useEffect(() => { setTimeout(() => setShow(true), 100); }, []);
+
+  const handleContinue = () => {
+    updateSettings({
+      autoTrackingEnabled: autoTrackEnabled,
+      notificationListenerEnabled: autoTrackEnabled,
+    });
+    markTrustScreenSeen();
+    onNext();
+  };
+
+  return (
+    <div style={{
+      minHeight: "100vh", display: "flex", flexDirection: "column",
+      justifyContent: "center", padding: "40px 24px",
+      background: `linear-gradient(160deg, ${THEME.bg} 0%, ${THEME.bgSecondary} 40%, ${THEME.bgTertiary} 100%)`,
+    }}>
+      <div style={{
+        opacity: show ? 1 : 0, transform: show ? "translateY(0)" : "translateY(20px)",
+        transition: "all 0.6s ease", maxWidth: 400, margin: "0 auto", width: "100%",
+      }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: 28 }}>
+          <div style={{
+            width: 80, height: 80, borderRadius: 24, margin: "0 auto 16px",
+            background: "linear-gradient(135deg, rgba(0,212,170,0.15), rgba(0,184,148,0.08))",
+            border: "2px solid rgba(0,212,170,0.2)",
+            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 40,
+          }}>🔒</div>
+          <h2 style={{
+            fontFamily: THEME.fontSerif, fontSize: 26, fontWeight: 800,
+            color: THEME.white, margin: "0 0 8px", lineHeight: 1.3,
+          }}>
+            Your money data stays<br />on YOUR phone
+          </h2>
+          <p style={{ color: THEME.white50, fontSize: 14, margin: 0, fontFamily: THEME.font, lineHeight: 1.5 }}>
+            Unlike other apps, we never read your OTPs<br />or upload your bank messages
+          </p>
+        </div>
+
+        {/* Privacy Guarantee Cards */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 24 }}>
+          {PRIVACY_GUARANTEES.slice(0, 3).map((g, i) => (
+            <div key={g.id} style={{
+              background: THEME.cardBg, borderRadius: 16, padding: "16px 18px",
+              border: `1px solid ${THEME.cardBorder}`,
+              display: "flex", alignItems: "center", gap: 14,
+              opacity: show ? 1 : 0, transform: show ? "translateX(0)" : "translateX(-20px)",
+              transition: "all 0.5s ease", transitionDelay: `${0.2 + i * 0.1}s`,
+            }}>
+              <div style={{
+                width: 44, height: 44, borderRadius: 14, flexShrink: 0,
+                background: g.id === 'on_device' ? "rgba(0,212,170,0.12)" :
+                  g.id === 'no_otp' ? "rgba(255,107,107,0.12)" : "rgba(108,92,231,0.12)",
+                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22,
+              }}>{g.icon}</div>
+              <div>
+                <p style={{
+                  color: THEME.white, fontSize: 14, fontWeight: 700,
+                  margin: "0 0 2px", fontFamily: THEME.font,
+                }}>{g.title}</p>
+                <p style={{
+                  color: THEME.white40, fontSize: 11, margin: 0,
+                  fontFamily: THEME.font, lineHeight: 1.4,
+                }}>{g.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Auto-Track Toggle — OFF by default */}
+        <div style={{
+          background: autoTrackEnabled
+            ? "linear-gradient(135deg, rgba(0,212,170,0.12), rgba(0,184,148,0.06))"
+            : THEME.cardBg,
+          borderRadius: 18, padding: "18px 20px", marginBottom: 16,
+          border: `1px solid ${autoTrackEnabled ? "rgba(0,212,170,0.2)" : THEME.cardBorder}`,
+          transition: "all 0.3s ease",
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ flex: 1 }}>
+              <p style={{
+                color: THEME.white, fontSize: 15, fontWeight: 700,
+                margin: "0 0 4px", fontFamily: THEME.font,
+              }}>
+                📱 Auto-track from bank notifications
+              </p>
+              <p style={{
+                color: THEME.white40, fontSize: 11, margin: 0,
+                fontFamily: THEME.font, lineHeight: 1.4,
+              }}>
+                Reads only bank notifications — never SMS inbox or OTPs.
+                You'll review each transaction before it's saved.
+              </p>
+            </div>
+            <button onClick={() => setAutoTrackEnabled(!autoTrackEnabled)} style={{
+              width: 52, height: 28, borderRadius: 14, border: "none", cursor: "pointer",
+              background: autoTrackEnabled ? THEME.accent : THEME.white10,
+              position: "relative", transition: "background 0.3s ease", flexShrink: 0, marginLeft: 12,
+            }}>
+              <div style={{
+                width: 22, height: 22, borderRadius: 11, background: THEME.white,
+                position: "absolute", top: 3,
+                left: autoTrackEnabled ? 27 : 3,
+                transition: "left 0.3s ease",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+              }} />
+            </button>
+          </div>
+        </div>
+
+        {/* How it works mini-diagram */}
+        <div style={{
+          background: THEME.white04, borderRadius: 14, padding: "14px 16px", marginBottom: 24,
+        }}>
+          <p style={{
+            color: THEME.white40, fontSize: 10, fontWeight: 700,
+            margin: "0 0 10px", fontFamily: THEME.font, textTransform: "uppercase",
+            letterSpacing: "0.5px",
+          }}>How auto-tracking works</p>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, flexWrap: "wrap" }}>
+            {[
+              { icon: "🔔", label: "Bank\nNotification" },
+              { icon: "→", label: "" },
+              { icon: "🛡️", label: "OTP\nFilter" },
+              { icon: "→", label: "" },
+              { icon: "📱", label: "On-Device\nParse" },
+              { icon: "→", label: "" },
+              { icon: "✅", label: "You\nReview" },
+            ].map((step, i) => (
+              <div key={i} style={{ textAlign: "center" }}>
+                <span style={{
+                  fontSize: step.icon === "→" ? 14 : 18,
+                  color: step.icon === "→" ? THEME.white20 : undefined,
+                }}>{step.icon}</span>
+                {step.label && (
+                  <p style={{
+                    color: THEME.white30, fontSize: 9, margin: "3px 0 0",
+                    fontFamily: THEME.font, whiteSpace: "pre-line", lineHeight: 1.2,
+                  }}>{step.label}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <ContinueButton onClick={handleContinue} label="Continue →" />
+
+        <p style={{
+          color: THEME.white20, fontSize: 10, textAlign: "center",
+          margin: "12px 0 0", fontFamily: THEME.font,
+        }}>
+          You can change this anytime in Settings → Privacy
         </p>
       </div>
     </div>
