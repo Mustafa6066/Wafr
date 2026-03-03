@@ -1,4 +1,4 @@
-import { FileText, Home, Bot, Inbox, Target, Zap, Briefcase, BarChart3, Trophy, Camera, RefreshCw, TrendingUp, HeartPulse, Users, PiggyBank, Moon, Smartphone, Eye, LineChart, CircleDashed, ShieldAlert, Swords, CalendarDays, Settings as SettingsIcon, ShieldCheck } from "lucide-react";
+import { FileText, Home, Bot, Inbox, Target, Zap, Briefcase, BarChart3, Trophy, Camera, RefreshCw, TrendingUp, HeartPulse, Users, PiggyBank, Moon, Smartphone, Eye, LineChart, CircleDashed, ShieldAlert, Swords, CalendarDays, Settings as SettingsIcon, ShieldCheck, Wallet, ArrowUpRight, Bell, ChevronRight, Sparkles, Send } from "lucide-react";
 import { useState, lazy, Suspense } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { CATEGORIES, DAILY_CHALLENGES, THEME, FREE_LIMITS } from "./constants.js";
@@ -73,31 +73,44 @@ export default function Dashboard() {
       minHeight: "100vh",
       fontFamily: THEME.font, paddingBottom: 90,
     }}>
-      {/* Header */}
-      <div style={{ padding: "20px 24px 0" }}>
+      {/* Header — Premium */}
+      <div style={{ padding: "16px 24px 0" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
-            <p style={{ color: THEME.white50, fontSize: 14, margin: 0 }}>
-              {getGreeting()} {profile.name ? profile.name : ""} 
+            <p style={{ color: THEME.white40, fontSize: 13, margin: 0, fontFamily: THEME.font, fontWeight: 500 }}>
+              {getGreeting()}
             </p>
-            <h1 style={{ fontFamily: THEME.fontSerif, fontSize: 24, color: THEME.white, margin: "4px 0 0", fontWeight: 800 }}>
-              {tab === "home" ? "Your Savings" : tab === "more" ? "Features" : tab === "inbox" ? "Transaction Inbox" : ""}
+            <h1 style={{ fontFamily: THEME.font, fontSize: 22, color: THEME.white, margin: "2px 0 0", fontWeight: 800, letterSpacing: "-0.3px" }}>
+              {profile.name || "Wafr"}
+              {isPremium && <span style={{
+                background: "linear-gradient(135deg, #FFD700, #FFB648)",
+                color: THEME.bg, fontSize: 9, fontWeight: 800, padding: "3px 8px",
+                borderRadius: 6, fontFamily: THEME.font, marginLeft: 8, verticalAlign: "middle",
+                display: "inline-block",
+              }}>PRO</span>}
             </h1>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            {isPremium && (
-              <div style={{
-                background: "linear-gradient(135deg, #FFD700, #FFB648)",
-                color: THEME.bg, fontSize: 9, fontWeight: 800, padding: "4px 10px",
-                borderRadius: 8, fontFamily: THEME.font,
-              }}>PRO</div>
-            )}
-            <div style={{
-              width: 44, height: 44, borderRadius: 14,
-              background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
-              display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18,
+            <button onClick={() => setTab("inbox")} style={{
+              width: 42, height: 42, borderRadius: 14, background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.08)", display: "flex",
+              alignItems: "center", justifyContent: "center", cursor: "pointer", position: "relative",
             }}>
-              {currentLevel.icon}
+              <Bell size={18} color="rgba(255,255,255,0.5)" />
+              {inboxPending > 0 && <div style={{
+                position: "absolute", top: -2, right: -2, width: 8, height: 8, borderRadius: 4,
+                background: THEME.red, border: `2px solid ${THEME.bg}`,
+              }} />}
+            </button>
+            <div style={{
+              width: 42, height: 42, borderRadius: 14,
+              background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              boxShadow: "0 4px 16px rgba(0,212,170,0.2)",
+            }}>
+              <span style={{ color: THEME.bg, fontSize: 16, fontWeight: 800, fontFamily: THEME.font }}>
+                {(profile.name || "W").charAt(0).toUpperCase()}
+              </span>
             </div>
           </div>
         </div>
@@ -153,23 +166,24 @@ export default function Dashboard() {
       {!["home", "ai", "inbox", "goals", "more"].includes(tab) && (
         <button onClick={() => setTab("more")} style={{
           position: "fixed", top: 20, left: 20, zIndex: 200,
-          background: THEME.cardBg, border: `1px solid ${THEME.cardBorder}`,
-          borderRadius: 12, padding: "8px 14px", cursor: "pointer",
+          background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: 14, padding: "10px 16px", cursor: "pointer",
           color: THEME.white, fontSize: 13, fontWeight: 600, fontFamily: THEME.font,
-          backdropFilter: "blur(12px)",
+          backdropFilter: "blur(16px)",
           display: "flex", alignItems: "center", gap: 6,
+          boxShadow: "0 4px 20px rgba(0,0,0,0.3)",
         }}>
           ← Back
         </button>
       )}
 
-      {/* Bottom Navigation */}
+      {/* Bottom Navigation — Premium */}
       <div style={{
         position: "fixed", bottom: 0, left: 0, right: 0,
-        background: "rgba(10,22,40,0.97)", backdropFilter: "blur(20px)",
-        borderTop: `1px solid ${THEME.cardBorder}`,
-        display: "flex", justifyContent: "space-around",
-        padding: "8px 0 18px", zIndex: 100,
+        background: "rgba(8,18,32,0.98)", backdropFilter: "blur(24px)",
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        display: "flex", justifyContent: "space-around", alignItems: "center",
+        padding: "4px 0 20px", zIndex: 100,
       }}>
         {tabs.map((t) => {
           const isActive = t.id === tab || (t.id === "more" && !["home", "ai", "inbox", "goals"].includes(tab));
@@ -177,23 +191,33 @@ export default function Dashboard() {
             <button key={t.id} onClick={() => setTab(t.id)} style={{
               background: "none", border: "none", cursor: "pointer",
               display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
-              padding: "4px 10px", minWidth: 0, position: "relative",
+              padding: "6px 16px", minWidth: 0, position: "relative",
+              transition: "all 0.2s ease",
             }}>
-              <span style={{
-                fontSize: 20, filter: isActive ? "none" : "grayscale(0.5) opacity(0.4)",
+              {isActive && <div style={{
+                position: "absolute", top: -4, left: "50%", transform: "translateX(-50%)",
+                width: 24, height: 3, borderRadius: 2, background: THEME.accent,
+              }} />}
+              <div style={{
+                width: 36, height: 36, borderRadius: 12,
+                background: isActive ? "rgba(0,212,170,0.12)" : "transparent",
+                display: "flex", alignItems: "center", justifyContent: "center",
                 transition: "all 0.2s ease",
-              }}>{t.icon}</span>
+              }}>
+                <span style={{ color: isActive ? THEME.accent : THEME.white30, display: "flex" }}>{t.icon}</span>
+              </div>
               <span style={{
                 color: isActive ? THEME.accent : THEME.white30,
-                fontSize: 10, fontWeight: 600, fontFamily: THEME.font,
+                fontSize: 10, fontWeight: isActive ? 700 : 500, fontFamily: THEME.font,
+                transition: "all 0.2s ease",
               }}>{t.label}</span>
               {t.badge > 0 && (
                 <div style={{
-                  position: "absolute", top: -2, right: 2, minWidth: 16, height: 16,
-                  borderRadius: 8, background: THEME.red, display: "flex",
+                  position: "absolute", top: 2, right: 4, minWidth: 18, height: 18,
+                  borderRadius: 9, background: THEME.red, display: "flex",
                   alignItems: "center", justifyContent: "center",
                   fontSize: 9, fontWeight: 800, color: "#fff", fontFamily: THEME.font,
-                  padding: "0 4px",
+                  padding: "0 4px", boxShadow: "0 2px 8px rgba(255,107,107,0.4)",
                 }}>{t.badge > 99 ? "99+" : t.badge}</div>
               )}
             </button>
@@ -236,26 +260,33 @@ function MoreScreen({ setTab, isPremium, showPaywall }) {
           const locked = f.pro && !isPremium;
           return (
             <button key={f.id} onClick={() => locked ? showPaywall() : setTab(f.id)} style={{
-              background: THEME.cardBg, border: `1px solid ${THEME.cardBorder}`,
-              borderRadius: 18, padding: "18px 14px", cursor: "pointer",
-              display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6,
+              background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 20, padding: "20px 16px", cursor: "pointer",
+              display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 10,
               position: "relative", overflow: "hidden",
-              opacity: locked ? 0.6 : 1,
+              opacity: locked ? 0.55 : 1,
+              transition: "all 0.2s ease",
             }}>
               {locked && (
                 <div style={{
-                  position: "absolute", top: 8, right: 8,
+                  position: "absolute", top: 10, right: 10,
                   background: "linear-gradient(135deg, #FFD700, #FFB648)",
-                  color: THEME.bg, fontSize: 8, fontWeight: 800, padding: "2px 6px",
-                  borderRadius: 6, fontFamily: THEME.font,
+                  color: THEME.bg, fontSize: 8, fontWeight: 800, padding: "3px 8px",
+                  borderRadius: 6, fontFamily: THEME.font, letterSpacing: "0.3px",
                 }}>PRO</div>
               )}
-              <span style={{ fontSize: 28 }}>{f.icon}</span>
+              <div style={{
+                width: 44, height: 44, borderRadius: 14,
+                background: locked ? "rgba(255,255,255,0.06)" : "rgba(0,212,170,0.08)",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <span style={{ color: locked ? THEME.white30 : THEME.accent, display: "flex" }}>{f.icon}</span>
+              </div>
               <div>
                 <p style={{ color: THEME.white, fontSize: 14, fontWeight: 700, margin: 0, fontFamily: THEME.font, textAlign: "left" }}>
                   {f.name}
                 </p>
-                <p style={{ color: THEME.white40, fontSize: 11, margin: "2px 0 0", fontFamily: THEME.font, textAlign: "left" }}>
+                <p style={{ color: THEME.white30, fontSize: 11, margin: "3px 0 0", fontFamily: THEME.font, textAlign: "left" }}>
                   {f.desc}
                 </p>
               </div>
@@ -263,6 +294,98 @@ function MoreScreen({ setTab, isPremium, showPaywall }) {
           );
         })}
       </div>
+    </div>
+  );
+}
+
+// ─── SPENDING CHART ───
+function SpendingChart({ expenses, curr }) {
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dayStr = d.toDateString();
+    const dayTotal = expenses
+      .filter(e => new Date(e.date).toDateString() === dayStr)
+      .reduce((s, e) => s + e.amount, 0);
+    days.push({ date: d, total: dayTotal, label: d.toLocaleDateString("en", { weekday: "short" }) });
+  }
+
+  const maxVal = Math.max(...days.map(d => d.total), 1);
+  const w = 320, h = 150, px = 24, py = 18;
+  const chartW = w - px * 2, chartH = h - py * 2 - 12;
+
+  const points = days.map((d, i) => ({
+    x: px + (i / (days.length - 1)) * chartW,
+    y: py + chartH - (d.total / maxVal) * chartH,
+  }));
+
+  let path = `M ${points[0].x} ${points[0].y}`;
+  for (let i = 1; i < points.length; i++) {
+    const cp1x = points[i - 1].x + (points[i].x - points[i - 1].x) / 3;
+    const cp2x = points[i].x - (points[i].x - points[i - 1].x) / 3;
+    path += ` C ${cp1x} ${points[i - 1].y}, ${cp2x} ${points[i].y}, ${points[i].x} ${points[i].y}`;
+  }
+  const fillPath = path + ` L ${points[points.length - 1].x} ${h - 14} L ${points[0].x} ${h - 14} Z`;
+
+  const weekTotal = days.reduce((s, d) => s + d.total, 0);
+
+  return (
+    <div style={{
+      background: "rgba(255,255,255,0.04)", borderRadius: 20, padding: "20px",
+      marginBottom: 16, border: "1px solid rgba(255,255,255,0.06)",
+    }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        <div>
+          <p style={{ color: THEME.white, fontSize: 16, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
+            Spending Insights
+          </p>
+          <p style={{ color: THEME.white40, fontSize: 12, margin: "2px 0 0", fontFamily: THEME.font }}>
+            {curr.symbol} {weekTotal.toLocaleString()} this week
+          </p>
+        </div>
+        <div style={{
+          background: "rgba(0,212,170,0.1)", borderRadius: 10, padding: "5px 14px",
+          border: "1px solid rgba(0,212,170,0.15)",
+        }}>
+          <span style={{ color: THEME.accent, fontSize: 12, fontWeight: 600, fontFamily: THEME.font }}>7 Days</span>
+        </div>
+      </div>
+
+      <svg width="100%" viewBox={`0 0 ${w} ${h}`} style={{ display: "block" }}>
+        <defs>
+          <linearGradient id="chartGradFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#00D4AA" stopOpacity="0.25" />
+            <stop offset="100%" stopColor="#00D4AA" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="chartGradLine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#00D4AA" />
+            <stop offset="50%" stopColor="#4AE8C4" />
+            <stop offset="100%" stopColor="#00D4AA" />
+          </linearGradient>
+        </defs>
+        {[0, 0.25, 0.5, 0.75, 1].map((v, i) => (
+          <line key={i} x1={px} y1={py + chartH * (1 - v)} x2={w - px} y2={py + chartH * (1 - v)}
+            stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+        ))}
+        <path d={fillPath} fill="url(#chartGradFill)" />
+        <path d={path} fill="none" stroke="url(#chartGradLine)" strokeWidth="2.5" strokeLinecap="round" />
+        {points.map((p, i) => (
+          <g key={i}>
+            <circle cx={p.x} cy={p.y} r="4" fill={THEME.bg} stroke="#00D4AA" strokeWidth="2" />
+            {days[i].total > 0 && (
+              <text x={p.x} y={p.y - 10} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="8"
+                fontFamily="DM Sans, sans-serif">
+                {curr.symbol}{days[i].total >= 1000
+                  ? (days[i].total / 1000).toFixed(1) + "k"
+                  : days[i].total.toLocaleString()}
+              </text>
+            )}
+            <text x={p.x} y={h - 2} textAnchor="middle" fill="rgba(255,255,255,0.25)" fontSize="9"
+              fontFamily="DM Sans, sans-serif">{days[i].label}</text>
+          </g>
+        ))}
+      </svg>
     </div>
   );
 }
@@ -310,114 +433,148 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
 
   return (
     <div style={{ padding: "0 24px" }}>
-      {/* Balance Card */}
+      {/* Balance Card — Premium Green Gradient */}
       <div style={{
-        background: `linear-gradient(135deg, rgba(0,212,170,0.12), rgba(0,184,148,0.06))`,
-        borderRadius: 24, padding: "28px 24px", margin: "20px 0 16px",
-        border: `1px solid rgba(0,212,170,0.15)`, position: "relative", overflow: "hidden",
+        background: "linear-gradient(145deg, #1E6B45 0%, #134D32 50%, #0A3521 100%)",
+        borderRadius: 24, padding: "24px", margin: "16px 0 20px",
+        position: "relative", overflow: "hidden",
+        boxShadow: "0 8px 32px rgba(0,100,60,0.25)",
       }}>
-        <div style={{
-          position: "absolute", top: -30, right: -30, width: 120, height: 120,
-          borderRadius: "50%", background: `radial-gradient(circle, rgba(0,212,170,0.15), transparent)`,
-        }} />
-        <p style={{ color: THEME.white50, fontSize: 13, margin: "0 0 6px", fontWeight: 600 }}>Monthly Budget</p>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-          <span style={{ color: remaining >= 0 ? THEME.white : THEME.red, fontSize: 36, fontWeight: 800 }}>
-            {curr.symbol} {Math.abs(remaining).toLocaleString()}
-          </span>
-          <span style={{ color: THEME.white40, fontSize: 14 }}>{remaining >= 0 ? "remaining" : "over budget!"}</span>
+        {/* Decorative circles */}
+        <div style={{ position: "absolute", top: -50, right: -50, width: 180, height: 180, borderRadius: "50%", background: "rgba(255,255,255,0.04)" }} />
+        <div style={{ position: "absolute", bottom: -70, left: -40, width: 140, height: 140, borderRadius: "50%", background: "rgba(255,255,255,0.03)" }} />
+        <div style={{ position: "absolute", top: 20, right: 25, width: 60, height: 60, borderRadius: "50%", background: "rgba(0,212,170,0.08)" }} />
+
+        {/* Wallet icon + label */}
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16, position: "relative" }}>
+          <div style={{
+            width: 38, height: 38, borderRadius: 12, background: "rgba(255,255,255,0.12)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            backdropFilter: "blur(8px)",
+          }}>
+            <Wallet size={18} color="#fff" />
+          </div>
+          <span style={{ color: "rgba(255,255,255,0.7)", fontSize: 14, fontWeight: 500, fontFamily: THEME.font }}>Total Balance</span>
         </div>
 
-        <div style={{ height: 8, borderRadius: 4, background: THEME.white10, marginTop: 16, overflow: "hidden" }}>
+        {/* Balance amount */}
+        <div style={{ display: "flex", alignItems: "center", gap: 12, position: "relative", marginBottom: 4 }}>
+          <span style={{ color: "#fff", fontSize: 36, fontWeight: 800, fontFamily: THEME.font, letterSpacing: "-0.5px" }}>
+            {curr.symbol} {remaining >= 0 ? remaining.toLocaleString() : "0"}
+          </span>
           <div style={{
-            height: "100%", borderRadius: 4,
-            background: pct > 80 ? `linear-gradient(90deg, ${THEME.red}, ${THEME.redLight})`
-              : pct > 50 ? `linear-gradient(90deg, ${THEME.orange}, ${THEME.orangeLight})`
-              : `linear-gradient(90deg, ${THEME.accent}, ${THEME.accentDark})`,
-            width: `${Math.min(pct, 100)}%`, transition: "width 1s ease",
-          }} />
+            display: "flex", alignItems: "center", gap: 3,
+            background: remaining >= 0 ? "rgba(0,212,170,0.2)" : "rgba(255,107,107,0.2)",
+            borderRadius: 8, padding: "4px 10px",
+          }}>
+            <ArrowUpRight size={13} color={remaining >= 0 ? "#4AE8C4" : "#FF8E8E"} />
+            <span style={{ color: remaining >= 0 ? "#4AE8C4" : "#FF8E8E", fontSize: 12, fontWeight: 700, fontFamily: THEME.font }}>
+              {budget > 0 ? Math.round(((budget - totalSpent) / budget) * 100) : 0}%
+            </span>
+          </div>
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}>
-          <span style={{ color: THEME.white40, fontSize: 12 }}>{curr.symbol} {totalSpent.toLocaleString()} spent</span>
-          <span style={{ color: THEME.white40, fontSize: 12 }}>{curr.symbol} {budget.toLocaleString()} budget</span>
+
+        {/* Budget progress */}
+        <div style={{ position: "relative", marginTop: 18 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+            <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, fontFamily: THEME.font }}>
+              Spent {curr.symbol} {totalSpent.toLocaleString()}
+            </span>
+            <span style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, fontFamily: THEME.font }}>
+              Budget {curr.symbol} {budget.toLocaleString()}
+            </span>
+          </div>
+          <div style={{ height: 6, borderRadius: 3, background: "rgba(255,255,255,0.12)", overflow: "hidden" }}>
+            <div style={{
+              height: "100%", borderRadius: 3,
+              background: pct > 80 ? "linear-gradient(90deg, #FF6B6B, #FF8E8E)"
+                : pct > 50 ? "linear-gradient(90deg, #FFB648, #FFD93D)"
+                : "linear-gradient(90deg, #4AE8C4, #00D4AA)",
+              width: `${Math.min(pct, 100)}%`, transition: "width 1s ease",
+            }} />
+          </div>
         </div>
       </div>
 
-      {/* Inbox Alert */}
+      {/* Spending Insights Chart */}
+      <SpendingChart expenses={expenses} curr={curr} />
+
+      {/* Inbox Alert — Compact */}
       {inboxPending > 0 && (
         <button onClick={onGoToInbox} style={{
-          width: "100%", background: "linear-gradient(135deg, rgba(108,92,231,0.15), rgba(108,92,231,0.06))",
-          border: "1px solid rgba(108,92,231,0.25)", borderRadius: 16, padding: "14px 18px",
-          cursor: "pointer", display: "flex", alignItems: "center", gap: 12, marginBottom: 12,
+          width: "100%", background: "linear-gradient(135deg, rgba(0,212,170,0.08), rgba(108,92,231,0.06))",
+          border: "1px solid rgba(0,212,170,0.12)", borderRadius: 16, padding: "14px 18px",
+          cursor: "pointer", display: "flex", alignItems: "center", gap: 12, marginBottom: 16,
         }}>
-          <span style={{ marginRight: 8, color: THEME.accent }}><Inbox size={24} /></span>
+          <div style={{
+            width: 40, height: 40, borderRadius: 12, background: "rgba(0,212,170,0.12)",
+            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+          }}>
+            <Inbox size={18} color={THEME.accent} />
+          </div>
           <div style={{ flex: 1, textAlign: "left" }}>
             <p style={{ color: THEME.white, fontSize: 14, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
-              {inboxPending} new transaction{inboxPending !== 1 ? "s" : ""} detected
+              {inboxPending} transaction{inboxPending !== 1 ? "s" : ""} to review
             </p>
             <p style={{ color: THEME.white40, fontSize: 11, margin: "2px 0 0", fontFamily: THEME.font }}>
-              Tap to review & approve
+              Tap to approve or dismiss
             </p>
           </div>
-          <span style={{ color: THEME.white30, fontSize: 18 }}>→</span>
+          <ChevronRight size={18} color="rgba(255,255,255,0.3)" />
         </button>
       )}
 
-      {/* Privacy Shield — shows when auto-tracking is active */}
+      {/* Privacy Shield — Compact pill */}
       {autoTrackEnabled && privacyStats.total > 0 && (
         <div style={{
-          background: "linear-gradient(135deg, rgba(0,212,170,0.08), rgba(0,184,148,0.04))",
-          borderRadius: 14, padding: "10px 14px", marginBottom: 12,
-          border: "1px solid rgba(0,212,170,0.1)",
+          background: "rgba(0,212,170,0.06)", borderRadius: 12, padding: "10px 14px",
+          marginBottom: 14, border: "1px solid rgba(0,212,170,0.08)",
           display: "flex", alignItems: "center", gap: 10,
         }}>
-          <span style={{ marginRight: 8, color: THEME.accent }}><ShieldCheck size={20} /></span>
+          <ShieldCheck size={16} color={THEME.accent} />
           <p style={{ color: THEME.white40, fontSize: 11, margin: 0, fontFamily: THEME.font, flex: 1 }}>
-            <span style={{ color: THEME.accent, fontWeight: 700 }}>{privacyStats.blocked}</span> OTPs blocked · <span style={{ color: THEME.accent, fontWeight: 700 }}>{privacyStats.parsed}</span> transactions auto-detected · All on-device
+            <span style={{ color: THEME.accent, fontWeight: 700 }}>{privacyStats.blocked}</span> blocked  ·  <span style={{ color: THEME.accent, fontWeight: 700 }}>{privacyStats.parsed}</span> auto-detected
           </p>
         </div>
       )}
 
-      {/* Paste SMS Quick Entry — Layer 5 manual fallback */}
+      {/* Paste SMS — Compact toggle */}
       <button onClick={() => setShowPasteSMS(!showPasteSMS)} style={{
-        width: "100%", background: showPasteSMS ? "rgba(0,212,170,0.08)" : THEME.cardBg,
-        border: `1px solid ${showPasteSMS ? "rgba(0,212,170,0.15)" : THEME.cardBorder}`,
-        borderRadius: 14, padding: "12px 16px", cursor: "pointer",
-        display: "flex", alignItems: "center", gap: 10, marginBottom: showPasteSMS ? 0 : 12,
-        borderBottomLeftRadius: showPasteSMS ? 0 : 14,
-        borderBottomRightRadius: showPasteSMS ? 0 : 14,
+        width: "100%", background: showPasteSMS ? "rgba(0,212,170,0.06)" : "rgba(255,255,255,0.04)",
+        border: `1px solid ${showPasteSMS ? "rgba(0,212,170,0.12)" : "rgba(255,255,255,0.06)"}`,
+        borderRadius: showPasteSMS ? "14px 14px 0 0" : 14, padding: "12px 16px", cursor: "pointer",
+        display: "flex", alignItems: "center", gap: 10, marginBottom: showPasteSMS ? 0 : 14,
       }}>
-        <span style={{ marginRight: 8, color: THEME.white50 }}><Smartphone size={20} /></span>
-        <p style={{ color: THEME.white70, fontSize: 13, fontWeight: 600, margin: 0, fontFamily: THEME.font, flex: 1, textAlign: "left" }}>
-          Paste any payment message to auto-detect
+        <Smartphone size={16} color="rgba(255,255,255,0.4)" />
+        <p style={{ color: THEME.white50, fontSize: 13, fontWeight: 500, margin: 0, fontFamily: THEME.font, flex: 1, textAlign: "left" }}>
+          Paste payment message
         </p>
-        <span style={{ color: THEME.white30, fontSize: 12, transition: "transform 0.2s", transform: showPasteSMS ? "rotate(180deg)" : "none" }}>▼</span>
+        <span style={{ color: THEME.white30, fontSize: 10, transition: "transform 0.2s", transform: showPasteSMS ? "rotate(180deg)" : "none" }}>▼</span>
       </button>
 
       {showPasteSMS && (
         <div style={{
-          background: THEME.cardBg, borderRadius: "0 0 14px 14px", padding: "12px 16px 16px",
-          border: `1px solid ${THEME.cardBorder}`, borderTop: "none", marginBottom: 12,
+          background: "rgba(255,255,255,0.04)", borderRadius: "0 0 14px 14px", padding: "12px 16px 16px",
+          border: "1px solid rgba(255,255,255,0.06)", borderTop: "none", marginBottom: 14,
         }}>
           <textarea
             value={smsText}
             onChange={e => setSmsText(e.target.value)}
-            placeholder="Paste any payment message here...&#10;InstaPay, Fawry, Vodafone Cash, bank SMS&#10;مثال: تم سحب 500.00 جنيه من حسابك ببنك مصر"
+            placeholder="Paste any payment message here..."
             style={{
-              width: "100%", background: THEME.white04, border: `1px solid ${THEME.white10}`,
+              width: "100%", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)",
               borderRadius: 10, padding: "10px 12px", color: THEME.white, fontSize: 13,
-              outline: "none", fontFamily: THEME.font, minHeight: 60, resize: "vertical",
+              outline: "none", fontFamily: THEME.font, minHeight: 56, resize: "vertical",
               boxSizing: "border-box",
             }}
           />
-          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
-            <button onClick={handlePasteSMS} disabled={!smsText.trim()} style={{
-              flex: 1, background: smsText.trim() ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})` : THEME.white10,
-              color: smsText.trim() ? THEME.bg : THEME.white30, border: "none", borderRadius: 10,
-              padding: "10px", fontSize: 13, fontWeight: 700, cursor: smsText.trim() ? "pointer" : "default",
-              fontFamily: THEME.font,
-            }}>Detect Transaction</button>
-          </div>
+          <button onClick={handlePasteSMS} disabled={!smsText.trim()} style={{
+            width: "100%", marginTop: 8,
+            background: smsText.trim() ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})` : "rgba(255,255,255,0.06)",
+            color: smsText.trim() ? THEME.bg : THEME.white30, border: "none", borderRadius: 10,
+            padding: "10px", fontSize: 13, fontWeight: 700, cursor: smsText.trim() ? "pointer" : "default",
+            fontFamily: THEME.font,
+          }}>Detect Transaction</button>
           {pasteResult && (
             <div style={{
               marginTop: 8, padding: "8px 12px", borderRadius: 8,
@@ -427,138 +584,191 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
               <p style={{
                 color: pasteResult.success ? THEME.accent : THEME.red,
                 fontSize: 12, fontWeight: 600, margin: 0, fontFamily: THEME.font,
-              }}>
-                {pasteResult.success ? " " : ""}{pasteResult.msg}
-              </p>
+              }}>{pasteResult.msg}</p>
             </div>
           )}
-          <p style={{ color: THEME.white20, fontSize: 10, margin: "8px 0 0", fontFamily: THEME.font, textAlign: "center" }}>
-             Processed on-device only — OTPs auto-blocked
-          </p>
         </div>
       )}
 
-      {/* Quick Stats */}
+      {/* Quick Stats — Premium 2-column */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
-        <div style={{ background: THEME.cardBg, borderRadius: 18, padding: "16px", border: `1px solid ${THEME.cardBorder}` }}>
-          <p style={{ color: THEME.white40, fontSize: 11, margin: "0 0 4px", fontWeight: 600 }}>Savings Goal</p>
-          <p style={{ color: THEME.accent, fontSize: 20, fontWeight: 800, margin: 0 }}>
+        <div style={{
+          background: "rgba(255,255,255,0.04)", borderRadius: 18, padding: "18px",
+          border: "1px solid rgba(255,255,255,0.06)", position: "relative", overflow: "hidden",
+        }}>
+          <div style={{ position: "absolute", top: -15, right: -15, width: 50, height: 50, borderRadius: "50%", background: "rgba(0,212,170,0.06)" }} />
+          <div style={{
+            width: 32, height: 32, borderRadius: 10, background: "rgba(0,212,170,0.1)",
+            display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 10,
+          }}>
+            <Target size={16} color={THEME.accent} />
+          </div>
+          <p style={{ color: THEME.white40, fontSize: 11, margin: "0 0 4px", fontWeight: 500, fontFamily: THEME.font }}>Savings Goal</p>
+          <p style={{ color: THEME.accent, fontSize: 22, fontWeight: 800, margin: 0, fontFamily: THEME.font }}>
             {curr.symbol} {Math.floor(budget * 0.2).toLocaleString()}
           </p>
-          <p style={{ color: THEME.white30, fontSize: 10, margin: "2px 0 0" }}>20% of income</p>
+          <p style={{ color: THEME.white20, fontSize: 10, margin: "4px 0 0", fontFamily: THEME.font }}>20% of income</p>
         </div>
-        <div style={{ background: THEME.cardBg, borderRadius: 18, padding: "16px", border: `1px solid ${THEME.cardBorder}` }}>
-          <p style={{ color: THEME.white40, fontSize: 11, margin: "0 0 4px", fontWeight: 600 }}>Streak </p>
-          <p style={{ color: THEME.orange, fontSize: 20, fontWeight: 800, margin: 0 }}>
+        <div style={{
+          background: "rgba(255,255,255,0.04)", borderRadius: 18, padding: "18px",
+          border: "1px solid rgba(255,255,255,0.06)", position: "relative", overflow: "hidden",
+        }}>
+          <div style={{ position: "absolute", top: -15, right: -15, width: 50, height: 50, borderRadius: "50%", background: "rgba(255,182,72,0.06)" }} />
+          <div style={{
+            width: 32, height: 32, borderRadius: 10, background: "rgba(255,182,72,0.1)",
+            display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 10,
+          }}>
+            <Zap size={16} color={THEME.orange} />
+          </div>
+          <p style={{ color: THEME.white40, fontSize: 11, margin: "0 0 4px", fontWeight: 500, fontFamily: THEME.font }}>Streak</p>
+          <p style={{ color: THEME.orange, fontSize: 22, fontWeight: 800, margin: 0, fontFamily: THEME.font }}>
             {challengeLog.streak} Day{challengeLog.streak !== 1 ? "s" : ""}
           </p>
-          <p style={{ color: THEME.white30, fontSize: 10, margin: "2px 0 0" }}>
-            {challengeLog.streak >= 7 ? "Amazing!" : challengeLog.streak >= 3 ? "Keep it up!" : "Start a streak!"}
+          <p style={{ color: THEME.white20, fontSize: 10, margin: "4px 0 0", fontFamily: THEME.font }}>
+            {challengeLog.streak >= 7 ? "Amazing streak!" : challengeLog.streak >= 3 ? "Keep going!" : "Start today!"}
           </p>
         </div>
       </div>
 
-      {/* Daily Challenge */}
+      {/* Daily Challenge — Premium */}
       <div style={{
-        background: "linear-gradient(135deg, rgba(255,182,72,0.12), rgba(255,153,0,0.06))",
-        borderRadius: 20, padding: "18px", marginBottom: 16,
-        border: "1px solid rgba(255,182,72,0.15)",
+        background: "linear-gradient(135deg, rgba(255,182,72,0.08), rgba(255,153,0,0.04))",
+        borderRadius: 20, padding: "18px", marginBottom: 20,
+        border: "1px solid rgba(255,182,72,0.1)",
       }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ flex: 1 }}>
-            <p style={{ color: THEME.orange, fontSize: 11, fontWeight: 700, margin: "0 0 4px" }}>TODAY'S CHALLENGE</p>
-            <p style={{ color: THEME.white, fontSize: 16, fontWeight: 700, margin: "0 0 2px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+              <Sparkles size={14} color={THEME.orange} />
+              <p style={{ color: THEME.orange, fontSize: 10, fontWeight: 700, margin: 0, fontFamily: THEME.font, letterSpacing: "0.5px" }}>
+                TODAY'S CHALLENGE
+              </p>
+            </div>
+            <p style={{ color: THEME.white, fontSize: 15, fontWeight: 700, margin: "0 0 4px", fontFamily: THEME.font }}>
               {todayChallenge.icon} {todayChallenge.challenge}
             </p>
-            <p style={{ color: THEME.white50, fontSize: 12, margin: 0 }}>{todayChallenge.desc}</p>
-            <p style={{ color: THEME.orange, fontSize: 11, fontWeight: 600, margin: "4px 0 0" }}>
-              +{todayChallenge.reward} points
+            <p style={{ color: THEME.white40, fontSize: 12, margin: 0, fontFamily: THEME.font }}>{todayChallenge.desc}</p>
+            <p style={{ color: THEME.orange, fontSize: 11, fontWeight: 600, margin: "6px 0 0", fontFamily: THEME.font }}>
+              +{todayChallenge.reward} pts
             </p>
           </div>
           <button
             onClick={() => !todayDone && completeChallenge(todayChallenge.id, todayChallenge.reward)}
             disabled={!!todayDone}
             style={{
-              background: todayDone ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})` : "rgba(255,182,72,0.2)",
-              border: "none", borderRadius: 14, width: 50, height: 50,
-              fontSize: 22, cursor: todayDone ? "default" : "pointer",
+              background: todayDone
+                ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`
+                : "rgba(255,182,72,0.15)",
+              border: todayDone ? "none" : "1px solid rgba(255,182,72,0.2)",
+              borderRadius: 14, width: 48, height: 48,
+              cursor: todayDone ? "default" : "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
               flexShrink: 0, marginLeft: 12,
+              transition: "all 0.2s ease",
             }}>
-            {todayDone ? "" : ""}
+            {todayDone
+              ? <ShieldCheck size={22} color={THEME.bg} />
+              : <Target size={22} color={THEME.orange} />}
           </button>
         </div>
       </div>
 
-      {/* Recent Expenses */}
-      <SectionHeader title="Recent Expenses" action="+ Add" onAction={onAddExpense} />
+      {/* Recent Expenses — Premium List */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+        <p style={{ color: THEME.white, fontSize: 16, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>Recent Expenses</p>
+        <button onClick={onAddExpense} style={{
+          background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
+          border: "none", borderRadius: 10, padding: "7px 16px",
+          color: THEME.bg, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: THEME.font,
+          boxShadow: "0 4px 12px rgba(0,212,170,0.2)",
+        }}>+ Add</button>
+      </div>
 
       {expenses.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "32px 16px" }}>
-          <div style={{ fontSize: 40, marginBottom: 8 }}><FileText size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
+        <div style={{
+          textAlign: "center", padding: "40px 16px",
+          background: "rgba(255,255,255,0.03)", borderRadius: 20,
+          border: "1px solid rgba(255,255,255,0.05)",
+        }}>
+          <div style={{
+            width: 56, height: 56, borderRadius: 16, background: "rgba(0,212,170,0.08)",
+            display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 14px",
+          }}>
+            <FileText size={24} color={THEME.accent} />
+          </div>
           <p style={{ color: THEME.white50, fontSize: 14, margin: 0, fontFamily: THEME.font }}>
             No expenses yet. Start tracking!
           </p>
         </div>
       ) : (
-        expenses.slice(0, 8).map((exp) => {
-          const cat = CATEGORIES.find(c => c.id === exp.category) || CATEGORIES[CATEGORIES.length - 1];
-          const date = new Date(exp.date);
-          const isToday = date.toDateString() === new Date().toDateString();
-          const isYesterday = date.toDateString() === new Date(Date.now() - 86400000).toDateString();
-          const dateLabel = isToday ? "Today" : isYesterday ? "Yesterday" : date.toLocaleDateString();
+        <div style={{
+          background: "rgba(255,255,255,0.03)", borderRadius: 20, overflow: "hidden",
+          border: "1px solid rgba(255,255,255,0.05)",
+        }}>
+          {expenses.slice(0, 8).map((exp, idx) => {
+            const cat = CATEGORIES.find(c => c.id === exp.category) || CATEGORIES[CATEGORIES.length - 1];
+            const date = new Date(exp.date);
+            const isToday = date.toDateString() === new Date().toDateString();
+            const isYesterday = date.toDateString() === new Date(Date.now() - 86400000).toDateString();
+            const dateLabel = isToday ? "Today" : isYesterday ? "Yesterday" : date.toLocaleDateString();
 
-          return (
-            <div key={exp.id}
-              onClick={() => setExpandedExpense(expandedExpense === exp.id ? null : exp.id)}
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "space-between",
-                padding: "12px 0", borderBottom: `1px solid ${THEME.white04}`, cursor: "pointer",
-              }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12, flex: 1 }}>
+            return (
+              <div key={exp.id}
+                onClick={() => setExpandedExpense(expandedExpense === exp.id ? null : exp.id)}
+                style={{
+                  display: "flex", alignItems: "center", padding: "14px 18px",
+                  borderBottom: idx < Math.min(expenses.length, 8) - 1 ? "1px solid rgba(255,255,255,0.04)" : "none",
+                  cursor: "pointer", transition: "background 0.2s ease",
+                }}>
                 <div style={{
-                  width: 40, height: 40, borderRadius: 12,
-                  background: `${cat.color}20`, display: "flex",
-                  alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0,
-                }}>{cat.icon}</div>
-                <div style={{ minWidth: 0 }}>
-                  <p style={{ color: THEME.white, fontSize: 14, fontWeight: 600, margin: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  width: 44, height: 44, borderRadius: 14,
+                  background: `${cat.color}15`, display: "flex",
+                  alignItems: "center", justifyContent: "center", flexShrink: 0,
+                  marginRight: 14,
+                }}>
+                  <span style={{ color: cat.color, fontSize: 20 }}>{cat.icon}</span>
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{
+                    color: THEME.white, fontSize: 14, fontWeight: 600, margin: 0,
+                    fontFamily: THEME.font, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                  }}>
                     {exp.name}
                   </p>
-                  <p style={{ color: THEME.white30, fontSize: 11, margin: 0 }}>
-                    {dateLabel}
-                    {exp.source && <span style={{ color: THEME.white20, marginLeft: 6 }}>
-                      {exp.source === "sms" ? "" : exp.source === "receipt" ? "" : ""} auto
-                    </span>}
+                  <p style={{ color: THEME.white30, fontSize: 11, margin: "3px 0 0", fontFamily: THEME.font }}>
+                    {cat.nameAr} · {dateLabel}
+                    {exp.source && <span style={{ color: THEME.white20, marginLeft: 6 }}>auto</span>}
                   </p>
                 </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                  <span style={{ color: THEME.accent, fontSize: 15, fontWeight: 700, fontFamily: THEME.font }}>
+                    -{curr.symbol} {exp.amount.toLocaleString()}
+                  </span>
+                  {expandedExpense === exp.id && (
+                    <button onClick={(e) => { e.stopPropagation(); deleteExpense(exp.id); }}
+                      style={{
+                        background: "rgba(255,107,107,0.12)", border: "1px solid rgba(255,107,107,0.2)",
+                        borderRadius: 8, padding: "4px 10px", cursor: "pointer",
+                        color: THEME.red, fontSize: 11, fontWeight: 600, fontFamily: THEME.font,
+                      }}>Delete</button>
+                  )}
+                </div>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
-                <span style={{ color: THEME.redLight, fontSize: 15, fontWeight: 700 }}>
-                  -{curr.symbol} {exp.amount.toLocaleString()}
-                </span>
-                {expandedExpense === exp.id && (
-                  <button onClick={(e) => { e.stopPropagation(); deleteExpense(exp.id); }}
-                    style={{
-                      background: "rgba(255,107,107,0.15)", border: "none", borderRadius: 8,
-                      padding: "4px 8px", cursor: "pointer", color: THEME.red, fontSize: 11,
-                      fontWeight: 600, fontFamily: THEME.font,
-                    }}>Delete</button>
-                )}
-              </div>
-            </div>
-          );
-        })
+            );
+          })}
+        </div>
       )}
 
       {!isPremium && expenses.length >= 10 && (
-        <div style={{ textAlign: "center", padding: "16px 0" }}>
+        <div style={{ textAlign: "center", padding: "20px 0" }}>
           <button onClick={showPaywall} style={{
-            background: "linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,182,72,0.08))",
-            border: "1px solid rgba(255,215,0,0.2)", borderRadius: 12, padding: "10px 20px",
+            background: "linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,182,72,0.06))",
+            border: "1px solid rgba(255,215,0,0.15)", borderRadius: 14, padding: "12px 24px",
             color: THEME.gold, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: THEME.font,
+            display: "flex", alignItems: "center", gap: 8, margin: "0 auto",
           }}>
-             Upgrade for unlimited tracking
+            <Sparkles size={16} color={THEME.gold} />
+            Upgrade for unlimited tracking
           </button>
         </div>
       )}
@@ -566,7 +776,7 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
   );
 }
 
-// ─── Add Expense Modal ───
+// ─── Add Expense Modal — Premium ───
 function AddExpenseModal({ curr, onClose, onAdd }) {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
@@ -575,24 +785,24 @@ function AddExpenseModal({ curr, onClose, onAdd }) {
 
   return (
     <div style={{
-      position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)",
-      backdropFilter: "blur(8px)", zIndex: 200,
+      position: "fixed", inset: 0, background: "rgba(0,0,0,0.75)",
+      backdropFilter: "blur(12px)", zIndex: 200,
       display: "flex", alignItems: "flex-end", justifyContent: "center",
     }} onClick={onClose}>
       <div onClick={e => e.stopPropagation()} style={{
-        background: `linear-gradient(180deg, ${THEME.bgTertiary}, ${THEME.bg})`,
+        background: `linear-gradient(180deg, #132D46, ${THEME.bg})`,
         borderRadius: "28px 28px 0 0", width: "100%", maxWidth: 440,
-        padding: "28px 24px 40px", border: `1px solid ${THEME.cardBorder}`, borderBottom: "none",
+        padding: "28px 24px 40px", border: "1px solid rgba(255,255,255,0.06)", borderBottom: "none",
         maxHeight: "85vh", overflowY: "auto",
       }}>
-        <div style={{ width: 40, height: 4, borderRadius: 2, background: THEME.white10, margin: "0 auto 20px" }} />
-        <h3 style={{ color: THEME.white, fontSize: 22, fontWeight: 700, margin: "0 0 20px", fontFamily: THEME.font }}>
+        <div style={{ width: 40, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.08)", margin: "0 auto 24px" }} />
+        <h3 style={{ color: THEME.white, fontSize: 22, fontWeight: 800, margin: "0 0 24px", fontFamily: THEME.font }}>
           Add Expense
         </h3>
 
         <input value={name} onChange={e => setName(e.target.value)} placeholder="What did you spend on?"
           style={{
-            width: "100%", background: THEME.white06, border: `1px solid ${THEME.white10}`,
+            width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)",
             borderRadius: 14, padding: "14px 16px", color: THEME.white, fontSize: 15,
             outline: "none", marginBottom: 12, fontFamily: THEME.font, boxSizing: "border-box",
           }} />
@@ -600,22 +810,23 @@ function AddExpenseModal({ curr, onClose, onAdd }) {
         <input value={amount} onChange={e => setAmount(e.target.value.replace(/[^0-9.]/g, ""))}
           placeholder={`Amount (${curr.symbol})`} inputMode="decimal"
           style={{
-            width: "100%", background: THEME.white06, border: `1px solid ${THEME.white10}`,
+            width: "100%", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)",
             borderRadius: 14, padding: "14px 16px", color: THEME.white, fontSize: 15,
-            outline: "none", marginBottom: 16, fontFamily: THEME.font, boxSizing: "border-box",
+            outline: "none", marginBottom: 18, fontFamily: THEME.font, boxSizing: "border-box",
           }} />
 
-        <p style={{ color: THEME.white50, fontSize: 13, fontWeight: 600, margin: "0 0 10px", fontFamily: THEME.font }}>
+        <p style={{ color: THEME.white40, fontSize: 13, fontWeight: 600, margin: "0 0 10px", fontFamily: THEME.font }}>
           Category
         </p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 24 }}>
           {CATEGORIES.filter(c => c.id !== "savings").map((cat) => (
             <button key={cat.id} onClick={() => setCategory(cat.id)} style={{
-              background: category === cat.id ? "rgba(0,212,170,0.2)" : THEME.white04,
-              border: category === cat.id ? `1.5px solid ${THEME.accent}` : `1.5px solid rgba(255,255,255,0.08)`,
-              borderRadius: 10, padding: "8px 12px", cursor: "pointer",
+              background: category === cat.id ? "rgba(0,212,170,0.12)" : "rgba(255,255,255,0.04)",
+              border: category === cat.id ? `1.5px solid ${THEME.accent}` : "1.5px solid rgba(255,255,255,0.06)",
+              borderRadius: 10, padding: "8px 14px", cursor: "pointer",
               fontSize: 12, color: category === cat.id ? THEME.accent : THEME.white50,
               fontFamily: THEME.font, fontWeight: 600,
+              transition: "all 0.2s ease",
             }}>{cat.icon} {cat.name}</button>
           ))}
         </div>
@@ -625,11 +836,12 @@ function AddExpenseModal({ curr, onClose, onAdd }) {
           disabled={!valid}
           style={{
             width: "100%",
-            background: valid ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})` : THEME.white10,
+            background: valid ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})` : "rgba(255,255,255,0.06)",
             color: valid ? THEME.bg : THEME.white30,
             border: "none", borderRadius: 16, padding: "18px",
             fontSize: 17, fontWeight: 700, cursor: valid ? "pointer" : "default",
             fontFamily: THEME.font,
+            boxShadow: valid ? "0 6px 24px rgba(0,212,170,0.25)" : "none",
           }}>Add Expense</button>
       </div>
     </div>

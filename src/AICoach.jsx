@@ -1,4 +1,4 @@
-import { Bot } from "lucide-react";
+import { Bot, Send, Sparkles } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { SAVING_TIPS, CATEGORIES, FREE_LIMITS, THEME } from "./constants.js";
@@ -157,24 +157,35 @@ export default function AICoach() {
 
   return (
     <div style={{ padding: "16px 24px", display: "flex", flexDirection: "column", height: "calc(100vh - 150px)" }}>
-      {/* Header */}
+      {/* Header — Premium */}
       <div style={{
-        background: "rgba(0,212,170,0.08)", borderRadius: 16, padding: "14px",
-        border: `1px solid rgba(0,212,170,0.12)`, marginBottom: 12,
+        background: "linear-gradient(135deg, rgba(0,212,170,0.08), rgba(0,184,148,0.04))",
+        borderRadius: 18, padding: "16px 18px",
+        border: "1px solid rgba(0,212,170,0.1)", marginBottom: 14,
         display: "flex", justifyContent: "space-between", alignItems: "center",
       }}>
-        <div>
-          <p style={{ color: THEME.accent, fontSize: 12, fontWeight: 700, margin: "0 0 2px", fontFamily: THEME.font }}>
-             AI SAVINGS COACH
-          </p>
-          <p style={{ color: THEME.white50, fontSize: 12, margin: 0, fontFamily: THEME.font }}>
-            Personalized advice based on your real spending data
-          </p>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{
+            width: 38, height: 38, borderRadius: 12,
+            background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: "0 4px 16px rgba(0,212,170,0.2)",
+          }}>
+            <Sparkles size={18} color={THEME.bg} />
+          </div>
+          <div>
+            <p style={{ color: THEME.white, fontSize: 14, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
+              AI Savings Coach
+            </p>
+            <p style={{ color: THEME.white40, fontSize: 11, margin: "1px 0 0", fontFamily: THEME.font }}>
+              Powered by your spending data
+            </p>
+          </div>
         </div>
         {!isPremium && (
           <div style={{
-            background: "rgba(255,182,72,0.15)", borderRadius: 10, padding: "4px 10px",
-            border: "1px solid rgba(255,182,72,0.2)",
+            background: "rgba(255,182,72,0.1)", borderRadius: 10, padding: "5px 12px",
+            border: "1px solid rgba(255,182,72,0.15)",
           }}>
             <p style={{ color: THEME.orange, fontSize: 11, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
               {remainingMessages}/day
@@ -186,76 +197,115 @@ export default function AICoach() {
       {/* Chat Area */}
       <div style={{ flex: 1, overflowY: "auto", marginBottom: 12, paddingRight: 4 }}>
         {aiChatHistory.length === 0 && (
-          <div style={{ textAlign: "center", padding: "32px 16px" }}>
-            <div style={{ fontSize: 48, marginBottom: 16 }}><Bot size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
+          <div style={{ textAlign: "center", padding: "28px 16px" }}>
+            <div style={{
+              width: 64, height: 64, borderRadius: 20, margin: "0 auto 18px",
+              background: "linear-gradient(135deg, rgba(0,212,170,0.12), rgba(0,184,148,0.06))",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              border: "1px solid rgba(0,212,170,0.1)",
+            }}>
+              <Bot size={28} color={THEME.accent} />
+            </div>
             <p style={{ color: THEME.white50, fontSize: 15, margin: "0 0 20px", fontFamily: THEME.font }}>
-              Hi{profile.name ? ` ${profile.name}` : ""}! I'm your AI savings coach. Try asking me:
+              Hi{profile.name ? ` ${profile.name}` : ""}! Ask me anything about your finances.
             </p>
-            {[
-              "Analyze my spending habits",
-              "How can I save more on food?",
-              "Help me set a budget plan",
-              "Show my savings goals progress",
-            ].map((q, i) => (
-              <button key={i} onClick={() => setInput(q)} style={{
-                display: "block", width: "100%", textAlign: "left",
-                background: THEME.white04, border: `1px solid ${THEME.cardBorder}`,
-                borderRadius: 12, padding: "11px 14px", marginBottom: 8,
-                color: THEME.white50, fontSize: 13, cursor: "pointer", fontFamily: THEME.font,
-              }}> {q}</button>
-            ))}
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {[
+                "Analyze my spending habits",
+                "How can I save more on food?",
+                "Help me set a budget plan",
+                "Show my savings goals progress",
+              ].map((q, i) => (
+                <button key={i} onClick={() => setInput(q)} style={{
+                  display: "block", width: "100%", textAlign: "left",
+                  background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)",
+                  borderRadius: 14, padding: "12px 16px",
+                  color: THEME.white50, fontSize: 13, cursor: "pointer", fontFamily: THEME.font,
+                  transition: "all 0.2s ease",
+                }}>{q}</button>
+              ))}
+            </div>
           </div>
         )}
 
         {aiChatHistory.map((msg, i) => (
           <div key={i} style={{
             display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
-            marginBottom: 10, animation: "fadeIn 0.3s ease",
+            marginBottom: 12, animation: "fadeIn 0.3s ease",
           }}>
+            {msg.role === "ai" && (
+              <div style={{
+                width: 30, height: 30, borderRadius: 10, flexShrink: 0, marginRight: 8, marginTop: 2,
+                background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}>
+                <Sparkles size={14} color={THEME.bg} />
+              </div>
+            )}
             <div style={{
-              maxWidth: "85%",
+              maxWidth: "80%",
               background: msg.role === "user"
-                ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`
-                : THEME.white06,
-              color: msg.role === "user" ? THEME.bg : THEME.white,
-              borderRadius: 18, padding: "11px 15px",
+                ? "rgba(255,255,255,0.08)"
+                : "linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,184,148,0.06))",
+              border: msg.role === "user"
+                ? "1px solid rgba(255,255,255,0.1)"
+                : "1px solid rgba(0,212,170,0.12)",
+              color: THEME.white,
+              borderRadius: msg.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
+              padding: "12px 16px",
               fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-line", fontFamily: THEME.font,
             }}>
               {msg.text}
+              <p style={{ color: THEME.white20, fontSize: 9, margin: "6px 0 0", fontFamily: THEME.font }}>
+                {new Date(msg.time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+              </p>
             </div>
           </div>
         ))}
 
         {typing && (
-          <div style={{ display: "flex", marginBottom: 10 }}>
+          <div style={{ display: "flex", alignItems: "flex-start", marginBottom: 12, gap: 8 }}>
             <div style={{
-              background: THEME.white06, borderRadius: 18, padding: "12px 18px",
+              width: 30, height: 30, borderRadius: 10, flexShrink: 0,
+              background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <Sparkles size={14} color={THEME.bg} />
+            </div>
+            <div style={{
+              background: "linear-gradient(135deg, rgba(0,212,170,0.1), rgba(0,184,148,0.06))",
+              border: "1px solid rgba(0,212,170,0.12)",
+              borderRadius: "18px 18px 18px 4px", padding: "12px 18px",
               color: THEME.white50, fontSize: 13, fontFamily: THEME.font,
             }}>
-              <span style={{ animation: "pulse 1s infinite" }}> Analyzing...</span>
+              <span style={{ animation: "pulse 1s infinite" }}>Analyzing your data...</span>
             </div>
           </div>
         )}
         <div ref={chatEndRef} />
       </div>
 
-      {/* Input */}
-      <div style={{ display: "flex", gap: 8 }}>
+      {/* Input — Premium */}
+      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
         <input value={input} onChange={e => setInput(e.target.value)}
           onKeyDown={e => e.key === "Enter" && sendMessage()}
           placeholder={canSendAiMessage() ? "Ask your AI savings coach..." : "Upgrade for more messages"}
           disabled={!canSendAiMessage() && !isPremium}
           style={{
-            flex: 1, background: THEME.white06, border: `1px solid ${THEME.white10}`,
-            borderRadius: 14, padding: "13px 16px", color: THEME.white, fontSize: 14,
+            flex: 1, background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)",
+            borderRadius: 16, padding: "14px 18px", color: THEME.white, fontSize: 14,
             outline: "none", fontFamily: THEME.font,
           }} />
         <button onClick={sendMessage} disabled={!input.trim()} style={{
-          background: input.trim() ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})` : THEME.white10,
-          border: "none", borderRadius: 14, width: 48, height: 48,
-          cursor: input.trim() ? "pointer" : "default", fontSize: 18,
+          background: input.trim() ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})` : "rgba(255,255,255,0.06)",
+          border: "none", borderRadius: 14, width: 50, height: 50,
+          cursor: input.trim() ? "pointer" : "default",
           display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-        }}>↑</button>
+          boxShadow: input.trim() ? "0 4px 16px rgba(0,212,170,0.25)" : "none",
+          transition: "all 0.2s ease",
+        }}>
+          <Send size={18} color={input.trim() ? THEME.bg : "rgba(255,255,255,0.3)"} />
+        </button>
       </div>
     </div>
   );

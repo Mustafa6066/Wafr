@@ -186,6 +186,13 @@ export const THEME = {
   white04: "rgba(255,255,255,0.04)",
   cardBg: "rgba(255,255,255,0.04)",
   cardBorder: "rgba(255,255,255,0.06)",
+  // Premium surfaces
+  surfaceGlass: "rgba(255,255,255,0.06)",
+  surfaceBorder: "rgba(255,255,255,0.08)",
+  premiumGreen: "#1A6B42",
+  premiumGreenDark: "#0D3D28",
+  premiumGradient: "linear-gradient(145deg, #1E6B45 0%, #134D32 50%, #0A3521 100%)",
+  greenGlow: "rgba(0,180,120,0.25)",
   font: "'DM Sans', sans-serif",
   fontSerif: "'Playfair Display', Georgia, serif",
   fontArabic: "'Noto Sans Arabic', sans-serif",
