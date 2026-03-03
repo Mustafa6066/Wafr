@@ -1,13 +1,15 @@
+import { Star } from "lucide-react";
+import React from 'react';
 // ─── Family Hub — family budget management with member roles ───
 import { useState } from 'react';
 import { THEME } from '../constants.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const ROLES = [
-  { id: 'parent', label: 'Parent', icon: '👤', color: THEME.accent },
-  { id: 'spouse', label: 'Spouse', icon: '💑', color: '#FF6B9D' },
-  { id: 'child', label: 'Child', icon: '🧒', color: '#4ECDC4' },
-  { id: 'other', label: 'Other', icon: '👥', color: '#FFA726' },
+  { id: 'parent', label: 'Parent', icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), color: THEME.accent },
+  { id: 'spouse', label: 'Spouse', icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), color: '#FF6B9D' },
+  { id: 'child', label: 'Child', icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), color: '#4ECDC4' },
+  { id: 'other', label: 'Other', icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), color: '#FFA726' },
 ];
 
 export default function FamilyHub({ family = [], onAddMember, onUpdateMember, onRemoveMember, curr = 'EGP' }) {
@@ -68,7 +70,7 @@ export default function FamilyHub({ family = [], onAddMember, onUpdateMember, on
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <div>
           <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
-            👨‍👩‍👧‍👦 Family Hub
+             Family Hub
           </h3>
           <p style={{ color: THEME.white40, fontSize: 13, margin: '4px 0 0' }}>
             Manage family budgets & allowances
@@ -103,7 +105,7 @@ export default function FamilyHub({ family = [], onAddMember, onUpdateMember, on
       {/* Members list */}
       {family.length === 0 && (
         <div style={{ textAlign: 'center', padding: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>👨‍👩‍👧‍👦</div>
+          <div style={{ fontSize: 48, marginBottom: 12 }}></div>
           <p style={{ color: THEME.white40, fontSize: 14, margin: 0 }}>
             Add family members to manage budgets together
           </p>

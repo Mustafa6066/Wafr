@@ -140,7 +140,7 @@ export default function Achievements() {
                     background: "rgba(255,215,0,0.1)", color: THEME.gold,
                     fontSize: 9, fontWeight: 700, padding: "2px 8px", borderRadius: 4, fontFamily: THEME.font,
                     cursor: "pointer",
-                  }} onClick={showPaywall}>🔒 PRO</span>
+                  }} onClick={showPaywall}> PRO</span>
                 </div>
               )}
             </div>

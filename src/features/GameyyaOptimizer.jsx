@@ -1,3 +1,4 @@
+import { Handshake, Bot, Lightbulb } from "lucide-react";
 /**
  * Gameyya (جمعية) Optimizer — AI Cash Flow Slot Recommender
  * 
@@ -135,7 +136,7 @@ export default function GameyyaOptimizer() {
     <div style={{ padding: "16px 24px" }}>
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>🤝</div>
+        <div style={{ fontSize: 48, marginBottom: 8 }}><Handshake size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <h2 style={{ color: THEME.white, fontSize: 22, fontWeight: 800, margin: "0 0 4px", fontFamily: THEME.font }}>
           Gameyya Optimizer
         </h2>
@@ -208,7 +209,7 @@ export default function GameyyaOptimizer() {
         border: "1px solid rgba(108,92,231,0.2)",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-          <span style={{ fontSize: 20 }}>🤖</span>
+          <span style={{ fontSize: 20 }}><Bot size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></span>
           <h3 style={{ color: THEME.white, fontSize: 16, fontWeight: 800, margin: 0, fontFamily: THEME.font }}>
             AI Recommendation
           </h3>
@@ -258,7 +259,7 @@ export default function GameyyaOptimizer() {
 
       {/* Slot Visualization */}
       <h3 style={{ color: THEME.white, fontSize: 14, fontWeight: 800, margin: "0 0 10px", fontFamily: THEME.font }}>
-        📅 Slot Map
+         Slot Map
       </h3>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6, marginBottom: 16 }}>
         {Array.from({ length: memberCount }, (_, i) => {
@@ -295,7 +296,7 @@ export default function GameyyaOptimizer() {
       {/* My Gameyyat (Active Circles) */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
         <h3 style={{ color: THEME.white, fontSize: 14, fontWeight: 800, margin: 0, fontFamily: THEME.font }}>
-          🔄 My Gameyyat
+           My Gameyyat
         </h3>
         <button onClick={() => addGameyya()} style={{
           background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
@@ -322,7 +323,7 @@ export default function GameyyaOptimizer() {
             <div style={{
               width: 40, height: 40, borderRadius: 12, background: "rgba(108,92,231,0.15)",
               display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0,
-            }}>🤝</div>
+            }}><Handshake size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
             <div style={{ flex: 1 }}>
               <p style={{ color: THEME.white, fontSize: 13, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>{g.name}</p>
               <p style={{ color: THEME.white30, fontSize: 11, margin: "2px 0 0", fontFamily: THEME.font }}>
@@ -345,8 +346,7 @@ export default function GameyyaOptimizer() {
         background: "rgba(255,182,72,0.06)", borderRadius: 14, padding: "12px 16px", marginTop: 16,
         border: "1px solid rgba(255,182,72,0.1)",
       }}>
-        <p style={{ color: THEME.white40, fontSize: 11, lineHeight: 1.5, margin: 0, fontFamily: THEME.font }}>
-          💡 <strong style={{ color: THEME.white50 }}>Pro Tip:</strong> The earlier your slot, the more it's like getting a loan (you receive before fully paying). Later slots work like forced savings. Match your slot to your financial need.
+        <p style={{ color: THEME.white40, fontSize: 11, lineHeight: 1.5, margin: 0, fontFamily: THEME.font }}><Lightbulb size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /> <strong style={{ color: THEME.white50 }}>Pro Tip:</strong> The earlier your slot, the more it's like getting a loan (you receive before fully paying). Later slots work like forced savings. Match your slot to your financial need.
         </p>
       </div>
     </div>

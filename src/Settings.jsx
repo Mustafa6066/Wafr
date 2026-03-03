@@ -1,3 +1,5 @@
+import { Landmark, Star, CheckCircle2, ClipboardList } from "lucide-react";
+import React from 'react';
 import { useState } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { CURRENCIES, COUNTRIES, SUBSCRIPTION_PLANS, THEME } from "./constants.js";
@@ -44,7 +46,7 @@ export default function Settings() {
               Subscription
             </p>
             <p style={{ color: THEME.white, fontSize: 18, fontWeight: 800, margin: 0, fontFamily: THEME.font }}>
-              {isPremium ? "Wafr Pro" : "Free Plan"} {isPremium && "👑"}
+              {isPremium ? "Wafr Pro" : "Free Plan"} {isPremium && ""}
             </p>
           </div>
           <div style={{
@@ -83,7 +85,7 @@ export default function Settings() {
       {/* Profile */}
       <SettingsSection title="Profile">
         <SettingsRow label="Name" value={profile.name || "Not set"} />
-        <SettingsRow label="Country" value={`${COUNTRIES.find(c => c.code === profile.country)?.flag || "🌍"} ${COUNTRIES.find(c => c.code === profile.country)?.name || profile.country}`} />
+        <SettingsRow label="Country" value={`${COUNTRIES.find(c => c.code === profile.country)?.flag || ""} ${COUNTRIES.find(c => c.code === profile.country)?.name || profile.country}`} />
         <SettingsRow label="Currency"
           value={`${curr.symbol} ${curr.name}`}
           action="Change"
@@ -101,14 +103,14 @@ export default function Settings() {
         />
         <SettingsRow
           label="Language"
-          value={locale === "ar" ? "العربية 🇪🇬" : "English 🇬🇧"}
+          value={locale === "ar" ? "العربية " : "English "}
           action="Toggle"
           onAction={toggleLocale}
         />
       </SettingsSection>
 
       {/* Privacy & Auto-Tracking — 5-Layer Security Architecture */}
-      <SettingsSection title="Privacy & Auto-Tracking 🔒">
+      <SettingsSection title="Privacy & Auto-Tracking ">
         <SettingsToggle
           label="Auto-Track Expenses"
           value={settings.autoTrackingEnabled}
@@ -147,9 +149,9 @@ export default function Settings() {
             }}>Security Dashboard</p>
             <div style={{ display: "flex", gap: 8 }}>
               {[
-                { label: "Blocked", value: privacyStats.blocked, color: THEME.red, icon: "🛡️" },
-                { label: "Ignored", value: privacyStats.ignored, color: THEME.white40, icon: "⏭️" },
-                { label: "Parsed", value: privacyStats.parsed, color: THEME.accent, icon: "✅" },
+                { label: "Blocked", value: privacyStats.blocked, color: THEME.red, icon: "" },
+                { label: "Ignored", value: privacyStats.ignored, color: THEME.white40, icon: "" },
+                { label: "Parsed", value: privacyStats.parsed, color: THEME.accent, icon: React.createElement(CheckCircle2, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
               ].map(s => (
                 <div key={s.label} style={{
                   flex: 1, background: THEME.white04, borderRadius: 10, padding: "10px 8px",
@@ -171,13 +173,13 @@ export default function Settings() {
         <SettingsAction
           label="View Privacy Audit Log"
           desc={`${auditLog.length} entries — see what was blocked/parsed`}
-          icon="👁️"
+          icon=""
           onClick={() => setShowAuditLog(true)}
         />
         <SettingsAction
           label="Supported Banks"
           desc="See all banks we can auto-detect"
-          icon="🏦"
+          icon={<Landmark size="1em" style={{display:"inline-block", verticalAlign:"middle"}} />}
           onClick={() => setShowSupportedBanks(true)}
         />
       </SettingsSection>
@@ -187,14 +189,14 @@ export default function Settings() {
         <SettingsAction
           label="Export Data"
           desc={isPremium ? "Download all your data as JSON" : "Pro feature"}
-          icon="📤"
+          icon={<Star size="1em" style={{display:"inline-block", verticalAlign:"middle"}} />}
           onClick={isPremium ? exportData : showPaywall}
           badge={!isPremium && "PRO"}
         />
         <SettingsAction
           label="Clear All Data"
           desc="Reset everything and start fresh"
-          icon="🗑️"
+          icon=""
           onClick={() => setShowResetConfirm(true)}
           danger
         />
@@ -207,7 +209,7 @@ export default function Settings() {
           <SettingsAction
             label="Sign Out"
             desc="Log out of your account"
-            icon="🚪"
+            icon={<Star size="1em" style={{display:"inline-block", verticalAlign:"middle"}} />}
             onClick={async () => {
               await signOut();
               showToast("Signed out", "info");
@@ -220,11 +222,11 @@ export default function Settings() {
       {/* About */}
       <SettingsSection title="About">
         <SettingsRow label="Version" value="2.0.0" />
-        <SettingsRow label="Built for" value="Middle East 🌍" />
+        <SettingsRow label="Built for" value="Middle East " />
       </SettingsSection>
 
       <p style={{ color: THEME.white30, fontSize: 11, textAlign: "center", margin: "24px 0", fontFamily: THEME.font }}>
-        Made with 💚 for savers across the Middle East
+        Made with  for savers across the Middle East
       </p>
 
       {/* Reset Confirmation */}
@@ -238,7 +240,7 @@ export default function Settings() {
             background: THEME.bgTertiary, borderRadius: 24, padding: "28px",
             maxWidth: 340, width: "90%", border: `1px solid ${THEME.cardBorder}`,
           }}>
-            <div style={{ fontSize: 40, textAlign: "center", marginBottom: 12 }}>⚠️</div>
+            <div style={{ fontSize: 40, textAlign: "center", marginBottom: 12 }}></div>
             <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: "0 0 8px", fontFamily: THEME.font, textAlign: "center" }}>
               Clear All Data?
             </h3>
@@ -314,7 +316,7 @@ export default function Settings() {
             <div style={{ width: 40, height: 4, borderRadius: 2, background: THEME.white10, margin: "0 auto 20px" }} />
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
               <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
-                🔒 Privacy Audit Log
+                 Privacy Audit Log
               </h3>
               {auditLog.length > 0 && (
                 <button onClick={() => { clearAuditLog(); showToast("Audit log cleared"); }} style={{
@@ -332,7 +334,7 @@ export default function Settings() {
 
             {auditLog.length === 0 ? (
               <div style={{ textAlign: "center", padding: "32px 16px" }}>
-                <div style={{ fontSize: 32, marginBottom: 8 }}>📋</div>
+                <div style={{ fontSize: 32, marginBottom: 8 }}><ClipboardList size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
                 <p style={{ color: THEME.white40, fontSize: 13, margin: 0, fontFamily: THEME.font }}>
                   No notifications processed yet.
                   {!settings.autoTrackingEnabled && " Enable auto-tracking to start."}
@@ -345,7 +347,7 @@ export default function Settings() {
                   borderBottom: `1px solid ${THEME.white04}`,
                 }}>
                   <span style={{ fontSize: 16, flexShrink: 0 }}>
-                    {entry.action === 'blocked' ? '🛡️' : entry.action === 'parsed' ? '✅' : '⏭️'}
+                    {entry.action === 'blocked' ? '' : entry.action === 'parsed' ? '' : ''}
                   </span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{
@@ -388,14 +390,14 @@ export default function Settings() {
           }}>
             <div style={{ width: 40, height: 4, borderRadius: 2, background: THEME.white10, margin: "0 auto 20px" }} />
             <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: "0 0 6px", fontFamily: THEME.font }}>
-              🏦 Supported Banks & Wallets
+               Supported Banks & Wallets
             </h3>
             <p style={{ color: THEME.white40, fontSize: 12, margin: "0 0 16px", fontFamily: THEME.font }}>
               We can auto-detect transactions from these providers
             </p>
 
             {['EG', 'SA', 'AE'].map(country => {
-              const countryName = { EG: '🇪🇬 Egypt', SA: '🇸🇦 Saudi Arabia', AE: '🇦🇪 UAE' }[country];
+              const countryName = { EG: ' Egypt', SA: ' Saudi Arabia', AE: ' UAE' }[country];
               const banks = getSupportedBanks().filter(b => b.country === country);
               if (banks.length === 0) return null;
               return (
@@ -411,7 +413,7 @@ export default function Settings() {
                         color: THEME.white70, fontSize: 12, fontWeight: 600, fontFamily: THEME.font,
                         border: `1px solid ${THEME.white06}`,
                       }}>
-                        {b.type === 'wallet' ? '📱' : b.type === 'payment' ? '💳' : '🏦'} {b.name}
+                        {b.type === 'wallet' ? '' : b.type === 'payment' ? '' : ''} {b.name}
                       </span>
                     ))}
                   </div>
@@ -424,7 +426,7 @@ export default function Settings() {
               border: "1px solid rgba(0,212,170,0.1)", marginTop: 8,
             }}>
               <p style={{ color: THEME.accent, fontSize: 12, fontWeight: 600, margin: 0, fontFamily: THEME.font }}>
-                🔜 Open Banking APIs coming soon — direct bank connections for Egypt, Saudi & UAE
+                 Open Banking APIs coming soon — direct bank connections for Egypt, Saudi & UAE
               </p>
             </div>
           </div>

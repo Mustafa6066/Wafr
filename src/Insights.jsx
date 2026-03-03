@@ -223,15 +223,15 @@ export default function Insights() {
             border: "1px solid rgba(255,182,72,0.12)",
           }}>
             <p style={{ color: THEME.orange, fontSize: 12, fontWeight: 700, margin: "0 0 6px", fontFamily: THEME.font }}>
-              📈 Month-End Projection
+               Month-End Projection
             </p>
             <p style={{ color: THEME.white, fontSize: 18, fontWeight: 800, margin: "0 0 4px", fontFamily: THEME.font }}>
               {curr.symbol} {Math.round(dailyAvg * 30).toLocaleString()}
             </p>
             <p style={{ color: THEME.white50, fontSize: 12, margin: 0, fontFamily: THEME.font }}>
               {Math.round(dailyAvg * 30) > budget
-                ? `⚠️ ${curr.symbol} ${(Math.round(dailyAvg * 30) - budget).toLocaleString()} over budget at this pace`
-                : `✅ ${curr.symbol} ${(budget - Math.round(dailyAvg * 30)).toLocaleString()} under budget at this pace`}
+                ? ` ${curr.symbol} ${(Math.round(dailyAvg * 30) - budget).toLocaleString()} over budget at this pace`
+                : ` ${curr.symbol} ${(budget - Math.round(dailyAvg * 30)).toLocaleString()} under budget at this pace`}
             </p>
           </div>
         </>
@@ -252,7 +252,7 @@ export default function Insights() {
           border: `1px solid ${THEME.cardBorder}`,
         }}>
           <p style={{ color: THEME.white, fontSize: 13, margin: "0 0 8px", lineHeight: 1.5, fontFamily: THEME.font }}>
-            💡 {tip.tip}
+             {tip.tip}
           </p>
           <div style={{
             display: "inline-block", background: "rgba(0,212,170,0.1)",

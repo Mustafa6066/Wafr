@@ -1,3 +1,5 @@
+import { Landmark, Star, TrendingUp, Home, Car, Coins, Sparkles } from "lucide-react";
+import React from 'react';
 /**
  * "What If" Wealth Simulator — Interactive Compound Growth Calculator
  * 
@@ -12,23 +14,23 @@ import { useApp } from "../WafrApp.jsx";
 
 // ─── Investment Options common in MENA ───
 const INVESTMENT_VEHICLES = [
-  { id: "savings", name: "Bank Savings", nameAr: "حساب توفير", rate: 12, icon: "🏦", risk: "Low", riskAr: "منخفض" },
-  { id: "certificate", name: "Bank Certificate", nameAr: "شهادة بنكية", rate: 18, icon: "📜", risk: "Low", riskAr: "منخفض" },
-  { id: "gold", name: "Gold", nameAr: "ذهب", rate: 22, icon: "🥇", risk: "Medium", riskAr: "متوسط" },
-  { id: "stocks", name: "EGX Stocks", nameAr: "بورصة مصر", rate: 25, icon: "📈", risk: "High", riskAr: "عالي" },
-  { id: "realestate", name: "Real Estate", nameAr: "عقارات", rate: 30, icon: "🏠", risk: "Medium", riskAr: "متوسط" },
-  { id: "mattress", name: "Under the Mattress", nameAr: "تحت المرتبة", rate: 0, icon: "🛏️", risk: "⚠️ Inflation", riskAr: "⚠️ تضخم" },
+  { id: "savings", name: "Bank Savings", nameAr: "حساب توفير", rate: 12, icon: React.createElement(Landmark, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), risk: "Low", riskAr: "منخفض" },
+  { id: "certificate", name: "Bank Certificate", nameAr: "شهادة بنكية", rate: 18, icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), risk: "Low", riskAr: "منخفض" },
+  { id: "gold", name: "Gold", nameAr: "ذهب", rate: 22, icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), risk: "Medium", riskAr: "متوسط" },
+  { id: "stocks", name: "EGX Stocks", nameAr: "بورصة مصر", rate: 25, icon: React.createElement(TrendingUp, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), risk: "High", riskAr: "عالي" },
+  { id: "realestate", name: "Real Estate", nameAr: "عقارات", rate: 30, icon: React.createElement(Home, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), risk: "Medium", riskAr: "متوسط" },
+  { id: "mattress", name: "Under the Mattress", nameAr: "تحت المرتبة", rate: 0, icon: "", risk: " Inflation", riskAr: " تضخم" },
 ];
 
 // ─── Milestones that resonate with MENA users ───
 const MILESTONES_EGP = [
-  { amount: 10000, name: "Emergency Buffer", icon: "🛡️" },
-  { amount: 50000, name: "Hajj / Umrah Trip", icon: "🕋" },
-  { amount: 100000, name: "New Car Down Payment", icon: "🚗" },
-  { amount: 250000, name: "Wedding Fund", icon: "💒" },
-  { amount: 500000, name: "Apartment Down Payment", icon: "🏠" },
-  { amount: 1000000, name: "Millionaire! 💎", icon: "💰" },
-  { amount: 2500000, name: "Financial Freedom", icon: "🏝️" },
+  { amount: 10000, name: "Emergency Buffer", icon: "" },
+  { amount: 50000, name: "Hajj / Umrah Trip", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { amount: 100000, name: "New Car Down Payment", icon: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { amount: 250000, name: "Wedding Fund", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { amount: 500000, name: "Apartment Down Payment", icon: React.createElement(Home, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { amount: 1000000, name: "Millionaire! ", icon: React.createElement(Coins, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { amount: 2500000, name: "Financial Freedom", icon: "" },
 ];
 
 function SliderInput({ label, value, min, max, step, format, onChange }) {
@@ -135,7 +137,7 @@ export default function WealthSimulator() {
     <div style={{ padding: "16px 24px" }}>
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>🔮</div>
+        <div style={{ fontSize: 48, marginBottom: 8 }}><Sparkles size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <h2 style={{ color: THEME.white, fontSize: 22, fontWeight: 800, margin: "0 0 4px", fontFamily: THEME.font }}>
           What If...?
         </h2>
@@ -233,7 +235,7 @@ export default function WealthSimulator() {
             border: "1px solid rgba(255,107,107,0.15)",
           }}>
             <p style={{ color: THEME.red, fontSize: 11, fontWeight: 600, margin: 0, fontFamily: THEME.font }}>
-              ⚠️ With ~25% inflation, your {curr.symbol} {projection.total.toLocaleString()} will only be worth {curr.symbol} {projection.realValue.toLocaleString()} in today's money
+               With ~25% inflation, your {curr.symbol} {projection.total.toLocaleString()} will only be worth {curr.symbol} {projection.realValue.toLocaleString()} in today's money
             </p>
           </div>
         )}
@@ -243,7 +245,7 @@ export default function WealthSimulator() {
       {projection.milestones.length > 0 && (
         <div style={{ marginBottom: 16 }}>
           <h3 style={{ color: THEME.white, fontSize: 14, fontWeight: 800, margin: "0 0 8px", fontFamily: THEME.font }}>
-            🎯 Milestones you'll reach
+             Milestones you'll reach
           </h3>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
             {projection.milestones.map((m, i) => (
@@ -298,7 +300,7 @@ export default function WealthSimulator() {
         borderBottomRightRadius: showBreakdown ? 0 : 14,
       }}>
         <span style={{ color: THEME.white50, fontSize: 13, fontWeight: 600, fontFamily: THEME.font }}>
-          📊 Year-by-Year Breakdown
+           Year-by-Year Breakdown
         </span>
         <span style={{ color: THEME.white30, fontSize: 12, transform: showBreakdown ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>▼</span>
       </button>
@@ -335,11 +337,11 @@ export default function WealthSimulator() {
         border: "1px solid rgba(255,182,72,0.12)",
       }}>
         <p style={{ color: THEME.orange, fontSize: 12, fontWeight: 600, margin: "0 0 4px", fontFamily: THEME.font }}>
-          ⚠️ Real Value After Inflation
+           Real Value After Inflation
         </p>
         <p style={{ color: THEME.white40, fontSize: 11, margin: 0, fontFamily: THEME.font, lineHeight: 1.5 }}>
           With Egypt's average inflation (~15%), your {curr.symbol} {projection.total.toLocaleString()} will have the purchasing power of about <strong style={{ color: THEME.white50 }}>{curr.symbol} {projection.realValue.toLocaleString()}</strong> in today's money.
-          {rate > 15 ? " ✅ Your investment beats inflation!" : rate > 0 ? " ⚠️ Consider higher-return options." : " ❌ Money under the mattress loses value every day."}
+          {rate > 15 ? "  Your investment beats inflation!" : rate > 0 ? "  Consider higher-return options." : "  Money under the mattress loses value every day."}
         </p>
       </div>
     </div>

@@ -62,7 +62,7 @@ export default function CashFlow({ expenses = [], recurring = [], income = 0, cu
   return (
     <div style={{ padding: '16px 24px' }}>
       <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: '0 0 4px', fontFamily: THEME.font }}>
-        💰 Cash Flow Forecast
+         Cash Flow Forecast
       </h3>
       <p style={{ color: THEME.white40, fontSize: 13, margin: '0 0 20px', fontFamily: THEME.font }}>
         30-day projection based on your spending habits
@@ -97,7 +97,7 @@ export default function CashFlow({ expenses = [], recurring = [], income = 0, cu
           border: '1px solid rgba(255,107,107,0.15)', marginBottom: 16,
         }}>
           <p style={{ color: THEME.red, fontSize: 13, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
-            ⚠️ At this rate, you'll run out of budget in {forecast.daysUntilZero} days
+             At this rate, you'll run out of budget in {forecast.daysUntilZero} days
           </p>
           <p style={{ color: THEME.white40, fontSize: 11, margin: '4px 0 0' }}>
             Try reducing daily spending by {curr?.symbol} {Math.round(forecast.dailyAvg * 0.2).toLocaleString()} to stay on track
@@ -145,7 +145,7 @@ export default function CashFlow({ expenses = [], recurring = [], income = 0, cu
       </div>
 
       {/* Key dates */}
-      <p style={{ color: THEME.white50, fontSize: 13, fontWeight: 600, margin: '0 0 10px' }}>📅 Key Dates</p>
+      <p style={{ color: THEME.white50, fontSize: 13, fontWeight: 600, margin: '0 0 10px' }}> Key Dates</p>
       {forecast.data.filter(d => d.recurringDue > 0).slice(0, 5).map((d, i) => (
         <div key={i} style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',

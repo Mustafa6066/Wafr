@@ -260,7 +260,7 @@ export function processNotificationBatch(notifications) {
 }
 
 // ═══════════════════════════════════════════════════════════════
-//  NOTIFICATION LISTENER BRIDGE (Web ↔ Native)
+//  NOTIFICATION LISTENER BRIDGE (Web  Native)
 // ═══════════════════════════════════════════════════════════════
 
 // In a PWA/web context, the NotificationListenerService doesn't exist natively.

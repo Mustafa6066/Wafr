@@ -1,3 +1,5 @@
+import { Smartphone, Star, Car, Dumbbell, Sparkles, GraduationCap, BookOpen, Gem, Home, Hammer, Lightbulb } from "lucide-react";
+import React from 'react';
 /**
  * Behavioral Shock Screen — The "Mirror" that Drives Conversion
  * 
@@ -15,30 +17,30 @@ import { useApp } from "../WafrApp.jsx";
 // ─── Shock Comparisons (localized for Egypt/MENA) ───
 const SHOCK_ITEMS = {
   EGP: [
-    { name: "iPhone 16 Pro", nameAr: "آيفون ١٦ برو", price: 85000, icon: "📱", emoji: "🤯" },
-    { name: "Hajj Trip", nameAr: "رحلة حج", price: 120000, icon: "🕋", emoji: "😱" },
-    { name: "New Car Down Payment", nameAr: "مقدم سيارة", price: 250000, icon: "🚗", emoji: "🤯" },
-    { name: "Year of Gym", nameAr: "سنة جيم", price: 12000, icon: "💪", emoji: "😮" },
-    { name: "Family Vacation to Turkey", nameAr: "إجازة عائلية لتركيا", price: 80000, icon: "✈️", emoji: "✨" },
-    { name: "Master's Degree Semester", nameAr: "فصل دراسي ماجستير", price: 45000, icon: "🎓", emoji: "📚" },
-    { name: "Gold Bracelet", nameAr: "غويشة دهب", price: 35000, icon: "💍", emoji: "💎" },
-    { name: "Home Renovation", nameAr: "تجديد شقة", price: 150000, icon: "🏠", emoji: "🔨" },
-    { name: "Emergency Fund (6 months)", nameAr: "صندوق طوارئ (٦ شهور)", price: 60000, icon: "🛡️", emoji: "🛡️" },
-    { name: "Wedding Party", nameAr: "حفل زفاف", price: 200000, icon: "💒", emoji: "💐" },
+    { name: "iPhone 16 Pro", nameAr: "آيفون ١٦ برو", price: 85000, icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Hajj Trip", nameAr: "رحلة حج", price: 120000, icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "New Car Down Payment", nameAr: "مقدم سيارة", price: 250000, icon: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Year of Gym", nameAr: "سنة جيم", price: 12000, icon: React.createElement(Dumbbell, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Family Vacation to Turkey", nameAr: "إجازة عائلية لتركيا", price: 80000, icon: "", emoji: React.createElement(Sparkles, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Master's Degree Semester", nameAr: "فصل دراسي ماجستير", price: 45000, icon: React.createElement(GraduationCap, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(BookOpen, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Gold Bracelet", nameAr: "غويشة دهب", price: 35000, icon: React.createElement(Gem, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Gem, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Home Renovation", nameAr: "تجديد شقة", price: 150000, icon: React.createElement(Home, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Hammer, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Emergency Fund (6 months)", nameAr: "صندوق طوارئ (٦ شهور)", price: 60000, icon: "", emoji: "" },
+    { name: "Wedding Party", nameAr: "حفل زفاف", price: 200000, icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   ],
   SAR: [
-    { name: "iPhone 16 Pro", nameAr: "آيفون ١٦ برو", price: 5800, icon: "📱", emoji: "🤯" },
-    { name: "Umrah Package", nameAr: "باقة عمرة", price: 3500, icon: "🕋", emoji: "😱" },
-    { name: "New Car Down Payment", nameAr: "مقدم سيارة", price: 25000, icon: "🚗", emoji: "🤯" },
-    { name: "Family Vacation", nameAr: "إجازة عائلية", price: 15000, icon: "✈️", emoji: "✨" },
-    { name: "Year of Gym", nameAr: "سنة جيم", price: 5000, icon: "💪", emoji: "😮" },
+    { name: "iPhone 16 Pro", nameAr: "آيفون ١٦ برو", price: 5800, icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Umrah Package", nameAr: "باقة عمرة", price: 3500, icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "New Car Down Payment", nameAr: "مقدم سيارة", price: 25000, icon: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Family Vacation", nameAr: "إجازة عائلية", price: 15000, icon: "", emoji: React.createElement(Sparkles, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Year of Gym", nameAr: "سنة جيم", price: 5000, icon: React.createElement(Dumbbell, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   ],
   AED: [
-    { name: "iPhone 16 Pro", nameAr: "آيفون ١٦ برو", price: 5500, icon: "📱", emoji: "🤯" },
-    { name: "Weekend in Maldives", nameAr: "ويكند المالديف", price: 12000, icon: "🏝️", emoji: "✨" },
-    { name: "New Car Down Payment", nameAr: "مقدم سيارة", price: 30000, icon: "🚗", emoji: "🤯" },
-    { name: "Family Vacation", nameAr: "إجازة عائلية", price: 18000, icon: "✈️", emoji: "✨" },
-    { name: "Year of Gym", nameAr: "سنة جيم", price: 6000, icon: "💪", emoji: "😮" },
+    { name: "iPhone 16 Pro", nameAr: "آيفون ١٦ برو", price: 5500, icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Weekend in Maldives", nameAr: "ويكند المالديف", price: 12000, icon: "", emoji: React.createElement(Sparkles, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "New Car Down Payment", nameAr: "مقدم سيارة", price: 30000, icon: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Family Vacation", nameAr: "إجازة عائلية", price: 18000, icon: "", emoji: React.createElement(Sparkles, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+    { name: "Year of Gym", nameAr: "سنة جيم", price: 6000, icon: React.createElement(Dumbbell, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), emoji: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   ],
 };
 
@@ -140,7 +142,7 @@ export default function ShockScreen() {
   if (!analysis) {
     return (
       <div style={{ padding: "24px", textAlign: "center" }}>
-        <div style={{ fontSize: 64, marginBottom: 16 }}>🪞</div>
+        <div style={{ fontSize: 64, marginBottom: 16 }}><Star size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <h2 style={{ color: THEME.white, fontSize: 22, fontWeight: 800, margin: "0 0 8px", fontFamily: THEME.font }}>
           Your Money Mirror
         </h2>
@@ -151,7 +153,7 @@ export default function ShockScreen() {
           background: THEME.cardBg, borderRadius: 16, padding: 20, border: `1px solid ${THEME.cardBorder}`,
         }}>
           <p style={{ color: THEME.white50, fontSize: 13, margin: 0, fontFamily: THEME.font }}>
-            💡 The average Egyptian spends 45 EGP/day on coffee shops — that's a car down payment in 2 years.
+             The average Egyptian spends 45 EGP/day on coffee shops — that's a car down payment in 2 years.
           </p>
         </div>
       </div>
@@ -162,7 +164,7 @@ export default function ShockScreen() {
     <div style={{ padding: "16px 24px" }}>
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ fontSize: 48, marginBottom: 8, transform: animateShock ? "scale(1.3)" : "scale(1)", transition: "transform 0.3s ease" }}>🪞</div>
+        <div style={{ fontSize: 48, marginBottom: 8, transform: animateShock ? "scale(1.3)" : "scale(1)", transition: "transform 0.3s ease" }}><Star size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <h2 style={{ color: THEME.white, fontSize: 22, fontWeight: 800, margin: "0 0 4px", fontFamily: THEME.font }}>
           Your Money Mirror
         </h2>
@@ -221,7 +223,7 @@ export default function ShockScreen() {
       {shockComparisons.length > 0 && (
         <>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-            <span style={{ fontSize: 18 }}>💡</span>
+            <span style={{ fontSize: 18 }}><Lightbulb size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></span>
             <h3 style={{ color: THEME.white, fontSize: 16, fontWeight: 800, margin: 0, fontFamily: THEME.font }}>
               What that money could buy
             </h3>
@@ -252,7 +254,7 @@ export default function ShockScreen() {
 
       {/* Category Breakdown — The Real Shockers */}
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-        <span style={{ fontSize: 18 }}>🔬</span>
+        <span style={{ fontSize: 18 }}><Star size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></span>
         <h3 style={{ color: THEME.white, fontSize: 16, fontWeight: 800, margin: 0, fontFamily: THEME.font }}>
           Where it's going
         </h3>

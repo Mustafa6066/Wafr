@@ -1,97 +1,99 @@
+import { Utensils, Drumstick, Pizza, Sandwich, Coffee, Fish, Bike, Car, Bus, Star, Fuel, Shirt, Home, ShoppingCart, Smartphone, Lightbulb, Tv, Clapperboard, Gamepad, Pill, HeartPulse, Dumbbell, BookOpen, GraduationCap, Package, Brush, Landmark, RefreshCcw, TrendingUp, Gift } from "lucide-react";
+import React from 'react';
 // ─── Merchant AI — Smart categorization & merchant matching ───
 // Fuzzy match merchants from SMS/receipts, auto-categorize via patterns + on-device logic
 
 // ─── Merchant Database (MENA-focused) ───
 const MERCHANT_DB = [
   // Food & Dining
-  { names: ["mcdonald's", "mcdonalds", "ماكدونالدز"], category: "food", icon: "🍔" },
-  { names: ["kfc", "كنتاكي", "kentucky"], category: "food", icon: "🍗" },
-  { names: ["pizza hut", "بيتزا هت"], category: "food", icon: "🍕" },
-  { names: ["burger king", "برجر كينج"], category: "food", icon: "🍔" },
-  { names: ["hardee's", "هارديز", "hardees"], category: "food", icon: "🍔" },
-  { names: ["subway", "صب واي"], category: "food", icon: "🥪" },
-  { names: ["starbucks", "ستاربكس"], category: "food", icon: "☕" },
-  { names: ["costa coffee", "كوستا"], category: "food", icon: "☕" },
-  { names: ["tim hortons", "تيم هورتنز"], category: "food", icon: "☕" },
-  { names: ["domino's", "dominos", "دومينوز"], category: "food", icon: "🍕" },
-  { names: ["buffalo burger", "بافلو برجر"], category: "food", icon: "🍔" },
-  { names: ["shawerma el reem", "ريم شاورما"], category: "food", icon: "🌯" },
-  { names: ["gad", "جاد"], category: "food", icon: "🥙" },
-  { names: ["kazoku", "كازوكو"], category: "food", icon: "🍣" },
-  { names: ["zooba", "زوبا"], category: "food", icon: "🥙" },
-  { names: ["elmenus", "المنيوز", "talabat", "طلبات", "otlob", "اطلب"], category: "food", icon: "🛵" },
-  { names: ["hungerstation", "هنقرستيشن", "jahez", "جاهز", "marsool", "مرسول"], category: "food", icon: "🛵" },
-  { names: ["deliveroo", "ديليفرو", "careem food", "كريم"], category: "food", icon: "🛵" },
+  { names: ["mcdonald's", "mcdonalds", "ماكدونالدز"], category: "food", icon: React.createElement(Utensils, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["kfc", "كنتاكي", "kentucky"], category: "food", icon: React.createElement(Drumstick, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["pizza hut", "بيتزا هت"], category: "food", icon: React.createElement(Pizza, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["burger king", "برجر كينج"], category: "food", icon: React.createElement(Utensils, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["hardee's", "هارديز", "hardees"], category: "food", icon: React.createElement(Utensils, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["subway", "صب واي"], category: "food", icon: React.createElement(Sandwich, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["starbucks", "ستاربكس"], category: "food", icon: React.createElement(Coffee, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["costa coffee", "كوستا"], category: "food", icon: React.createElement(Coffee, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["tim hortons", "تيم هورتنز"], category: "food", icon: React.createElement(Coffee, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["domino's", "dominos", "دومينوز"], category: "food", icon: React.createElement(Pizza, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["buffalo burger", "بافلو برجر"], category: "food", icon: React.createElement(Utensils, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["shawerma el reem", "ريم شاورما"], category: "food", icon: React.createElement(Sandwich, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["gad", "جاد"], category: "food", icon: React.createElement(Sandwich, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["kazoku", "كازوكو"], category: "food", icon: React.createElement(Fish, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["zooba", "زوبا"], category: "food", icon: React.createElement(Sandwich, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["elmenus", "المنيوز", "talabat", "طلبات", "otlob", "اطلب"], category: "food", icon: React.createElement(Bike, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["hungerstation", "هنقرستيشن", "jahez", "جاهز", "marsool", "مرسول"], category: "food", icon: React.createElement(Bike, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["deliveroo", "ديليفرو", "careem food", "كريم"], category: "food", icon: React.createElement(Bike, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   
   // Transport
-  { names: ["uber", "اوبر"], category: "transport", icon: "🚗" },
-  { names: ["careem", "كريم"], category: "transport", icon: "🚗" },
-  { names: ["swvl", "سويفل"], category: "transport", icon: "🚌" },
-  { names: ["indriver", "ان درايفر"], category: "transport", icon: "🚗" },
-  { names: ["didi", "ديدي"], category: "transport", icon: "🚗" },
-  { names: ["metro", "المترو", "مترو الأنفاق"], category: "transport", icon: "🚇" },
-  { names: ["total", "توتال", "mobil", "موبيل", "shell", "شل"], category: "fuel", icon: "⛽" },
-  { names: ["wataniya", "وطنية", "misr petrol", "مصر للبترول", "coop"], category: "fuel", icon: "⛽" },
-  { names: ["aramco", "ارامكو", "petromin", "بترومين"], category: "fuel", icon: "⛽" },
-  { names: ["adnoc", "ادنوك", "enoc", "اينوك"], category: "fuel", icon: "⛽" },
+  { names: ["uber", "اوبر"], category: "transport", icon: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["careem", "كريم"], category: "transport", icon: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["swvl", "سويفل"], category: "transport", icon: React.createElement(Bus, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["indriver", "ان درايفر"], category: "transport", icon: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["didi", "ديدي"], category: "transport", icon: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["metro", "المترو", "مترو الأنفاق"], category: "transport", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["total", "توتال", "mobil", "موبيل", "shell", "شل"], category: "fuel", icon: React.createElement(Fuel, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["wataniya", "وطنية", "misr petrol", "مصر للبترول", "coop"], category: "fuel", icon: React.createElement(Fuel, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["aramco", "ارامكو", "petromin", "بترومين"], category: "fuel", icon: React.createElement(Fuel, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["adnoc", "ادنوك", "enoc", "اينوك"], category: "fuel", icon: React.createElement(Fuel, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   
   // Shopping
-  { names: ["amazon", "أمازون", "amazon.eg", "amazon.sa", "noon", "نون"], category: "shopping", icon: "🛍️" },
-  { names: ["jumia", "جوميا"], category: "shopping", icon: "🛍️" },
-  { names: ["shein", "شي ان"], category: "shopping", icon: "👗" },
-  { names: ["namshi", "نمشي"], category: "shopping", icon: "👗" },
-  { names: ["trendyol", "ترنديول", "ali express", "علي اكسبريس"], category: "shopping", icon: "🛍️" },
-  { names: ["h&m", "اتش اند ام", "zara", "زارا", "lc waikiki"], category: "shopping", icon: "👗" },
-  { names: ["ikea", "ايكيا"], category: "shopping", icon: "🏠" },
+  { names: ["amazon", "أمازون", "amazon.eg", "amazon.sa", "noon", "نون"], category: "shopping", icon: "" },
+  { names: ["jumia", "جوميا"], category: "shopping", icon: "" },
+  { names: ["shein", "شي ان"], category: "shopping", icon: React.createElement(Shirt, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["namshi", "نمشي"], category: "shopping", icon: React.createElement(Shirt, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["trendyol", "ترنديول", "ali express", "علي اكسبريس"], category: "shopping", icon: "" },
+  { names: ["h&m", "اتش اند ام", "zara", "زارا", "lc waikiki"], category: "shopping", icon: React.createElement(Shirt, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["ikea", "ايكيا"], category: "shopping", icon: React.createElement(Home, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   
   // Groceries
-  { names: ["carrefour", "كارفور"], category: "groceries", icon: "🛒" },
-  { names: ["spinneys", "سبينيز"], category: "groceries", icon: "🛒" },
-  { names: ["seoudi", "سعودي", "seoudi market"], category: "groceries", icon: "🛒" },
-  { names: ["metro market", "مترو ماركت", "hyper one", "هايبر وان"], category: "groceries", icon: "🛒" },
-  { names: ["lulu", "لولو", "lulu hypermarket"], category: "groceries", icon: "🛒" },
-  { names: ["panda", "بندة", "tamimi", "التميمي"], category: "groceries", icon: "🛒" },
-  { names: ["danube", "الدانوب"], category: "groceries", icon: "🛒" },
-  { names: ["kazyon", "كازيون"], category: "groceries", icon: "🛒" },
-  { names: ["breadfast", "بريدفاست", "rabbit", "رابيت"], category: "groceries", icon: "🛒" },
+  { names: ["carrefour", "كارفور"], category: "groceries", icon: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["spinneys", "سبينيز"], category: "groceries", icon: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["seoudi", "سعودي", "seoudi market"], category: "groceries", icon: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["metro market", "مترو ماركت", "hyper one", "هايبر وان"], category: "groceries", icon: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["lulu", "لولو", "lulu hypermarket"], category: "groceries", icon: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["panda", "بندة", "tamimi", "التميمي"], category: "groceries", icon: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["danube", "الدانوب"], category: "groceries", icon: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["kazyon", "كازيون"], category: "groceries", icon: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["breadfast", "بريدفاست", "rabbit", "رابيت"], category: "groceries", icon: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   
   // Bills & Utilities
-  { names: ["vodafone", "فودافون"], category: "bills", icon: "📱" },
-  { names: ["orange", "اورنج"], category: "bills", icon: "📱" },
-  { names: ["etisalat", "اتصالات", "e&"], category: "bills", icon: "📱" },
-  { names: ["we", "وي", "telecom egypt", "المصرية للاتصالات"], category: "bills", icon: "📱" },
-  { names: ["stc", "اس تي سي", "mobily", "موبايلي", "zain", "زين"], category: "bills", icon: "📱" },
-  { names: ["du", "دو"], category: "bills", icon: "📱" },
-  { names: ["fawry", "فوري"], category: "bills", icon: "💡" },
-  { names: ["electricity", "كهرباء", "gas", "غاز", "water", "مياه"], category: "bills", icon: "💡" },
+  { names: ["vodafone", "فودافون"], category: "bills", icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["orange", "اورنج"], category: "bills", icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["etisalat", "اتصالات", "e&"], category: "bills", icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["we", "وي", "telecom egypt", "المصرية للاتصالات"], category: "bills", icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["stc", "اس تي سي", "mobily", "موبايلي", "zain", "زين"], category: "bills", icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["du", "دو"], category: "bills", icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["fawry", "فوري"], category: "bills", icon: React.createElement(Lightbulb, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["electricity", "كهرباء", "gas", "غاز", "water", "مياه"], category: "bills", icon: React.createElement(Lightbulb, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   
   // Entertainment
-  { names: ["netflix", "نتفليكس"], category: "entertainment", icon: "📺" },
-  { names: ["shahid", "شاهد"], category: "entertainment", icon: "📺" },
-  { names: ["spotify", "سبوتيفاي"], category: "entertainment", icon: "🎵" },
-  { names: ["anghami", "أنغامي"], category: "entertainment", icon: "🎵" },
-  { names: ["apple music", "آبل ميوزك"], category: "entertainment", icon: "🎵" },
-  { names: ["youtube premium", "يوتيوب بريميوم"], category: "entertainment", icon: "📺" },
-  { names: ["vox cinema", "فوكس سينما", "nova cinema"], category: "entertainment", icon: "🎬" },
-  { names: ["empire cinema", "galaxy cinema"], category: "entertainment", icon: "🎬" },
-  { names: ["playstation", "بلايستيشن", "xbox", "اكسبوكس"], category: "entertainment", icon: "🎮" },
+  { names: ["netflix", "نتفليكس"], category: "entertainment", icon: React.createElement(Tv, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["shahid", "شاهد"], category: "entertainment", icon: React.createElement(Tv, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["spotify", "سبوتيفاي"], category: "entertainment", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["anghami", "أنغامي"], category: "entertainment", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["apple music", "آبل ميوزك"], category: "entertainment", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["youtube premium", "يوتيوب بريميوم"], category: "entertainment", icon: React.createElement(Tv, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["vox cinema", "فوكس سينما", "nova cinema"], category: "entertainment", icon: React.createElement(Clapperboard, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["empire cinema", "galaxy cinema"], category: "entertainment", icon: React.createElement(Clapperboard, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["playstation", "بلايستيشن", "xbox", "اكسبوكس"], category: "entertainment", icon: React.createElement(Gamepad, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   
   // Health
-  { names: ["pharmacy", "صيدلية", "seif pharmacy", "صيدلية سيف"], category: "health", icon: "💊" },
-  { names: ["el ezaby", "العزبي", "roshdy", "رشدي"], category: "health", icon: "💊" },
-  { names: ["hospital", "مستشفى", "clinic", "عيادة", "doctor", "دكتور"], category: "health", icon: "🏥" },
-  { names: ["nahdi", "النهدي"], category: "health", icon: "💊" },
-  { names: ["aster", "أستر"], category: "health", icon: "🏥" },
-  { names: ["gym", "جيم", "fitness", "gold's gym", "fitness first"], category: "health", icon: "💪" },
+  { names: ["pharmacy", "صيدلية", "seif pharmacy", "صيدلية سيف"], category: "health", icon: React.createElement(Pill, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["el ezaby", "العزبي", "roshdy", "رشدي"], category: "health", icon: React.createElement(Pill, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["hospital", "مستشفى", "clinic", "عيادة", "doctor", "دكتور"], category: "health", icon: React.createElement(HeartPulse, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["nahdi", "النهدي"], category: "health", icon: React.createElement(Pill, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["aster", "أستر"], category: "health", icon: React.createElement(HeartPulse, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["gym", "جيم", "fitness", "gold's gym", "fitness first"], category: "health", icon: React.createElement(Dumbbell, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   
   // Education
-  { names: ["udemy", "يوديمي", "coursera", "كورسيرا"], category: "education", icon: "📚" },
-  { names: ["school", "مدرسة", "university", "جامعة", "tuition", "مصاريف"], category: "education", icon: "🎓" },
-  { names: ["books", "كتب", "diwan", "ديوان", "jarir", "جرير"], category: "education", icon: "📖" },
+  { names: ["udemy", "يوديمي", "coursera", "كورسيرا"], category: "education", icon: React.createElement(BookOpen, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["school", "مدرسة", "university", "جامعة", "tuition", "مصاريف"], category: "education", icon: React.createElement(GraduationCap, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { names: ["books", "كتب", "diwan", "ديوان", "jarir", "جرير"], category: "education", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
   
   // Insurance
-  { names: ["insurance", "تأمين", "allianz", "أليانز", "axa", "اكسا"], category: "insurance", icon: "🛡️" },
-  { names: ["bupa", "بوبا", "medgulf", "ميدغلف"], category: "insurance", icon: "🛡️" },
+  { names: ["insurance", "تأمين", "allianz", "أليانز", "axa", "اكسا"], category: "insurance", icon: "" },
+  { names: ["bupa", "بوبا", "medgulf", "ميدغلف"], category: "insurance", icon: "" },
 ];
 
 // ─── Keyword-based category detection (when no merchant match) ───
@@ -146,7 +148,7 @@ function similarity(a, b) {
  * @returns {{ category: string, confidence: number, matchedMerchant: string, icon: string }}
  */
 export function matchMerchant(merchantName) {
-  if (!merchantName) return { category: 'other', confidence: 30, matchedMerchant: 'Unknown', icon: '📦' };
+  if (!merchantName) return { category: 'other', confidence: 30, matchedMerchant: 'Unknown', icon: React.createElement(Package, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) };
   
   const name = merchantName.toLowerCase().trim();
   let bestMatch = null;
@@ -181,7 +183,7 @@ export function matchMerchant(merchantName) {
  * @returns {{ category: string, confidence: number, matchedMerchant: string, icon: string }}
  */
 export function categorizeByKeywords(text) {
-  if (!text) return { category: 'other', confidence: 20, matchedMerchant: text || 'Unknown', icon: '📦' };
+  if (!text) return { category: 'other', confidence: 20, matchedMerchant: text || 'Unknown', icon: React.createElement(Package, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) };
   
   const lower = text.toLowerCase();
   let bestCategory = 'other';
@@ -201,17 +203,17 @@ export function categorizeByKeywords(text) {
   }
 
   const CATEGORY_ICONS = {
-    food: '🍔', transport: '🚗', shopping: '🛍️', bills: '💡', entertainment: '🎬',
-    health: '💊', education: '📚', groceries: '🛒', rent: '🏠', fuel: '⛽',
-    charity: '🕌', personal: '💅', travel: '✈️', savings: '🏦', other: '📦',
-    subscriptions: '🔄', insurance: '🛡️', investments: '📈', gifts: '🎁',
+    food: React.createElement(Utensils, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), transport: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), shopping: '', bills: React.createElement(Lightbulb, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), entertainment: React.createElement(Clapperboard, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
+    health: React.createElement(Pill, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), education: React.createElement(BookOpen, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), groceries: React.createElement(ShoppingCart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), rent: React.createElement(Home, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), fuel: React.createElement(Fuel, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
+    charity: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), personal: React.createElement(Brush, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), travel: '', savings: React.createElement(Landmark, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), other: React.createElement(Package, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
+    subscriptions: React.createElement(RefreshCcw, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), insurance: '', investments: React.createElement(TrendingUp, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), gifts: React.createElement(Gift, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
   };
 
   return {
     category: bestCategory,
     confidence: bestScore > 0 ? Math.min(75, 40 + bestScore * 5) : 20,
     matchedMerchant: text,
-    icon: CATEGORY_ICONS[bestCategory] || '📦',
+    icon: CATEGORY_ICONS[bestCategory] || '',
   };
 }
 

@@ -1,3 +1,5 @@
+import { Bell, Smartphone, CheckCircle2, Coins, Star, Crown, Lock } from "lucide-react";
+import React from 'react';
 import { useState, useEffect } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { COUNTRIES, CURRENCIES, CATEGORIES, INCOME_RANGES, SUBSCRIPTION_PLANS, THEME } from "./constants.js";
@@ -58,9 +60,7 @@ function WelcomeScreen({ onNext }) {
           display: "flex", alignItems: "center", justifyContent: "center",
           boxShadow: `0 20px 60px ${THEME.accentGlow}, 0 0 0 1px rgba(0,212,170,0.1)`,
           fontSize: 56, position: "relative",
-        }}>
-          💰
-          <div style={{ position: "absolute", inset: -3, borderRadius: 35, border: "2px solid rgba(0,212,170,0.2)" }} />
+        }}><Coins size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /> <div style={{ position: "absolute", inset: -3, borderRadius: 35, border: "2px solid rgba(0,212,170,0.2)" }} />
         </div>
 
         <h1 style={{
@@ -108,7 +108,7 @@ function CountryScreen({ onNext, profile, setProfile }) {
         <ProgressBar step={1} total={3} />
 
         <h2 style={{ fontFamily: THEME.fontSerif, fontSize: 32, fontWeight: 800, color: THEME.white, margin: "0 0 12px", lineHeight: 1.2 }}>
-          Where are you based? 🌍
+          Where are you based? 
         </h2>
         <p style={{ color: THEME.white50, fontSize: 16, margin: "0 0 32px", fontFamily: THEME.font, lineHeight: 1.5 }}>
           We'll customize everything for your local market and currency.
@@ -177,7 +177,7 @@ function SpendingQuizScreen({ onNext, profile, setProfile }) {
         <ProgressBar step={2} total={3} />
 
         <h2 style={{ fontFamily: THEME.fontSerif, fontSize: 28, fontWeight: 800, color: THEME.white, margin: "0 0 12px" }}>
-          Quick spending check 💸
+          Quick spending check 
         </h2>
         <p style={{ color: THEME.white50, fontSize: 15, margin: "0 0 24px", fontFamily: THEME.font }}>
           This helps our AI find your biggest saving opportunities.
@@ -259,7 +259,7 @@ function ResultsScreen({ onNext, profile }) {
         maxWidth: 400, margin: "0 auto", width: "100%", textAlign: "center",
       }}>
         <ProgressBar step={3} total={3} />
-        <div style={{ fontSize: 48, marginBottom: 16 }}>😱</div>
+        <div style={{ fontSize: 48, marginBottom: 16 }}><Star size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <h2 style={{ fontFamily: THEME.fontSerif, fontSize: 26, fontWeight: 800, color: THEME.white, margin: "0 0 8px", lineHeight: 1.3 }}>
           {profile.name ? `${profile.name}, you` : "You"} could be wasting
         </h2>
@@ -292,9 +292,9 @@ function ResultsScreen({ onNext, profile }) {
             Instead, you could:
           </p>
           {[
-            `Save ${curr.symbol} ${yearlyWaste.toLocaleString()} for a dream vacation ✈️`,
-            `Build a ${curr.symbol} ${(yearlyWaste * 3).toLocaleString()} emergency fund in 3 years 🏦`,
-            `Invest and grow your wealth with compound returns 📈`,
+            `Save ${curr.symbol} ${yearlyWaste.toLocaleString()} for a dream vacation `,
+            `Build a ${curr.symbol} ${(yearlyWaste * 3).toLocaleString()} emergency fund in 3 years `,
+            `Invest and grow your wealth with compound returns `,
           ].map((item, i) => (
             <p key={i} style={{ color: THEME.white70, fontSize: 14, margin: "8px 0", fontFamily: THEME.font, lineHeight: 1.5 }}>
               {item}
@@ -332,7 +332,7 @@ function PaywallScreen({ onNext, profile, onSubscribe }) {
             background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32,
             boxShadow: `0 12px 40px ${THEME.accentGlow}`,
-          }}>👑</div>
+          }}><Crown size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
           <h2 style={{ fontFamily: THEME.fontSerif, fontSize: 28, fontWeight: 800, color: THEME.white, margin: "0 0 8px" }}>
             Unlock Your Savings Plan
           </h2>
@@ -455,7 +455,7 @@ function TrustScreen({ onNext }) {
             background: "linear-gradient(135deg, rgba(0,212,170,0.15), rgba(0,184,148,0.08))",
             border: "2px solid rgba(0,212,170,0.2)",
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: 40,
-          }}>🔒</div>
+          }}><Lock size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
           <h2 style={{
             fontFamily: THEME.fontSerif, fontSize: 26, fontWeight: 800,
             color: THEME.white, margin: "0 0 8px", lineHeight: 1.3,
@@ -512,7 +512,7 @@ function TrustScreen({ onNext }) {
                 color: THEME.white, fontSize: 15, fontWeight: 700,
                 margin: "0 0 4px", fontFamily: THEME.font,
               }}>
-                📱 Auto-track from bank notifications
+                 Auto-track from bank notifications
               </p>
               <p style={{
                 color: THEME.white40, fontSize: 11, margin: 0,
@@ -549,13 +549,13 @@ function TrustScreen({ onNext }) {
           }}>How auto-tracking works</p>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, flexWrap: "wrap" }}>
             {[
-              { icon: "🔔", label: "Bank\nNotification" },
+              { icon: React.createElement(Bell, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), label: "Bank\nNotification" },
               { icon: "→", label: "" },
-              { icon: "🛡️", label: "OTP\nFilter" },
+              { icon: "", label: "OTP\nFilter" },
               { icon: "→", label: "" },
-              { icon: "📱", label: "On-Device\nParse" },
+              { icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), label: "On-Device\nParse" },
               { icon: "→", label: "" },
-              { icon: "✅", label: "You\nReview" },
+              { icon: React.createElement(CheckCircle2, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), label: "You\nReview" },
             ].map((step, i) => (
               <div key={i} style={{ textAlign: "center" }}>
                 <span style={{

@@ -1,3 +1,4 @@
+import { Coins } from "lucide-react";
 import { useState, useEffect, createContext, useContext, useCallback, lazy, Suspense } from "react";
 import { CURRENCIES, FREE_LIMITS, ACHIEVEMENTS, LEVELS, CATEGORIES, THEME } from "./constants.js";
 import {
@@ -32,7 +33,7 @@ function LoadingScreen() {
         display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32,
         boxShadow: `0 12px 40px ${THEME.accentGlow}`,
         animation: "pulse 2s ease-in-out infinite",
-      }}>💰</div>
+      }}><Coins size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
       <p style={{ color: THEME.white50, fontSize: 14, fontFamily: THEME.font }}>Loading Wafr...</p>
     </div>
   );
@@ -171,7 +172,7 @@ export default function WafrApp() {
     const newSaved = Math.min(goal.saved + Number(amount), goal.target);
     const progress = Math.round((newSaved / goal.target) * 100);
     if (progress >= 100 && Math.round((goal.saved / goal.target) * 100) < 100) {
-      showToast(`Goal completed: ${goal.name}! 🎉`, "success");
+      showToast(`Goal completed: ${goal.name}! `, "success");
     }
     zustandUpdateGoal({ ...goal, saved: newSaved });
   }, [goals]);
@@ -184,7 +185,7 @@ export default function WafrApp() {
   // ── Challenge Completion ──
   const completeChallenge = useCallback((challengeId, reward) => {
     gamification.completeChallenge(challengeId, reward);
-    showToast(`Challenge complete! +${reward} points 🎯`);
+    showToast(`Challenge complete! +${reward} points `);
   }, []);
 
   // ── AI Message Counter ──
@@ -211,7 +212,7 @@ export default function WafrApp() {
       trial_end: trialEnd.toISOString(),
     });
     setShowPaywall(false);
-    showToast("Welcome to Wafr Pro! 🎉");
+    showToast("Welcome to Wafr Pro! ");
   }, []);
 
   const cancelSubscription = useCallback(() => {
@@ -242,7 +243,7 @@ export default function WafrApp() {
       if (!unlockedAchievements.includes(a.id) && a.condition(fullStats)) {
         gamification.addAchievement(a.id);
         gamification.addPoints(50);
-        showToast(`Achievement unlocked: ${a.icon} ${a.name}!`);
+        showToast(`Achievement unlocked: ${a.name}!`);
       }
     });
   }, [expenses.length, goals, challengeLog, budgets, aiChatHistory, unlockedAchievements]);

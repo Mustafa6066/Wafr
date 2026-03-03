@@ -1,3 +1,4 @@
+import { RefreshCcw } from "lucide-react";
 // ─── Recurring Expense Tracker — subscriptions, bills, recurring charges ───
 import { useState } from 'react';
 import { THEME, CATEGORIES } from '../constants.js';
@@ -114,7 +115,7 @@ export default function RecurringTracker({ recurring = [], setRecurring, curr, i
           border: '1px solid rgba(255,107,107,0.15)', marginBottom: 16,
         }}>
           <p style={{ color: THEME.red, fontSize: 12, fontWeight: 700, margin: '0 0 6px' }}>
-            ⚠️ {overdue.length} OVERDUE
+             {overdue.length} OVERDUE
           </p>
           {overdue.map(r => (
             <p key={r.id} style={{ color: THEME.white50, fontSize: 12, margin: '2px 0' }}>
@@ -131,7 +132,7 @@ export default function RecurringTracker({ recurring = [], setRecurring, curr, i
           border: '1px solid rgba(255,182,72,0.15)', marginBottom: 16,
         }}>
           <p style={{ color: THEME.orange, fontSize: 12, fontWeight: 700, margin: '0 0 6px' }}>
-            📅 UPCOMING THIS WEEK
+             UPCOMING THIS WEEK
           </p>
           {upcoming.map(r => (
             <p key={r.id} style={{ color: THEME.white50, fontSize: 12, margin: '2px 0' }}>
@@ -144,7 +145,7 @@ export default function RecurringTracker({ recurring = [], setRecurring, curr, i
       {/* Recurring list */}
       {recurring.length === 0 ? (
         <EmptyState
-          icon="🔄"
+          icon={<RefreshCcw size="1em" style={{display:"inline-block", verticalAlign:"middle"}} />}
           title="No recurring expenses"
           subtitle="Track subscriptions, bills, and regular payments"
           action="+ Add Recurring"
@@ -171,7 +172,7 @@ export default function RecurringTracker({ recurring = [], setRecurring, curr, i
                 <p style={{ color: THEME.white, fontSize: 14, fontWeight: 600, margin: 0 }}>{item.name}</p>
                 <p style={{ color: isOverdue ? THEME.red : THEME.white30, fontSize: 11, margin: '2px 0 0' }}>
                   {freq?.label || 'Monthly'} • Next: {new Date(item.nextDue).toLocaleDateString()}
-                  {isOverdue && ' ⚠️'}
+                  {isOverdue && ' '}
                 </p>
               </div>
 
@@ -183,11 +184,11 @@ export default function RecurringTracker({ recurring = [], setRecurring, curr, i
                   <button onClick={() => handleEdit(item)} style={{
                     background: 'none', border: 'none', color: THEME.white30, fontSize: 10,
                     cursor: 'pointer', padding: 2,
-                  }}>✏️</button>
+                  }}></button>
                   <button onClick={() => handleDelete(item.id)} style={{
                     background: 'none', border: 'none', color: THEME.red, fontSize: 10,
                     cursor: 'pointer', padding: 2, opacity: 0.5,
-                  }}>🗑️</button>
+                  }}></button>
                 </div>
               </div>
             </div>

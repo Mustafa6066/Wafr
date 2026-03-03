@@ -1,11 +1,12 @@
+import { Handshake } from "lucide-react";
 // ─── Bill Split — split expenses with friends ───
 import { useState } from 'react';
 import { THEME } from '../constants.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const SPLIT_METHODS = [
-  { id: 'equal', label: 'Equal', icon: '⚖️' },
-  { id: 'custom', label: 'Custom', icon: '✏️' },
+  { id: 'equal', label: 'Equal', icon: '' },
+  { id: 'custom', label: 'Custom', icon: '' },
   { id: 'percentage', label: 'Percentage', icon: '%' },
 ];
 
@@ -85,7 +86,7 @@ export default function BillSplit({ splits = [], onAddSplit, onUpdateSplit, onDe
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <div>
           <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
-            🤝 Bill Split
+             Bill Split
           </h3>
           <p style={{ color: THEME.white40, fontSize: 13, margin: '4px 0 0', fontFamily: THEME.font }}>
             Split expenses with friends & family
@@ -100,7 +101,7 @@ export default function BillSplit({ splits = [], onAddSplit, onUpdateSplit, onDe
       {/* Active splits */}
       {active.length === 0 && settled.length === 0 && (
         <div style={{ textAlign: 'center', padding: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>🤝</div>
+          <div style={{ fontSize: 48, marginBottom: 12 }}><Handshake size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
           <p style={{ color: THEME.white40, fontSize: 14, margin: 0, fontFamily: THEME.font }}>
             No bill splits yet. Create one to start!
           </p>
@@ -171,7 +172,7 @@ export default function BillSplit({ splits = [], onAddSplit, onUpdateSplit, onDe
       {settled.length > 0 && (
         <>
           <p style={{ color: THEME.white40, fontSize: 13, fontWeight: 600, margin: '16px 0 8px', fontFamily: THEME.font }}>
-            ✅ Settled
+             Settled
           </p>
           {settled.map(s => (
             <div key={s.id} style={{

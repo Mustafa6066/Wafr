@@ -1,3 +1,4 @@
+import { Lock, Crown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { THEME, SUBSCRIPTION_PLANS, CURRENCIES } from "./constants.js";
 
@@ -14,7 +15,7 @@ export function PremiumGate({ isPremium, onUpgrade, feature, children }) {
         alignItems: "center", justifyContent: "center", zIndex: 10,
         background: "rgba(10,22,40,0.6)", borderRadius: 20, backdropFilter: "blur(2px)",
       }}>
-        <div style={{ fontSize: 40, marginBottom: 12 }}>🔒</div>
+        <div style={{ fontSize: 40, marginBottom: 12 }}><Lock size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <p style={{ color: THEME.white, fontSize: 16, fontWeight: 700, margin: "0 0 4px", fontFamily: THEME.font, textAlign: "center" }}>
           {feature || "Premium Feature"}
         </p>
@@ -132,7 +133,7 @@ export function PaywallModal({ show, onClose, onSubscribe, currency }) {
             background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
             display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32,
             boxShadow: `0 12px 40px ${THEME.accentGlow}`,
-          }}>👑</div>
+          }}><Crown size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
           <h2 style={{ fontFamily: THEME.fontSerif, fontSize: 26, fontWeight: 800, color: THEME.white, margin: "0 0 6px" }}>
             Upgrade to Wafr Pro
           </h2>
@@ -147,13 +148,13 @@ export function PaywallModal({ show, onClose, onSubscribe, currency }) {
           border: `1px solid ${THEME.cardBorder}`,
         }}>
           {[
-            ["🤖", "Unlimited AI Coach", "Personalized savings advice anytime"],
-            ["🎯", "Unlimited Savings Goals", "Track multiple goals with templates"],
-            ["📊", "Advanced Insights", "Trends, projections & peer comparison"],
-            ["💼", "Smart Budget Planner", "Auto-budgets with category limits"],
-            ["🔄", "Recurring Expense Tracker", "Track subscriptions & bills"],
-            ["🏆", "All Achievements", "Badges, levels & rewards"],
-            ["📤", "Data Export", "Export your data as JSON"],
+            ["", "Unlimited AI Coach", "Personalized savings advice anytime"],
+            ["", "Unlimited Savings Goals", "Track multiple goals with templates"],
+            ["", "Advanced Insights", "Trends, projections & peer comparison"],
+            ["", "Smart Budget Planner", "Auto-budgets with category limits"],
+            ["", "Recurring Expense Tracker", "Track subscriptions & bills"],
+            ["", "All Achievements", "Badges, levels & rewards"],
+            ["", "Data Export", "Export your data as JSON"],
           ].map(([icon, title, desc], i) => (
             <div key={i} style={{
               display: "flex", alignItems: "center", gap: 12, padding: "8px 0",

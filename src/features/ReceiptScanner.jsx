@@ -133,7 +133,7 @@ export default function ReceiptScanner({ onScanComplete, onClose, curr }) {
         <div style={{ width: 40, height: 4, borderRadius: 2, background: THEME.white10, margin: '0 auto 20px' }} />
         
         <h3 style={{ color: THEME.white, fontSize: 22, fontWeight: 700, margin: '0 0 8px', fontFamily: THEME.font }}>
-          📸 Scan Receipt
+           Scan Receipt
         </h3>
         <p style={{ color: THEME.white50, fontSize: 13, margin: '0 0 20px', fontFamily: THEME.font }}>
           Take a photo or upload a receipt to auto-track the expense
@@ -154,7 +154,7 @@ export default function ReceiptScanner({ onScanComplete, onClose, curr }) {
                 color: THEME.bg, border: 'none', borderRadius: 16, padding: '18px',
                 fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: THEME.font,
               }}>
-                📷 Take Photo
+                 Take Photo
               </button>
               
               <button onClick={() => {
@@ -165,7 +165,7 @@ export default function ReceiptScanner({ onScanComplete, onClose, curr }) {
                 border: `1px solid ${THEME.white10}`, borderRadius: 16, padding: '18px',
                 fontSize: 15, fontWeight: 700, cursor: 'pointer', fontFamily: THEME.font,
               }}>
-                📁 Upload
+                 Upload
               </button>
             </div>
           </>
@@ -217,7 +217,7 @@ export default function ReceiptScanner({ onScanComplete, onClose, curr }) {
                 width: 48, height: 48, borderRadius: 14, fontSize: 24,
                 background: `rgba(0,212,170,0.15)`, display: 'flex',
                 alignItems: 'center', justifyContent: 'center',
-              }}>{result.categoryIcon || '📦'}</div>
+              }}>{result.categoryIcon || ''}</div>
               <div>
                 <p style={{ color: THEME.white, fontSize: 16, fontWeight: 700, margin: 0 }}>
                   {result.merchantNormalized || result.merchant}

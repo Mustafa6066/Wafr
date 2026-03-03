@@ -1,3 +1,5 @@
+import { Banknote, Star, TrendingUp, Home, Handshake, CreditCard } from "lucide-react";
+import React from 'react';
 // ─── Zakat Calculator — Islamic financial obligation calc ───
 import { useState, useMemo } from 'react';
 import { THEME } from '../constants.js';
@@ -16,17 +18,17 @@ const DEFAULT_PRICES = {
 };
 
 const ASSET_CATEGORIES = [
-  { id: 'cash', label: 'Cash & Bank', icon: '💵', desc: 'All cash, savings accounts, checking accounts' },
-  { id: 'gold', label: 'Gold & Silver', icon: '🥇', desc: 'Jewelry, bullion, coins (by weight or value)' },
-  { id: 'stocks', label: 'Investments', icon: '📈', desc: 'Stocks, mutual funds, retirement accounts' },
-  { id: 'business', label: 'Business Assets', icon: '🏪', desc: 'Inventory, receivables, business cash' },
-  { id: 'property', label: 'Rent Income', icon: '🏠', desc: 'Rental income (not personal residence)' },
-  { id: 'lending', label: 'Money Owed To You', icon: '🤝', desc: 'Loans to others expected to be repaid' },
+  { id: 'cash', label: 'Cash & Bank', icon: React.createElement(Banknote, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), desc: 'All cash, savings accounts, checking accounts' },
+  { id: 'gold', label: 'Gold & Silver', icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), desc: 'Jewelry, bullion, coins (by weight or value)' },
+  { id: 'stocks', label: 'Investments', icon: React.createElement(TrendingUp, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), desc: 'Stocks, mutual funds, retirement accounts' },
+  { id: 'business', label: 'Business Assets', icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), desc: 'Inventory, receivables, business cash' },
+  { id: 'property', label: 'Rent Income', icon: React.createElement(Home, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), desc: 'Rental income (not personal residence)' },
+  { id: 'lending', label: 'Money Owed To You', icon: React.createElement(Handshake, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), desc: 'Loans to others expected to be repaid' },
 ];
 
 const LIABILITY_CATEGORIES = [
-  { id: 'debts', label: 'Debts Due Now', icon: '💳', desc: 'Current debts, bills, loans due within a year' },
-  { id: 'expenses', label: 'Basic Living', icon: '🏡', desc: 'Essential living expenses for one year' },
+  { id: 'debts', label: 'Debts Due Now', icon: React.createElement(CreditCard, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), desc: 'Current debts, bills, loans due within a year' },
+  { id: 'expenses', label: 'Basic Living', icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), desc: 'Essential living expenses for one year' },
 ];
 
 export default function ZakatCalculator({ curr = 'EGP', expenses = [], goals = [] }) {
@@ -73,7 +75,7 @@ export default function ZakatCalculator({ curr = 'EGP', expenses = [], goals = [
   return (
     <div style={{ padding: '16px 24px' }}>
       <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: '0 0 4px', fontFamily: THEME.font }}>
-        🕌 Zakat Calculator
+         Zakat Calculator
       </h3>
       <p style={{ color: THEME.white40, fontSize: 13, margin: '0 0 20px', fontFamily: THEME.font }}>
         Calculate your annual Zakat obligation
@@ -93,7 +95,7 @@ export default function ZakatCalculator({ curr = 'EGP', expenses = [], goals = [
               color: nisabBasis === b ? '#000' : THEME.white50,
               fontWeight: 700, fontSize: 13, cursor: 'pointer',
             }}>
-              {b === 'gold' ? '🥇 Gold' : '🥈 Silver'}
+              {b === 'gold' ? ' Gold' : ' Silver'}
             </button>
           ))}
         </div>
@@ -115,7 +117,7 @@ export default function ZakatCalculator({ curr = 'EGP', expenses = [], goals = [
       </div>
 
       {/* Assets */}
-      <p style={{ color: THEME.accent, fontSize: 13, fontWeight: 700, margin: '0 0 8px' }}>💰 ASSETS</p>
+      <p style={{ color: THEME.accent, fontSize: 13, fontWeight: 700, margin: '0 0 8px' }}> ASSETS</p>
       {ASSET_CATEGORIES.map(cat => (
         <div key={cat.id} style={{
           display: 'flex', alignItems: 'center', gap: 10,
@@ -144,13 +146,13 @@ export default function ZakatCalculator({ curr = 'EGP', expenses = [], goals = [
           marginBottom: 12,
         }}>
           <span style={{ color: THEME.accent, fontSize: 12 }}>
-            💡 Auto-fill {autoCash.toLocaleString()} {curr} from savings goals?
+             Auto-fill {autoCash.toLocaleString()} {curr} from savings goals?
           </span>
         </button>
       )}
 
       {/* Liabilities */}
-      <p style={{ color: THEME.red, fontSize: 13, fontWeight: 700, margin: '16px 0 8px' }}>💳 DEDUCTIONS</p>
+      <p style={{ color: THEME.red, fontSize: 13, fontWeight: 700, margin: '16px 0 8px' }}> DEDUCTIONS</p>
       {LIABILITY_CATEGORIES.map(cat => (
         <div key={cat.id} style={{
           display: 'flex', alignItems: 'center', gap: 10,
@@ -189,7 +191,7 @@ export default function ZakatCalculator({ curr = 'EGP', expenses = [], goals = [
         {calc.isEligible ? (
           <>
             <p style={{ fontSize: 14, color: THEME.accent, fontWeight: 700, margin: '0 0 4px' }}>
-              🕌 YOUR ZAKAT DUE
+               YOUR ZAKAT DUE
             </p>
             <p style={{ fontSize: 36, color: THEME.accent, fontWeight: 800, margin: '0 0 4px' }}>
               {calc.zakatDue.toLocaleString()} <span style={{ fontSize: 16 }}>{curr}</span>

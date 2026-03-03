@@ -1,3 +1,5 @@
+import { Clapperboard, Tv, Star, Apple, Package, Gamepad, Dumbbell, ClipboardList, CheckCircle2, ThumbsUp } from "lucide-react";
+import React from 'react';
 /**
  * Subscription Vampire Detector — Kill Unused Subscriptions
  * 
@@ -13,29 +15,29 @@ import { useRecurringStore } from "../store/index.js";
 
 // ─── Common MENA Subscriptions ───
 const SUBSCRIPTION_DB = [
-  { name: "Netflix", icon: "🎬", category: "entertainment", avgPrice: { EGP: 199, SAR: 39, AED: 39 }, cancelUrl: "netflix.com/cancelplan" },
-  { name: "Shahid VIP", icon: "📺", category: "entertainment", avgPrice: { EGP: 119, SAR: 25, AED: 25 }, cancelUrl: "shahid.mbc.net" },
-  { name: "Spotify", icon: "🎵", category: "entertainment", avgPrice: { EGP: 59, SAR: 22, AED: 22 }, cancelUrl: "spotify.com/account" },
-  { name: "YouTube Premium", icon: "▶️", category: "entertainment", avgPrice: { EGP: 75, SAR: 26, AED: 26 }, cancelUrl: "youtube.com/paid_memberships" },
-  { name: "Apple Music", icon: "🍎", category: "entertainment", avgPrice: { EGP: 50, SAR: 20, AED: 20 }, cancelUrl: "apple.com/subscriptions" },
-  { name: "Amazon Prime", icon: "📦", category: "shopping", avgPrice: { EGP: 50, SAR: 16, AED: 16 }, cancelUrl: "amazon.com/gp/primecentral" },
-  { name: "PlayStation Plus", icon: "🎮", category: "entertainment", avgPrice: { EGP: 250, SAR: 50, AED: 50 }, cancelUrl: "playstation.com" },
-  { name: "Gym Membership", icon: "💪", category: "health", avgPrice: { EGP: 800, SAR: 200, AED: 200 }, cancelUrl: null },
-  { name: "WATCH IT!", icon: "🎭", category: "entertainment", avgPrice: { EGP: 120, SAR: 0, AED: 0 }, cancelUrl: "watchit.com" },
-  { name: "TOD", icon: "⚽", category: "entertainment", avgPrice: { EGP: 150, SAR: 30, AED: 30 }, cancelUrl: "tod.tv" },
-  { name: "OSN+", icon: "📡", category: "entertainment", avgPrice: { EGP: 99, SAR: 30, AED: 30 }, cancelUrl: "osnplus.com" },
-  { name: "Cloud Storage", icon: "☁️", category: "tech", avgPrice: { EGP: 30, SAR: 10, AED: 10 }, cancelUrl: null },
-  { name: "VPN", icon: "🔐", category: "tech", avgPrice: { EGP: 100, SAR: 25, AED: 25 }, cancelUrl: null },
-  { name: "Anghami Plus", icon: "🎧", category: "entertainment", avgPrice: { EGP: 50, SAR: 15, AED: 15 }, cancelUrl: "anghami.com" },
-  { name: "Other", icon: "📋", category: "other", avgPrice: { EGP: 100, SAR: 25, AED: 25 }, cancelUrl: null },
+  { name: "Netflix", icon: React.createElement(Clapperboard, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "entertainment", avgPrice: { EGP: 199, SAR: 39, AED: 39 }, cancelUrl: "netflix.com/cancelplan" },
+  { name: "Shahid VIP", icon: React.createElement(Tv, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "entertainment", avgPrice: { EGP: 119, SAR: 25, AED: 25 }, cancelUrl: "shahid.mbc.net" },
+  { name: "Spotify", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "entertainment", avgPrice: { EGP: 59, SAR: 22, AED: 22 }, cancelUrl: "spotify.com/account" },
+  { name: "YouTube Premium", icon: "", category: "entertainment", avgPrice: { EGP: 75, SAR: 26, AED: 26 }, cancelUrl: "youtube.com/paid_memberships" },
+  { name: "Apple Music", icon: React.createElement(Apple, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "entertainment", avgPrice: { EGP: 50, SAR: 20, AED: 20 }, cancelUrl: "apple.com/subscriptions" },
+  { name: "Amazon Prime", icon: React.createElement(Package, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "shopping", avgPrice: { EGP: 50, SAR: 16, AED: 16 }, cancelUrl: "amazon.com/gp/primecentral" },
+  { name: "PlayStation Plus", icon: React.createElement(Gamepad, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "entertainment", avgPrice: { EGP: 250, SAR: 50, AED: 50 }, cancelUrl: "playstation.com" },
+  { name: "Gym Membership", icon: React.createElement(Dumbbell, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "health", avgPrice: { EGP: 800, SAR: 200, AED: 200 }, cancelUrl: null },
+  { name: "WATCH IT!", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "entertainment", avgPrice: { EGP: 120, SAR: 0, AED: 0 }, cancelUrl: "watchit.com" },
+  { name: "TOD", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "entertainment", avgPrice: { EGP: 150, SAR: 30, AED: 30 }, cancelUrl: "tod.tv" },
+  { name: "OSN+", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "entertainment", avgPrice: { EGP: 99, SAR: 30, AED: 30 }, cancelUrl: "osnplus.com" },
+  { name: "Cloud Storage", icon: "", category: "tech", avgPrice: { EGP: 30, SAR: 10, AED: 10 }, cancelUrl: null },
+  { name: "VPN", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "tech", avgPrice: { EGP: 100, SAR: 25, AED: 25 }, cancelUrl: null },
+  { name: "Anghami Plus", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "entertainment", avgPrice: { EGP: 50, SAR: 15, AED: 15 }, cancelUrl: "anghami.com" },
+  { name: "Other", icon: React.createElement(ClipboardList, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "other", avgPrice: { EGP: 100, SAR: 25, AED: 25 }, cancelUrl: null },
 ];
 
 const USAGE_LEVELS = [
-  { id: "daily", label: "Daily", labelAr: "يومياً", icon: "✅", color: THEME.accent, waste: 0 },
-  { id: "weekly", label: "Weekly", labelAr: "أسبوعياً", icon: "👍", color: THEME.accent, waste: 0 },
-  { id: "monthly", label: "Monthly", labelAr: "شهرياً", icon: "⚠️", color: THEME.orange, waste: 0.3 },
-  { id: "rarely", label: "Rarely", labelAr: "نادراً", icon: "🧛", color: THEME.red, waste: 0.7 },
-  { id: "never", label: "Never", labelAr: "أبداً", icon: "💀", color: THEME.red, waste: 1.0 },
+  { id: "daily", label: "Daily", labelAr: "يومياً", icon: React.createElement(CheckCircle2, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), color: THEME.accent, waste: 0 },
+  { id: "weekly", label: "Weekly", labelAr: "أسبوعياً", icon: React.createElement(ThumbsUp, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), color: THEME.accent, waste: 0 },
+  { id: "monthly", label: "Monthly", labelAr: "شهرياً", icon: "", color: THEME.orange, waste: 0.3 },
+  { id: "rarely", label: "Rarely", labelAr: "نادراً", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), color: THEME.red, waste: 0.7 },
+  { id: "never", label: "Never", labelAr: "أبداً", icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), color: THEME.red, waste: 1.0 },
 ];
 
 export default function SubscriptionVampire() {
@@ -51,7 +53,7 @@ export default function SubscriptionVampire() {
         name: r.name,
         amount: r.amount,
         usage: 'weekly', // default
-        icon: SUBSCRIPTION_DB.find(s => r.name.toLowerCase().includes(s.name.toLowerCase()))?.icon || "📋",
+        icon: SUBSCRIPTION_DB.find(s => r.name.toLowerCase().includes(s.name.toLowerCase()))?.icon || "",
       }));
   });
 
@@ -101,7 +103,7 @@ export default function SubscriptionVampire() {
       name,
       amount,
       usage: "weekly",
-      icon: template?.icon || "📋",
+      icon: template?.icon || "",
     };
     
     setUserSubs(prev => [...prev, newSub]);
@@ -122,7 +124,7 @@ export default function SubscriptionVampire() {
     <div style={{ padding: "16px 24px" }}>
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>🧛</div>
+        <div style={{ fontSize: 48, marginBottom: 8 }}><Star size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <h2 style={{ color: THEME.white, fontSize: 22, fontWeight: 800, margin: "0 0 4px", fontFamily: THEME.font }}>
           Subscription Vampires
         </h2>
@@ -165,7 +167,7 @@ export default function SubscriptionVampire() {
           border: "1px solid rgba(255,107,107,0.2)",
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-            <span style={{ fontSize: 18 }}>🧛</span>
+            <span style={{ fontSize: 18 }}><Star size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></span>
             <h3 style={{ color: THEME.red, fontSize: 15, fontWeight: 800, margin: 0, fontFamily: THEME.font }}>
               {analysis.vampires.length} Vampire{analysis.vampires.length > 1 ? "s" : ""} Found!
             </h3>
@@ -203,7 +205,7 @@ export default function SubscriptionVampire() {
           background: THEME.cardBg, borderRadius: 16, padding: "32px", textAlign: "center",
           border: `1px solid ${THEME.cardBorder}`,
         }}>
-          <p style={{ fontSize: 32, margin: "0 0 8px" }}>📋</p>
+          <p style={{ fontSize: 32, margin: "0 0 8px" }}><ClipboardList size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></p>
           <p style={{ color: THEME.white40, fontSize: 13, margin: 0, fontFamily: THEME.font }}>
             Add your subscriptions to find the vampires
           </p>
@@ -225,7 +227,7 @@ export default function SubscriptionVampire() {
                     <p style={{ color: THEME.white, fontSize: 14, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
                       {sub.name}
                     </p>
-                    {isVampire && <span style={{ fontSize: 14 }}>🧛</span>}
+                    {isVampire && <span style={{ fontSize: 14 }}><Star size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></span>}
                   </div>
                   <p style={{ color: THEME.white30, fontSize: 11, margin: "2px 0 0", fontFamily: THEME.font }}>
                     {curr.symbol} {sub.amount.toLocaleString()}/month · {curr.symbol} {(sub.amount * 12).toLocaleString()}/year
@@ -343,7 +345,7 @@ export default function SubscriptionVampire() {
             {curr.symbol} {Math.round(analysis.potentialSavings * 12).toLocaleString()}/year
           </div>
           <p style={{ color: THEME.white30, fontSize: 11, margin: "6px 0 0", fontFamily: THEME.font }}>
-            That's {curr.symbol} {Math.round(analysis.potentialSavings).toLocaleString()} back in your pocket every month 💰
+            That's {curr.symbol} {Math.round(analysis.potentialSavings).toLocaleString()} back in your pocket every month 
           </p>
         </div>
       )}

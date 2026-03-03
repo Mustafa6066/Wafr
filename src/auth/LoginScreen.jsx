@@ -1,3 +1,4 @@
+import { Coins } from "lucide-react";
 // ─── Login Screen — Phone OTP + Email + Social Auth ───
 import { useState } from 'react';
 import { useAuth } from './AuthProvider.jsx';
@@ -106,7 +107,7 @@ export default function LoginScreen() {
             background: `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`,
             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40,
             boxShadow: `0 16px 48px ${THEME.accentGlow}`,
-          }}>💰</div>
+          }}><Coins size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
           <h1 style={{ fontFamily: THEME.fontSerif, fontSize: 36, color: THEME.white, margin: '0 0 4px' }}>Wafr</h1>
           <p style={{ fontFamily: THEME.fontArabic, fontSize: 20, color: THEME.accent, margin: 0 }}>وفّر</p>
         </div>
@@ -231,7 +232,7 @@ export default function LoginScreen() {
 
             {/* Phone button */}
             <button onClick={() => { setMode('phone'); setError(''); setMessage(''); }} style={btnSocial}>
-              📱 Continue with Phone
+               Continue with Phone
             </button>
 
             {/* Social buttons */}

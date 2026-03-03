@@ -79,7 +79,7 @@ export default function BudgetPlanner() {
           display: "flex", justifyContent: "space-between",
         }}>
           <span style={{ color: THEME.accent, fontSize: 12, fontWeight: 600, fontFamily: THEME.font }}>
-            💰 Savings target (20%): {curr.symbol} {Math.round(budget * 0.2).toLocaleString()}
+             Savings target (20%): {curr.symbol} {Math.round(budget * 0.2).toLocaleString()}
           </span>
           <span style={{ color: THEME.white40, fontSize: 12, fontFamily: THEME.font }}>
             Unbudgeted: {curr.symbol} {Math.max(0, budget - totalBudgeted).toLocaleString()}
@@ -94,7 +94,7 @@ export default function BudgetPlanner() {
           border: "1px solid rgba(255,182,72,0.12)", marginBottom: 16,
         }}>
           <p style={{ color: THEME.orange, fontSize: 13, fontWeight: 700, margin: "0 0 6px", fontFamily: THEME.font }}>
-            💡 Suggested: 50/30/20 Rule
+             Suggested: 50/30/20 Rule
           </p>
           <p style={{ color: THEME.white50, fontSize: 12, margin: "0 0 4px", fontFamily: THEME.font }}>
             50% Needs ({curr.symbol} {Math.round(budget * 0.5).toLocaleString()}) · 30% Wants ({curr.symbol} {Math.round(budget * 0.3).toLocaleString()}) · 20% Savings ({curr.symbol} {Math.round(budget * 0.2).toLocaleString()})

@@ -169,7 +169,7 @@ export const useGoalStore = create(
           target: Number(goal.target),
           saved: 0,
           deadline: goal.deadline || null,
-          icon: goal.icon || '⭐',
+          icon: goal.icon || '',
           color: goal.color || '#00D4AA',
           autoSaveEnabled: goal.autoSaveEnabled || false,
           autoSaveAmount: goal.autoSaveAmount || 0,

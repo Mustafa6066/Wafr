@@ -1,11 +1,13 @@
+import { Star, CreditCard } from "lucide-react";
+import React from 'react';
 // ─── Debt Tracker — debt payoff planner with avalanche/snowball strategies ───
 import { useState, useMemo } from 'react';
 import { THEME } from '../constants.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const STRATEGIES = [
-  { id: 'avalanche', label: 'Avalanche', desc: 'Pay highest interest first (saves most money)', icon: '🏔️' },
-  { id: 'snowball', label: 'Snowball', desc: 'Pay smallest balance first (wins motivation)', icon: '⛄' },
+  { id: 'avalanche', label: 'Avalanche', desc: 'Pay highest interest first (saves most money)', icon: '' },
+  { id: 'snowball', label: 'Snowball', desc: 'Pay smallest balance first (wins motivation)', icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
 ];
 
 export default function DebtTracker({ debts = [], onAddDebt, onUpdateDebt, onDeleteDebt, curr = 'EGP' }) {
@@ -120,7 +122,7 @@ export default function DebtTracker({ debts = [], onAddDebt, onUpdateDebt, onDel
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <div>
           <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
-            💳 Debt Tracker
+             Debt Tracker
           </h3>
           <p style={{ color: THEME.white40, fontSize: 13, margin: '4px 0 0' }}>
             Plan your path to debt freedom
@@ -158,7 +160,7 @@ export default function DebtTracker({ debts = [], onAddDebt, onUpdateDebt, onDel
           borderRadius: 16, padding: 16, border: `1px solid rgba(0,212,170,0.15)`, marginBottom: 16,
         }}>
           <p style={{ color: THEME.accent, fontSize: 12, fontWeight: 700, margin: '0 0 4px' }}>
-            🎯 DEBT-FREE PROJECTION ({strategy.toUpperCase()})
+             DEBT-FREE PROJECTION ({strategy.toUpperCase()})
           </p>
           <p style={{ color: THEME.white, fontSize: 24, fontWeight: 800, margin: '0 0 2px' }}>
             {projection.dateStr}
@@ -187,7 +189,7 @@ export default function DebtTracker({ debts = [], onAddDebt, onUpdateDebt, onDel
       {/* Debt list */}
       {sorted.length === 0 && (
         <div style={{ textAlign: 'center', padding: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>💳</div>
+          <div style={{ fontSize: 48, marginBottom: 12 }}><CreditCard size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
           <p style={{ color: THEME.white40, fontSize: 14, margin: 0 }}>No debts added yet</p>
         </div>
       )}

@@ -1,3 +1,5 @@
+import { Coins, BarChart, FileText, RefreshCcw } from "lucide-react";
+import React from 'react';
 // ─── Financial Health Score — gamified financial wellness metric ───
 import { useMemo } from 'react';
 import { THEME } from '../constants.js';
@@ -20,7 +22,7 @@ export default function HealthScore({ expenses = [], goals = [], budgets = {}, r
     total += savingsPoints;
     factors.push({
       name: 'Savings Rate',
-      icon: '💰',
+      icon: React.createElement(Coins, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
       score: savingsPoints,
       max: 25,
       detail: `${savingsRate}% of income saved`,
@@ -43,7 +45,7 @@ export default function HealthScore({ expenses = [], goals = [], budgets = {}, r
     total += budgetScore;
     factors.push({
       name: 'Budget Discipline',
-      icon: '📊',
+      icon: React.createElement(BarChart, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
       score: budgetScore,
       max: 25,
       detail: budgetCategories.length > 0
@@ -61,7 +63,7 @@ export default function HealthScore({ expenses = [], goals = [], budgets = {}, r
     total += emergencyPoints;
     factors.push({
       name: 'Emergency Fund',
-      icon: '🛡️',
+      icon: '',
       score: emergencyPoints,
       max: 20,
       detail: emergencyGoal
@@ -81,7 +83,7 @@ export default function HealthScore({ expenses = [], goals = [], budgets = {}, r
     total += trackingPoints;
     factors.push({
       name: 'Tracking Habit',
-      icon: '📝',
+      icon: React.createElement(FileText, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
       score: trackingPoints,
       max: 15,
       detail: `Tracked ${daysWithExpenses} of ${daysPassed} days`,
@@ -98,7 +100,7 @@ export default function HealthScore({ expenses = [], goals = [], budgets = {}, r
     total += recurringPoints;
     factors.push({
       name: 'Fixed Costs',
-      icon: '🔄',
+      icon: React.createElement(RefreshCcw, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
       score: recurringPoints,
       max: 15,
       detail: `${recurringPct}% of income on fixed costs`,
@@ -107,7 +109,7 @@ export default function HealthScore({ expenses = [], goals = [], budgets = {}, r
 
     const grade = total >= 85 ? 'Excellent' : total >= 70 ? 'Good' : total >= 50 ? 'Fair' : 'Needs Work';
     const gradeColor = total >= 85 ? THEME.accent : total >= 70 ? '#4ECDC4' : total >= 50 ? THEME.orange : THEME.red;
-    const emoji = total >= 85 ? '🌟' : total >= 70 ? '👍' : total >= 50 ? '💪' : '⚡';
+    const emoji = total >= 85 ? '' : total >= 70 ? '' : total >= 50 ? '' : '';
 
     return { total, factors, grade, gradeColor, emoji };
   }, [expenses, goals, budgets, recurring, income]);
@@ -122,7 +124,7 @@ export default function HealthScore({ expenses = [], goals = [], budgets = {}, r
   return (
     <div style={{ padding: '16px 24px' }}>
       <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: '0 0 4px', fontFamily: THEME.font }}>
-        💊 Financial Health Score
+         Financial Health Score
       </h3>
       <p style={{ color: THEME.white40, fontSize: 13, margin: '0 0 24px', fontFamily: THEME.font }}>
         Your personalized financial wellness rating
@@ -193,7 +195,7 @@ export default function HealthScore({ expenses = [], goals = [], budgets = {}, r
             background: 'rgba(0,212,170,0.08)', borderRadius: 16, padding: 16,
             border: `1px solid rgba(0,212,170,0.15)`, marginTop: 8,
           }}>
-            <p style={{ color: THEME.accent, fontSize: 12, fontWeight: 700, margin: '0 0 4px' }}>💡 TOP TIP TO IMPROVE</p>
+            <p style={{ color: THEME.accent, fontSize: 12, fontWeight: 700, margin: '0 0 4px' }}> TOP TIP TO IMPROVE</p>
             <p style={{ color: THEME.white, fontSize: 14, fontWeight: 600, margin: '0 0 4px' }}>
               Improve your {weakest.name}
             </p>

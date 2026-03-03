@@ -1,3 +1,5 @@
+import { Banknote, Star, Smartphone, CreditCard, Apple } from "lucide-react";
+import React from 'react';
 /**
  * SmartCapture — Universal Payment Capture Engine
  * 
@@ -21,7 +23,7 @@ const PAYMENT_PLATFORMS = [
   {
     id: 'instapay',
     names: ['InstaPay', 'انستاباي', 'انستا باي'],
-    icon: '💸',
+    icon: React.createElement(Banknote, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
     patterns: [
       // "Transfer of EGP 500 to Ahmed successful"
       /(?:transfer|تحويل|sent|إرسال).*?(?:EGP|ج\.?م\.?)\s*([0-9,]+\.?\d*)/i,
@@ -40,7 +42,7 @@ const PAYMENT_PLATFORMS = [
   {
     id: 'fawry',
     names: ['Fawry', 'فوري'],
-    icon: '🏪',
+    icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
     patterns: [
       /(?:fawry|فوري).*?(?:EGP|ج\.?م\.?)\s*([0-9,]+\.?\d*)/i,
       /(?:payment|دفع|سداد).*?(?:fawry|فوري).*?([0-9,]+\.?\d*)/i,
@@ -54,7 +56,7 @@ const PAYMENT_PLATFORMS = [
   {
     id: 'vodafone_cash',
     names: ['Vodafone Cash', 'فودافون كاش', 'VF Cash'],
-    icon: '📱',
+    icon: React.createElement(Smartphone, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
     patterns: [
       /(?:vodafone\s*cash|فودافون\s*كاش|VF\s*Cash).*?([0-9,]+\.?\d*)\s*(?:EGP|ج\.?م\.?)/i,
       /([0-9,]+\.?\d*)\s*(?:EGP|ج\.?م\.?).*?(?:vodafone|فودافون|VF)/i,
@@ -68,7 +70,7 @@ const PAYMENT_PLATFORMS = [
   {
     id: 'orange_money',
     names: ['Orange Money', 'اورنج موني', 'Orange Cash'],
-    icon: '🟠',
+    icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
     patterns: [
       /(?:orange\s*(?:money|cash)|اورنج).*?([0-9,]+\.?\d*)\s*(?:EGP|ج\.?م\.?)/i,
       /([0-9,]+\.?\d*)\s*(?:EGP|ج\.?م\.?).*?(?:orange|اورنج)/i,
@@ -80,7 +82,7 @@ const PAYMENT_PLATFORMS = [
   {
     id: 'etisalat_cash',
     names: ['Etisalat Cash', 'اتصالات كاش', 'e& cash', 'e& money'],
-    icon: '📲',
+    icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
     patterns: [
       /(?:etisalat|اتصالات|e&).*?(?:cash|money|كاش).*?([0-9,]+\.?\d*)/i,
       /([0-9,]+\.?\d*)\s*(?:EGP|ج\.?م\.?).*?(?:etisalat|اتصالات|e&)/i,
@@ -92,7 +94,7 @@ const PAYMENT_PLATFORMS = [
   {
     id: 'valu',
     names: ['valU', 'ڤاليو', 'valu'],
-    icon: '💳',
+    icon: React.createElement(CreditCard, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
     patterns: [
       /(?:valu|ڤاليو).*?([0-9,]+\.?\d*)\s*(?:EGP|ج\.?م\.?)/i,
       /(?:installment|قسط|purchase|شراء).*?(?:valu|ڤاليو).*?([0-9,]+\.?\d*)/i,
@@ -104,7 +106,7 @@ const PAYMENT_PLATFORMS = [
   {
     id: 'stc_pay',
     names: ['STC Pay', 'stcpay', 'اس تي سي باي'],
-    icon: '💜',
+    icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
     patterns: [
       /(?:stc\s*pay|stcpay).*?(?:SAR|ر\.?س\.?)\s*([0-9,]+\.?\d*)/i,
       /([0-9,]+\.?\d*)\s*(?:SAR|ر\.?س\.?).*?(?:stc|اس تي سي)/i,
@@ -114,7 +116,7 @@ const PAYMENT_PLATFORMS = [
   {
     id: 'apple_pay',
     names: ['Apple Pay'],
-    icon: '🍎',
+    icon: React.createElement(Apple, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
     patterns: [
       /(?:apple\s*pay).*?(?:EGP|SAR|AED|ج\.?م\.?|ر\.?س\.?|د\.?إ\.?)\s*([0-9,]+\.?\d*)/i,
     ],

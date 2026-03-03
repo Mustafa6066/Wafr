@@ -1,3 +1,5 @@
+import { Lock } from "lucide-react";
+import React from 'react';
 // ─── Privacy Engine — Layer 2 of 5-Layer Security Architecture ───
 // On-device processing guarantees. Data classification & redaction.
 // This module ensures that sensitive financial data NEVER leaves the device
@@ -184,7 +186,7 @@ export function getAuditStats() {
 export const PRIVACY_GUARANTEES = [
   {
     id: 'on_device',
-    icon: '🔒',
+    icon: React.createElement(Lock, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
     title: 'On-Device Processing',
     titleAr: 'معالجة على الجهاز',
     description: 'All bank notification parsing happens 100% on your device. Your raw bank messages never leave your phone.',
@@ -192,7 +194,7 @@ export const PRIVACY_GUARANTEES = [
   },
   {
     id: 'no_otp',
-    icon: '🛡️',
+    icon: '',
     title: 'OTP Auto-Block',
     titleAr: 'حظر تلقائي لرموز التحقق',
     description: 'Verification codes and OTPs are automatically detected and immediately discarded. We never see them.',
@@ -200,7 +202,7 @@ export const PRIVACY_GUARANTEES = [
   },
   {
     id: 'no_cloud',
-    icon: '☁️',
+    icon: '',
     title: 'No Cloud Upload',
     titleAr: 'بدون رفع سحابي',
     description: 'Your financial data stays on YOUR phone. We never upload your bank messages to any server.',
@@ -208,7 +210,7 @@ export const PRIVACY_GUARANTEES = [
   },
   {
     id: 'transparency',
-    icon: '👁️',
+    icon: '',
     title: 'Full Transparency',
     titleAr: 'شفافية كاملة',
     description: 'View a real-time log of every notification we processed — see exactly what was blocked, ignored, or parsed.',
@@ -216,7 +218,7 @@ export const PRIVACY_GUARANTEES = [
   },
   {
     id: 'user_control',
-    icon: '🎛️',
+    icon: '',
     title: 'You\'re in Control',
     titleAr: 'أنت المتحكم',
     description: 'Auto-tracking is OFF by default. You choose when to enable it, and can revoke access anytime.',

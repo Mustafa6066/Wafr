@@ -1,3 +1,4 @@
+import { Star } from "lucide-react";
 // ─── Transaction Inbox — Auto-detected transactions awaiting approval ───
 import { useState } from 'react';
 import { THEME, CATEGORIES } from '../constants.js';
@@ -14,9 +15,9 @@ export default function TransactionInbox({ transactions = [], onApprove, onRejec
 
   const getSourceBadge = (source) => {
     const badges = {
-      sms: { label: '📱 SMS', bg: 'rgba(78,205,196,0.15)', color: '#4ECDC4' },
-      ocr: { label: '📸 Receipt', bg: 'rgba(255,182,72,0.15)', color: '#FFB648' },
-      bank: { label: '🏦 Bank', bg: 'rgba(133,193,233,0.15)', color: '#85C1E9' },
+      sms: { label: ' SMS', bg: 'rgba(78,205,196,0.15)', color: '#4ECDC4' },
+      ocr: { label: ' Receipt', bg: 'rgba(255,182,72,0.15)', color: '#FFB648' },
+      bank: { label: ' Bank', bg: 'rgba(133,193,233,0.15)', color: '#85C1E9' },
     };
     return badges[source] || badges.sms;
   };
@@ -38,9 +39,9 @@ export default function TransactionInbox({ transactions = [], onApprove, onRejec
       <div style={{ display: 'flex', gap: 8, marginBottom: 20, overflowX: 'auto' }}>
         {[
           { id: 'all', label: 'All', count: transactions.length },
-          { id: 'sms', label: '📱 SMS', count: transactions.filter(t => t.source === 'sms').length },
-          { id: 'ocr', label: '📸 Receipt', count: transactions.filter(t => t.source === 'ocr').length },
-          { id: 'bank', label: '🏦 Bank', count: transactions.filter(t => t.source === 'bank').length },
+          { id: 'sms', label: ' SMS', count: transactions.filter(t => t.source === 'sms').length },
+          { id: 'ocr', label: ' Receipt', count: transactions.filter(t => t.source === 'ocr').length },
+          { id: 'bank', label: ' Bank', count: transactions.filter(t => t.source === 'bank').length },
         ].map(f => (
           <button key={f.id} onClick={() => setFilter(f.id)} style={{
             background: filter === f.id ? 'rgba(0,212,170,0.15)' : THEME.white04,
@@ -68,7 +69,7 @@ export default function TransactionInbox({ transactions = [], onApprove, onRejec
       {/* Pending Transactions */}
       {pending.length === 0 && approved.length === 0 ? (
         <EmptyState
-          icon="📭"
+          icon={<Star size="1em" style={{display:"inline-block", verticalAlign:"middle"}} />}
           title="No pending transactions"
           subtitle="Transactions from SMS and receipts will appear here for review"
         />
@@ -136,7 +137,7 @@ export default function TransactionInbox({ transactions = [], onApprove, onRejec
                     flex: 1, background: THEME.white04, border: `1px solid ${THEME.white06}`,
                     borderRadius: 10, padding: '8px', cursor: 'pointer',
                     color: THEME.white50, fontSize: 12, fontWeight: 600, fontFamily: THEME.font,
-                  }}>✏️ Edit</button>
+                  }}> Edit</button>
                   <button onClick={() => onReject?.(tx)} style={{
                     background: 'rgba(255,107,107,0.1)', border: '1px solid rgba(255,107,107,0.15)',
                     borderRadius: 10, padding: '8px 14px', cursor: 'pointer',

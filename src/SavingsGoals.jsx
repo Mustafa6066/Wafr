@@ -1,3 +1,4 @@
+import { Target } from "lucide-react";
 import { useState } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { GOAL_TEMPLATES, FREE_LIMITS, THEME } from "./constants.js";
@@ -57,7 +58,7 @@ export default function SavingsGoals() {
       {/* Goals List */}
       {goals.length === 0 ? (
         <EmptyState
-          icon="🎯"
+          icon={<Target size="1em" style={{display:"inline-block", verticalAlign:"middle"}} />}
           title="No savings goals yet"
           subtitle="Set a target and watch your savings grow!"
           action="Create Your First Goal"
@@ -78,10 +79,10 @@ export default function SavingsGoals() {
                     width: 44, height: 44, borderRadius: 14,
                     background: `${goal.color || THEME.accent}20`,
                     display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22,
-                  }}>{goal.icon || "⭐"}</div>
+                  }}>{goal.icon || ""}</div>
                   <div>
                     <p style={{ color: THEME.white, fontSize: 15, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
-                      {goal.name} {isComplete && "🎉"}
+                      {goal.name} {isComplete && ""}
                     </p>
                     <p style={{ color: THEME.white40, fontSize: 12, margin: 0, fontFamily: THEME.font }}>
                       {goal.deadline ? `Due: ${new Date(goal.deadline).toLocaleDateString()}` : "No deadline"}
@@ -176,7 +177,7 @@ export default function SavingsGoals() {
             border: "1px solid rgba(255,215,0,0.2)", borderRadius: 12, padding: "10px 20px",
             color: THEME.gold, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: THEME.font,
           }}>
-            🔒 Upgrade for unlimited goals
+             Upgrade for unlimited goals
           </button>
         </div>
       )}
@@ -249,7 +250,7 @@ function CreateGoalModal({ curr, onClose, onAdd }) {
         ) : (
           <>
             <h3 style={{ color: THEME.white, fontSize: 20, fontWeight: 700, margin: "0 0 16px", fontFamily: THEME.font }}>
-              {selected?.icon || "⭐"} Customize Your Goal
+              {selected?.icon || ""} Customize Your Goal
             </h3>
 
             <p style={{ color: THEME.accent, fontSize: 13, fontWeight: 600, margin: "0 0 6px", fontFamily: THEME.font }}>Goal Name</p>
@@ -288,7 +289,7 @@ function CreateGoalModal({ curr, onClose, onAdd }) {
                 border: `1px solid rgba(0,212,170,0.12)`, marginBottom: 20,
               }}>
                 <p style={{ color: THEME.accent, fontSize: 12, fontWeight: 600, margin: 0, fontFamily: THEME.font }}>
-                  💡 Save {curr.symbol} {Math.ceil(Number(target) / 12).toLocaleString()}/month to reach this in 1 year
+                   Save {curr.symbol} {Math.ceil(Number(target) / 12).toLocaleString()}/month to reach this in 1 year
                 </p>
               </div>
             )}
@@ -301,7 +302,7 @@ function CreateGoalModal({ curr, onClose, onAdd }) {
               }}>Back</button>
               <button onClick={() => valid && onAdd({
                 name: name.trim(), target: Number(target), deadline: deadline || null,
-                icon: selected?.icon || "⭐", color: selected?.color || THEME.accent,
+                icon: selected?.icon || "", color: selected?.color || THEME.accent,
               })} disabled={!valid} style={{
                 flex: 2,
                 background: valid ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})` : THEME.white10,

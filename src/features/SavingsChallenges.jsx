@@ -1,3 +1,5 @@
+import { Trophy, Utensils, Car, Sparkles, Flame, Star, Footprints, Gem, Moon, Banknote, Coins, Target, Bus, CookingPot } from "lucide-react";
+import React from 'react';
 /**
  * Savings Challenges with Social Proof
  * 
@@ -14,95 +16,95 @@ import { useGamificationStore } from "../store/index.js";
 
 // ─── Challenge Categories ───
 const CHALLENGE_CATEGORIES = [
-  { id: "all", label: "All", icon: "🏆" },
-  { id: "food", label: "Food", icon: "🍔" },
-  { id: "transport", label: "Transport", icon: "🚗" },
-  { id: "shopping", label: "Shopping", icon: "🛍️" },
-  { id: "lifestyle", label: "Lifestyle", icon: "✨" },
-  { id: "extreme", label: "Extreme", icon: "🔥" },
+  { id: "all", label: "All", icon: React.createElement(Trophy, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { id: "food", label: "Food", icon: React.createElement(Utensils, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { id: "transport", label: "Transport", icon: React.createElement(Car, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { id: "shopping", label: "Shopping", icon: "" },
+  { id: "lifestyle", label: "Lifestyle", icon: React.createElement(Sparkles, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+  { id: "extreme", label: "Extreme", icon: React.createElement(Flame, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
 ];
 
 // ─── Community Challenges (simulated social proof) ───
 const COMMUNITY_CHALLENGES = [
   {
     id: "no_delivery_week", name: "No Delivery Week", nameAr: "أسبوع بدون دليفري",
-    icon: "🚫🛵", category: "food", duration: 7, difficulty: "medium",
+    icon: "", category: "food", duration: 7, difficulty: "medium",
     desc: "Cook every meal at home for 7 days. No delivery apps!",
     descAr: "اطبخ كل الأكل في البيت لمدة ٧ أيام. بدون تطبيقات توصيل!",
     estimatedSaving: 700, participants: 2847, completionRate: 42,
-    reward: 150, badge: "🥣",
+    reward: 150, badge: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
   },
   {
     id: "coffee_detox", name: "Coffee Shop Detox", nameAr: "ديتوكس الكافيهات",
-    icon: "☕❌", category: "food", duration: 14, difficulty: "hard",
+    icon: "", category: "food", duration: 14, difficulty: "hard",
     desc: "No coffee shops for 2 weeks. Home brew only!",
     descAr: "١٤ يوم بدون كافيهات. القهوة من البيت بس!",
     estimatedSaving: 900, participants: 1523, completionRate: 31,
-    reward: 200, badge: "🏠☕",
+    reward: 200, badge: "",
   },
   {
     id: "walk_to_work", name: "Walk/Metro Challenge", nameAr: "تحدي المشي/المترو",
-    icon: "🚶", category: "transport", duration: 5, difficulty: "easy",
+    icon: React.createElement(Footprints, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "transport", duration: 5, difficulty: "easy",
     desc: "Use public transport or walk for 5 days straight.",
     descAr: "استخدم المواصلات العامة أو امشي لمدة ٥ أيام",
     estimatedSaving: 400, participants: 4102, completionRate: 68,
-    reward: 100, badge: "🏃",
+    reward: 100, badge: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
   },
   {
     id: "no_shopping_month", name: "No Shopping Month", nameAr: "شهر بدون شوبينج",
-    icon: "🛍️❌", category: "shopping", duration: 30, difficulty: "extreme",
+    icon: "", category: "shopping", duration: 30, difficulty: "extreme",
     desc: "No non-essential purchases for 30 days. Essentials only!",
     descAr: "٣٠ يوم بدون شراء أي حاجة مش ضرورية",
     estimatedSaving: 3000, participants: 891, completionRate: 18,
-    reward: 500, badge: "💎",
+    reward: 500, badge: React.createElement(Gem, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
   },
   {
     id: "ramadan_saver", name: "Ramadan Super Saver", nameAr: "موفّر رمضان",
-    icon: "🌙", category: "lifestyle", duration: 30, difficulty: "hard",
+    icon: React.createElement(Moon, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "lifestyle", duration: 30, difficulty: "hard",
     desc: "Stay under budget throughout Ramadan despite the temptations.",
     descAr: "التزم بالميزانية طول رمضان رغم الإغراءات",
     estimatedSaving: 5000, participants: 6234, completionRate: 25,
-    reward: 400, badge: "🌙✨",
+    reward: 400, badge: "",
   },
   {
     id: "cash_only_week", name: "Cash Only Week", nameAr: "أسبوع كاش فقط",
-    icon: "💵", category: "lifestyle", duration: 7, difficulty: "medium",
+    icon: React.createElement(Banknote, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "lifestyle", duration: 7, difficulty: "medium",
     desc: "Use only cash for all purchases — you'll naturally spend less.",
     descAr: "استخدم كاش بس لكل المشتريات — هتصرف أقل طبيعي",
     estimatedSaving: 500, participants: 3156, completionRate: 55,
-    reward: 120, badge: "💰",
+    reward: 120, badge: React.createElement(Coins, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
   },
   {
     id: "500_challenge", name: "500 EGP Challenge", nameAr: "تحدي ال ٥٠٠ جنيه",
-    icon: "🎯", category: "extreme", duration: 7, difficulty: "hard",
+    icon: React.createElement(Target, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "extreme", duration: 7, difficulty: "hard",
     desc: "Live on just 500 EGP for an entire week (excluding rent/bills).",
     descAr: "عيش بـ ٥٠٠ جنيه بس لمدة أسبوع (بدون الإيجار والفواتير)",
     estimatedSaving: 1500, participants: 2089, completionRate: 22,
-    reward: 300, badge: "🏅",
+    reward: 300, badge: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
   },
   {
     id: "no_uber", name: "No Ride-Hailing Week", nameAr: "أسبوع بدون أوبر",
-    icon: "🚫🚕", category: "transport", duration: 7, difficulty: "medium",
+    icon: "", category: "transport", duration: 7, difficulty: "medium",
     desc: "No Uber, Careem, or InDrive for a full week.",
     descAr: "بدون أوبر أو كريم أو إندرايف لمدة أسبوع كامل",
     estimatedSaving: 600, participants: 1876, completionRate: 38,
-    reward: 130, badge: "🚌",
+    reward: 130, badge: React.createElement(Bus, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
   },
   {
     id: "meal_prep_master", name: "Meal Prep Master", nameAr: "ماستر تحضير الأكل",
-    icon: "🍳", category: "food", duration: 7, difficulty: "medium",
+    icon: React.createElement(CookingPot, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), category: "food", duration: 7, difficulty: "medium",
     desc: "Prep all your meals for the week on Sunday.",
     descAr: "جهز كل أكل الأسبوع يوم الأحد",
     estimatedSaving: 800, participants: 1342, completionRate: 45,
-    reward: 140, badge: "👨‍🍳",
+    reward: 140, badge: "",
   },
   {
     id: "digital_detox", name: "Subscription Freeze", nameAr: "تجميد الاشتراكات",
-    icon: "❄️", category: "lifestyle", duration: 30, difficulty: "medium",
+    icon: "", category: "lifestyle", duration: 30, difficulty: "medium",
     desc: "Pause or cancel one subscription you rarely use.",
     descAr: "جمّد أو ألغي اشتراك واحد مش بتستخدمه كتير",
     estimatedSaving: 150, participants: 5621, completionRate: 72,
-    reward: 80, badge: "🧊",
+    reward: 80, badge: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }),
   },
 ];
 
@@ -140,7 +142,7 @@ export default function SavingsChallenges() {
     <div style={{ padding: "16px 24px" }}>
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>🏆</div>
+        <div style={{ fontSize: 48, marginBottom: 8 }}><Trophy size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <h2 style={{ color: THEME.white, fontSize: 22, fontWeight: 800, margin: "0 0 4px", fontFamily: THEME.font }}>
           Savings Challenges
         </h2>
@@ -202,7 +204,7 @@ export default function SavingsChallenges() {
       {activeChallenges.length > 0 && (
         <>
           <h3 style={{ color: THEME.white, fontSize: 14, fontWeight: 800, margin: "0 0 10px", fontFamily: THEME.font }}>
-            🔥 Your Active Challenges
+             Your Active Challenges
           </h3>
           {activeChallenges.map(id => {
             const challenge = COMMUNITY_CHALLENGES.find(c => c.id === id);
@@ -238,7 +240,7 @@ export default function SavingsChallenges() {
 
       {/* Challenge List */}
       <h3 style={{ color: THEME.white, fontSize: 14, fontWeight: 800, margin: "0 0 10px", fontFamily: THEME.font }}>
-        🎯 Community Challenges
+         Community Challenges
       </h3>
 
       {filteredChallenges.map(challenge => {
@@ -318,7 +320,7 @@ export default function SavingsChallenges() {
                     color: THEME.bg, border: "none", borderRadius: 12, padding: "12px",
                     fontSize: 14, fontWeight: 800, cursor: "pointer", fontFamily: THEME.font,
                   }}>
-                    Join Challenge 🚀
+                    Join Challenge 
                   </button>
                 ) : (
                   <div style={{
@@ -326,7 +328,7 @@ export default function SavingsChallenges() {
                     textAlign: "center",
                   }}>
                     <p style={{ color: THEME.accent, fontSize: 13, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
-                      ✅ You're in! Keep going!
+                       You're in! Keep going!
                     </p>
                   </div>
                 )}
@@ -342,7 +344,7 @@ export default function SavingsChallenges() {
         borderRadius: 18, padding: "20px", marginTop: 8, textAlign: "center",
         border: "1px solid rgba(255,215,0,0.12)",
       }}>
-        <p style={{ fontSize: 28, margin: "0 0 8px" }}>🏅</p>
+        <p style={{ fontSize: 28, margin: "0 0 8px" }}><Star size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></p>
         <p style={{ color: THEME.white, fontSize: 15, fontWeight: 800, margin: "0 0 4px", fontFamily: THEME.font }}>
           Leaderboard Coming Soon
         </p>

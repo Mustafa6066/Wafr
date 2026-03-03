@@ -1,4 +1,4 @@
-import { Home, Bot, Inbox, Target, Zap, Briefcase, BarChart3, Trophy, Camera, RefreshCw, TrendingUp, HeartPulse, Users, PiggyBank, Moon, Smartphone, Eye, LineChart, CircleDashed, ShieldAlert, Swords, CalendarDays, Settings as SettingsIcon, ShieldCheck } from "lucide-react";
+import { FileText, Home, Bot, Inbox, Target, Zap, Briefcase, BarChart3, Trophy, Camera, RefreshCw, TrendingUp, HeartPulse, Users, PiggyBank, Moon, Smartphone, Eye, LineChart, CircleDashed, ShieldAlert, Swords, CalendarDays, Settings as SettingsIcon, ShieldCheck } from "lucide-react";
 import { useState, lazy, Suspense } from "react";
 import { useApp } from "./WafrApp.jsx";
 import { CATEGORIES, DAILY_CHALLENGES, THEME, FREE_LIMITS } from "./constants.js";
@@ -78,7 +78,7 @@ export default function Dashboard() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div>
             <p style={{ color: THEME.white50, fontSize: 14, margin: 0 }}>
-              {getGreeting()} {profile.name ? profile.name : ""} 👋
+              {getGreeting()} {profile.name ? profile.name : ""} 
             </p>
             <h1 style={{ fontFamily: THEME.fontSerif, fontSize: 24, color: THEME.white, margin: "4px 0 0", fontWeight: 800 }}>
               {tab === "home" ? "Your Savings" : tab === "more" ? "Features" : tab === "inbox" ? "Transaction Inbox" : ""}
@@ -288,11 +288,11 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
     const smart = parsePaymentText(smsText.trim(), "paste");
     if (smart.blocked) {
       addAuditEntry({ type: "blocked", source: "paste", platform: null, timestamp: Date.now() });
-      setPasteResult({ success: false, msg: "🛡️ OTP/verification message — blocked for your safety" });
+      setPasteResult({ success: false, msg: " OTP/verification message — blocked for your safety" });
     } else if (smart.success) {
       addPending(smart.transaction);
       addAuditEntry({ type: "parsed", source: "paste", platform: smart.platform?.name || null, timestamp: Date.now() });
-      setPasteResult({ success: true, msg: `${smart.platform?.icon || '💳'} ${smart.transaction.currency} ${smart.transaction.parsedAmount.toLocaleString()} from ${smart.platform?.name || smart.transaction.bank}` });
+      setPasteResult({ success: true, msg: `${smart.transaction.currency} ${smart.transaction.parsedAmount.toLocaleString()} from ${smart.platform?.name || smart.transaction.bank}` });
     } else {
       // Fall back to existing SMS parser
       const result = simulateNotification(smsText.trim(), "");
@@ -428,12 +428,12 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
                 color: pasteResult.success ? THEME.accent : THEME.red,
                 fontSize: 12, fontWeight: 600, margin: 0, fontFamily: THEME.font,
               }}>
-                {pasteResult.success ? "✅ " : ""}{pasteResult.msg}
+                {pasteResult.success ? " " : ""}{pasteResult.msg}
               </p>
             </div>
           )}
           <p style={{ color: THEME.white20, fontSize: 10, margin: "8px 0 0", fontFamily: THEME.font, textAlign: "center" }}>
-            🔒 Processed on-device only — OTPs auto-blocked
+             Processed on-device only — OTPs auto-blocked
           </p>
         </div>
       )}
@@ -448,7 +448,7 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
           <p style={{ color: THEME.white30, fontSize: 10, margin: "2px 0 0" }}>20% of income</p>
         </div>
         <div style={{ background: THEME.cardBg, borderRadius: 18, padding: "16px", border: `1px solid ${THEME.cardBorder}` }}>
-          <p style={{ color: THEME.white40, fontSize: 11, margin: "0 0 4px", fontWeight: 600 }}>Streak 🔥</p>
+          <p style={{ color: THEME.white40, fontSize: 11, margin: "0 0 4px", fontWeight: 600 }}>Streak </p>
           <p style={{ color: THEME.orange, fontSize: 20, fontWeight: 800, margin: 0 }}>
             {challengeLog.streak} Day{challengeLog.streak !== 1 ? "s" : ""}
           </p>
@@ -485,7 +485,7 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
               display: "flex", alignItems: "center", justifyContent: "center",
               flexShrink: 0, marginLeft: 12,
             }}>
-            {todayDone ? "✅" : "💪"}
+            {todayDone ? "" : ""}
           </button>
         </div>
       </div>
@@ -495,7 +495,7 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
 
       {expenses.length === 0 ? (
         <div style={{ textAlign: "center", padding: "32px 16px" }}>
-          <div style={{ fontSize: 40, marginBottom: 8 }}>📝</div>
+          <div style={{ fontSize: 40, marginBottom: 8 }}><FileText size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
           <p style={{ color: THEME.white50, fontSize: 14, margin: 0, fontFamily: THEME.font }}>
             No expenses yet. Start tracking!
           </p>
@@ -528,7 +528,7 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
                   <p style={{ color: THEME.white30, fontSize: 11, margin: 0 }}>
                     {dateLabel}
                     {exp.source && <span style={{ color: THEME.white20, marginLeft: 6 }}>
-                      {exp.source === "sms" ? "📱" : exp.source === "receipt" ? "📸" : ""} auto
+                      {exp.source === "sms" ? "" : exp.source === "receipt" ? "" : ""} auto
                     </span>}
                   </p>
                 </div>
@@ -558,7 +558,7 @@ function HomeTab({ curr, remaining, totalSpent, budget, pct, profile, isPremium,
             border: "1px solid rgba(255,215,0,0.2)", borderRadius: 12, padding: "10px 20px",
             color: THEME.gold, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: THEME.font,
           }}>
-            🔒 Upgrade for unlimited tracking
+             Upgrade for unlimited tracking
           </button>
         </div>
       )}

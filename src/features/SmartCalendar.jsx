@@ -1,3 +1,5 @@
+import { Coins, Moon, PartyPopper, Star, Calendar, BarChart } from "lucide-react";
+import React from 'react';
 /**
  * Ramadan / Salary Cycle Intelligence — Smart Calendar
  * 
@@ -16,7 +18,7 @@ import { useExpenseStore, useBudgetStore } from "../store/index.js";
 const CALENDAR_EVENTS = [
   {
     id: "salary_week", name: "Salary Week", nameAr: "أسبوع القبض",
-    icon: "💰", type: "recurring", frequency: "monthly",
+    icon: React.createElement(Coins, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), type: "recurring", frequency: "monthly",
     spendingImpact: +40, // +40% spending increase
     tips: [
       "Transfer 20% to savings BEFORE spending",
@@ -32,7 +34,7 @@ const CALENDAR_EVENTS = [
   },
   {
     id: "ramadan", name: "Ramadan", nameAr: "رمضان",
-    icon: "🌙", type: "annual",
+    icon: React.createElement(Moon, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), type: "annual",
     dates2026: { start: "2026-02-18", end: "2026-03-19" },
     spendingImpact: +60,
     tips: [
@@ -51,7 +53,7 @@ const CALENDAR_EVENTS = [
   },
   {
     id: "eid_fitr", name: "Eid al-Fitr", nameAr: "عيد الفطر",
-    icon: "🎉", type: "annual",
+    icon: React.createElement(PartyPopper, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), type: "annual",
     dates2026: { start: "2026-03-20", end: "2026-03-23" },
     spendingImpact: +80,
     tips: [
@@ -68,7 +70,7 @@ const CALENDAR_EVENTS = [
   },
   {
     id: "eid_adha", name: "Eid al-Adha", nameAr: "عيد الأضحى",
-    icon: "🐑", type: "annual",
+    icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), type: "annual",
     dates2026: { start: "2026-05-27", end: "2026-05-30" },
     spendingImpact: +90,
     tips: [
@@ -85,7 +87,7 @@ const CALENDAR_EVENTS = [
   },
   {
     id: "back_to_school", name: "Back to School", nameAr: "رجوع المدارس",
-    icon: "🎒", type: "annual",
+    icon: React.createElement(Star, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), type: "annual",
     dates2026: { start: "2026-09-01", end: "2026-09-30" },
     spendingImpact: +55,
     tips: [
@@ -102,7 +104,7 @@ const CALENDAR_EVENTS = [
   },
   {
     id: "black_friday", name: "Black Friday / White Friday", nameAr: "الجمعة البيضاء",
-    icon: "🏷️", type: "annual",
+    icon: "", type: "annual",
     dates2026: { start: "2026-11-27", end: "2026-11-29" },
     spendingImpact: +70,
     tips: [
@@ -119,7 +121,7 @@ const CALENDAR_EVENTS = [
   },
   {
     id: "summer", name: "Summer Vacation", nameAr: "إجازة الصيف",
-    icon: "🏖️", type: "annual",
+    icon: "", type: "annual",
     dates2026: { start: "2026-06-15", end: "2026-08-31" },
     spendingImpact: +35,
     tips: [
@@ -223,7 +225,7 @@ export default function SmartCalendar() {
     <div style={{ padding: "16px 24px" }}>
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 20 }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>📅</div>
+        <div style={{ fontSize: 48, marginBottom: 8 }}><Calendar size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <h2 style={{ color: THEME.white, fontSize: 22, fontWeight: 800, margin: "0 0 4px", fontFamily: THEME.font }}>
           Smart Calendar
         </h2>
@@ -236,7 +238,7 @@ export default function SmartCalendar() {
       {currentEvents.active.length > 0 && (
         <>
           <h3 style={{ color: THEME.red, fontSize: 13, fontWeight: 800, margin: "0 0 8px", fontFamily: THEME.font, textTransform: "uppercase", letterSpacing: 1 }}>
-            ⚡ Active Now
+             Active Now
           </h3>
           {currentEvents.active.map(event => (
             <div key={event.id} onClick={() => setExpandedEvent(expandedEvent === event.id ? null : event.id)} style={{
@@ -268,7 +270,7 @@ export default function SmartCalendar() {
               {expandedEvent === event.id && (
                 <div style={{ marginTop: 14, paddingTop: 14, borderTop: `1px solid ${THEME.white06}` }}>
                   <p style={{ color: THEME.white50, fontSize: 12, fontWeight: 700, margin: "0 0 8px", fontFamily: THEME.font }}>
-                    💡 Smart Tips
+                     Smart Tips
                   </p>
                   {event.tips.map((tip, i) => (
                     <div key={i} style={{
@@ -291,7 +293,7 @@ export default function SmartCalendar() {
       {currentEvents.upcoming.length > 0 && (
         <>
           <h3 style={{ color: THEME.white, fontSize: 13, fontWeight: 800, margin: "16px 0 8px", fontFamily: THEME.font, textTransform: "uppercase", letterSpacing: 1 }}>
-            📆 Coming Up
+             Coming Up
           </h3>
           {currentEvents.upcoming.map(event => (
             <div key={event.id} onClick={() => setExpandedEvent(expandedEvent === event.id ? null : event.id)} style={{
@@ -342,7 +344,7 @@ export default function SmartCalendar() {
                   )}
 
                   <p style={{ color: THEME.white50, fontSize: 12, fontWeight: 700, margin: "0 0 8px", fontFamily: THEME.font }}>
-                    💡 Prepare Now
+                     Prepare Now
                   </p>
                   {event.tips.map((tip, i) => (
                     <div key={i} style={{ display: "flex", gap: 8, marginBottom: 4, alignItems: "flex-start" }}>
@@ -365,7 +367,7 @@ export default function SmartCalendar() {
           border: "1px solid rgba(108,92,231,0.15)",
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
-            <span style={{ fontSize: 18 }}>📊</span>
+            <span style={{ fontSize: 18 }}><BarChart size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></span>
             <h3 style={{ color: THEME.white, fontSize: 14, fontWeight: 800, margin: 0, fontFamily: THEME.font }}>
               Your Spending Pattern
             </h3>
@@ -404,7 +406,7 @@ export default function SmartCalendar() {
       {/* Full Calendar Year View */}
       <div style={{ marginTop: 16 }}>
         <h3 style={{ color: THEME.white, fontSize: 14, fontWeight: 800, margin: "0 0 10px", fontFamily: THEME.font }}>
-          🗓️ 2026 Financial Calendar
+           2026 Financial Calendar
         </h3>
         {CALENDAR_EVENTS.filter(e => e.dates2026).map(event => {
           const days = daysUntil(event.dates2026.start);

@@ -1,9 +1,11 @@
+import { Target, Landmark } from "lucide-react";
+import React from 'react';
 // ─── Savings Pots — named savings buckets with auto-save rules ───
 import { useState, useMemo } from 'react';
 import { THEME } from '../constants.js';
 import { v4 as uuidv4 } from 'uuid';
 
-const POT_ICONS = ['🎯', '✈️', '🏠', '🚗', '💍', '🎓', '📱', '🛡️', '🎁', '💰', '🏖️', '🩺'];
+const POT_ICONS = ['', '', '', '', '', '', '', '', '', '', '', ''];
 const AUTO_RULES = [
   { id: 'none', label: 'Manual Only' },
   { id: 'daily', label: 'Save Daily' },
@@ -17,7 +19,7 @@ export default function SavingsPots({ pots = [], onAddPot, onUpdatePot, onDelete
   const [showDeposit, setShowDeposit] = useState(null);
   const [depositAmount, setDepositAmount] = useState('');
   const [isWithdraw, setIsWithdraw] = useState(false);
-  const [form, setForm] = useState({ name: '', target: '', icon: '🎯', autoRule: 'none', autoAmount: '' });
+  const [form, setForm] = useState({ name: '', target: '', icon: React.createElement(Target, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), autoRule: 'none', autoAmount: '' });
 
   const totalSaved = useMemo(() => pots.reduce((s, p) => s + p.saved, 0), [pots]);
   const totalTarget = useMemo(() => pots.reduce((s, p) => s + p.target, 0), [pots]);
@@ -40,7 +42,7 @@ export default function SavingsPots({ pots = [], onAddPot, onUpdatePot, onDelete
     };
     onAddPot?.(pot);
     setShowAdd(false);
-    setForm({ name: '', target: '', icon: '🎯', autoRule: 'none', autoAmount: '' });
+    setForm({ name: '', target: '', icon: React.createElement(Target, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), autoRule: 'none', autoAmount: '' });
   };
 
   const handleDepositWithdraw = () => {
@@ -66,7 +68,7 @@ export default function SavingsPots({ pots = [], onAddPot, onUpdatePot, onDelete
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
         <div>
           <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
-            🏦 Savings Pots
+             Savings Pots
           </h3>
           <p style={{ color: THEME.white40, fontSize: 13, margin: '4px 0 0' }}>
             Save for what matters most
@@ -109,7 +111,7 @@ export default function SavingsPots({ pots = [], onAddPot, onUpdatePot, onDelete
       {/* Pots grid */}
       {pots.length === 0 && (
         <div style={{ textAlign: 'center', padding: 40 }}>
-          <div style={{ fontSize: 48, marginBottom: 12 }}>🏦</div>
+          <div style={{ fontSize: 48, marginBottom: 12 }}><Landmark size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
           <p style={{ color: THEME.white40, fontSize: 14, margin: 0 }}>
             Create your first savings pot!
           </p>
@@ -134,7 +136,7 @@ export default function SavingsPots({ pots = [], onAddPot, onUpdatePot, onDelete
                 }}>{pot.icon}</div>
                 <div>
                   <p style={{ color: THEME.white, fontSize: 15, fontWeight: 700, margin: 0 }}>
-                    {pot.name} {isComplete && '✅'}
+                    {pot.name} {isComplete && ''}
                   </p>
                   <p style={{ color: THEME.white40, fontSize: 11, margin: '2px 0 0' }}>
                     {pot.autoRule !== 'none' && `Auto: ${pot.autoRule} ${pot.autoAmount > 0 ? pot.autoAmount + '/cycle' : ''}`}
@@ -200,7 +202,7 @@ export default function SavingsPots({ pots = [], onAddPot, onUpdatePot, onDelete
             background: THEME.darkBg, borderRadius: 24, padding: 24, width: '85%', maxWidth: 360,
           }}>
             <h3 style={{ color: THEME.white, fontSize: 18, fontWeight: 700, margin: '0 0 16px' }}>
-              {isWithdraw ? '💸 Withdraw' : '💰 Deposit'}
+              {isWithdraw ? ' Withdraw' : ' Deposit'}
             </h3>
             <input type="number" value={depositAmount} onChange={e => setDepositAmount(e.target.value)}
               placeholder="Amount" style={{ ...inputStyle, marginBottom: 16, fontSize: 20, textAlign: 'center' }}

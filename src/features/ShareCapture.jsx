@@ -1,3 +1,5 @@
+import { ClipboardList, Camera, Zap, CreditCard, Bot, CheckCircle2, Star, Lock, Apple } from "lucide-react";
+import React from 'react';
 /**
  * ShareCapture — Universal Payment Capture UI
  * 
@@ -17,9 +19,9 @@ import { parsePaymentText, parseScreenshot, getSupportedPlatforms, DEMO_SHARES }
 
 // ─── Capture Methods ───
 const CAPTURE_METHODS = [
-  { id: 'paste', icon: '📋', name: 'Paste Message', desc: 'WhatsApp, SMS, bank alert', nameAr: 'لصق رسالة' },
-  { id: 'screenshot', icon: '📸', name: 'Scan Screenshot', desc: 'Photo of payment screen', nameAr: 'مسح سكرين شوت' },
-  { id: 'quick', icon: '⚡', name: 'Quick Platforms', desc: 'InstaPay, Fawry, VF Cash...', nameAr: 'منصات سريعة' },
+  { id: 'paste', icon: React.createElement(ClipboardList, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), name: 'Paste Message', desc: 'WhatsApp, SMS, bank alert', nameAr: 'لصق رسالة' },
+  { id: 'screenshot', icon: React.createElement(Camera, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), name: 'Scan Screenshot', desc: 'Photo of payment screen', nameAr: 'مسح سكرين شوت' },
+  { id: 'quick', icon: React.createElement(Zap, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }), name: 'Quick Platforms', desc: 'InstaPay, Fawry, VF Cash...', nameAr: 'منصات سريعة' },
 ];
 
 export default function ShareCapture() {
@@ -52,7 +54,7 @@ export default function ShareCapture() {
     });
 
     if (parsed.blocked) {
-      setResult({ success: false, msg: '🛡️ OTP/verification message — blocked for your safety' });
+      setResult({ success: false, msg: ' OTP/verification message — blocked for your safety' });
     } else if (parsed.success) {
       addPending(parsed.transaction);
       setResult({
@@ -131,7 +133,7 @@ export default function ShareCapture() {
     <div style={{ padding: '16px 24px' }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 20 }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>📲</div>
+        <div style={{ fontSize: 48, marginBottom: 8 }}><Star size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></div>
         <h2 style={{ color: THEME.white, fontSize: 22, fontWeight: 800, margin: '0 0 4px', fontFamily: THEME.font }}>
           Smart Capture
         </h2>
@@ -146,7 +148,7 @@ export default function ShareCapture() {
         borderRadius: 12, padding: '8px 14px', marginBottom: 16,
         border: '1px solid rgba(0,212,170,0.1)', display: 'flex', alignItems: 'center', gap: 8,
       }}>
-        <span style={{ fontSize: 14 }}>🔒</span>
+        <span style={{ fontSize: 14 }}><Lock size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></span>
         <p style={{ color: THEME.white40, fontSize: 11, margin: 0, fontFamily: THEME.font }}>
           100% on-device processing · OTPs auto-blocked · No data uploaded
         </p>
@@ -208,7 +210,7 @@ Examples:
               border: 'none', borderRadius: 12, padding: '12px', fontSize: 14, fontWeight: 700,
               cursor: pasteText.trim() ? 'pointer' : 'default', fontFamily: THEME.font,
             }}>
-              Detect Payment 🔍
+              Detect Payment 
             </button>
             <button onClick={() => setShowDemo(!showDemo)} style={{
               background: THEME.white06, border: `1px solid ${THEME.white10}`,
@@ -257,7 +259,7 @@ Examples:
               borderRadius: 16, padding: '32px 20px', cursor: 'pointer',
               display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
             }}>
-              <span style={{ fontSize: 36 }}>📸</span>
+              <span style={{ fontSize: 36 }}><Camera size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /></span>
               <span style={{ color: THEME.accent, fontSize: 14, fontWeight: 700, fontFamily: THEME.font }}>
                 Tap to upload screenshot
               </span>
@@ -273,7 +275,7 @@ Examples:
               border: '1px solid rgba(0,212,170,0.12)', textAlign: 'center', marginTop: 8,
             }}>
               <p style={{ color: THEME.accent, fontSize: 13, fontWeight: 600, margin: 0, fontFamily: THEME.font }}>
-                🔍 Scanning with on-device OCR (Arabic + English)...
+                 Scanning with on-device OCR (Arabic + English)...
               </p>
             </div>
           )}
@@ -326,7 +328,7 @@ Examples:
             border: '1px solid rgba(255,182,72,0.1)',
           }}>
             <p style={{ color: THEME.white40, fontSize: 11, margin: 0, fontFamily: THEME.font }}>
-              💡 Copy the payment confirmation from any of these apps and paste it in the "Paste Message" tab.
+               Copy the payment confirmation from any of these apps and paste it in the "Paste Message" tab.
               For InstaPay on iPhone, use the Share button → Wafr to instantly log the payment.
             </p>
           </div>
@@ -347,7 +349,7 @@ Examples:
                 color: result.success ? THEME.accent : THEME.red,
                 fontSize: 14, fontWeight: 700, margin: 0, fontFamily: THEME.font,
               }}>
-                {result.success ? '✅ Payment Detected!' : result.msg}
+                {result.success ? ' Payment Detected!' : result.msg}
               </p>
               {result.success && (
                 <>
@@ -356,7 +358,7 @@ Examples:
                   </p>
                   {result.merchant && (
                     <p style={{ color: THEME.white30, fontSize: 11, margin: '2px 0 0', fontFamily: THEME.font }}>
-                      📍 {result.merchant}
+                       {result.merchant}
                     </p>
                   )}
                 </>
@@ -365,7 +367,7 @@ Examples:
           </div>
           {result.success && (
             <p style={{ color: THEME.white30, fontSize: 10, margin: '8px 0 0', fontFamily: THEME.font, textAlign: 'center' }}>
-              Added to your Transaction Inbox for review 📥
+              Added to your Transaction Inbox for review 
             </p>
           )}
         </div>
@@ -378,7 +380,7 @@ Examples:
           border: `1px solid ${THEME.cardBorder}`, marginBottom: 12,
         }}>
           <p style={{ color: THEME.white50, fontSize: 12, fontWeight: 700, margin: '0 0 10px', fontFamily: THEME.font }}>
-            🧪 Try These Demo Messages
+             Try These Demo Messages
           </p>
           {DEMO_SHARES.map((demo, i) => (
             <button key={i} onClick={() => runDemo(demo)} style={{
@@ -387,7 +389,7 @@ Examples:
               textAlign: 'left',
             }}>
               <p style={{ color: THEME.white50, fontSize: 12, fontWeight: 600, margin: 0, fontFamily: THEME.font }}>
-                {demo.type.toUpperCase()} {demo.source === 'screenshot' ? '📸' : '📋'}
+                {demo.type.toUpperCase()} {demo.source === 'screenshot' ? '' : ''}
               </p>
               <p style={{ color: THEME.white30, fontSize: 10, margin: '2px 0 0', fontFamily: THEME.font,
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -407,10 +409,10 @@ Examples:
           How Smart Capture Works
         </h3>
         {[
-          { step: '1', title: 'Make a payment', desc: 'Use InstaPay, Fawry, bank app, wallet — anything', icon: '💳' },
-          { step: '2', title: 'Copy the confirmation', desc: 'Copy the SMS, screenshot the success screen, or share the WhatsApp receipt', icon: '📋' },
-          { step: '3', title: 'Paste or upload here', desc: 'Our on-device AI reads Arabic + English and detects the amount, merchant, and platform', icon: '🤖' },
-          { step: '4', title: 'One-tap approve', desc: 'Review the auto-detected expense in your Inbox and approve it', icon: '✅' },
+          { step: '1', title: 'Make a payment', desc: 'Use InstaPay, Fawry, bank app, wallet — anything', icon: React.createElement(CreditCard, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+          { step: '2', title: 'Copy the confirmation', desc: 'Copy the SMS, screenshot the success screen, or share the WhatsApp receipt', icon: React.createElement(ClipboardList, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+          { step: '3', title: 'Paste or upload here', desc: 'Our on-device AI reads Arabic + English and detects the amount, merchant, and platform', icon: React.createElement(Bot, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
+          { step: '4', title: 'One-tap approve', desc: 'Review the auto-detected expense in your Inbox and approve it', icon: React.createElement(CheckCircle2, { size: "1em", style: { display: "inline-block", verticalAlign: "middle" } }) },
         ].map((step, i) => (
           <div key={i} style={{ display: 'flex', gap: 12, marginBottom: i < 3 ? 12 : 0 }}>
             <div style={{
@@ -435,8 +437,7 @@ Examples:
         background: 'rgba(108,92,231,0.08)', borderRadius: 14, padding: '12px 16px', marginTop: 12,
         border: '1px solid rgba(108,92,231,0.12)',
       }}>
-        <p style={{ color: THEME.white50, fontSize: 11, lineHeight: 1.5, margin: 0, fontFamily: THEME.font }}>
-          🍎 <strong>iPhone Users:</strong> When you see a payment confirmation screen, tap Share → Wafr to instantly log the expense. 
+        <p style={{ color: THEME.white50, fontSize: 11, lineHeight: 1.5, margin: 0, fontFamily: THEME.font }}><Apple size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /> <strong>iPhone Users:</strong> When you see a payment confirmation screen, tap Share → Wafr to instantly log the expense. 
           Or simply take a screenshot — next time you open Wafr, it'll auto-detect and queue the expense for approval.
         </p>
       </div>
@@ -446,8 +447,7 @@ Examples:
         background: 'rgba(0,212,170,0.06)', borderRadius: 14, padding: '12px 16px', marginTop: 8,
         border: '1px solid rgba(0,212,170,0.08)',
       }}>
-        <p style={{ color: THEME.white40, fontSize: 11, lineHeight: 1.5, margin: 0, fontFamily: THEME.font }}>
-          🤖 <strong style={{ color: THEME.white50 }}>Android Users:</strong> Enable Notification Access in Settings → Privacy & Auto-Tracking for fully automatic detection.
+        <p style={{ color: THEME.white40, fontSize: 11, lineHeight: 1.5, margin: 0, fontFamily: THEME.font }}><Bot size="1em" style={{display:"inline-block", verticalAlign:"middle", margin:"0 4px"}} /> <strong style={{ color: THEME.white50 }}>Android Users:</strong> Enable Notification Access in Settings → Privacy & Auto-Tracking for fully automatic detection.
           InstaPay, Fawry, bank, and wallet notifications are captured silently in the background.
         </p>
       </div>
