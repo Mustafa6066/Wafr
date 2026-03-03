@@ -260,7 +260,7 @@ export default function LoginScreen() {
             <div style={{ textAlign: 'center', marginTop: 24 }}>
               <button onClick={() => {
                 // Set a demo flag in localStorage to bypass auth
-                localStorage.setItem('wafr-demo-mode', 'true');
+                localStorage.setItem('wafrDemoMode', 'true');
                 window.location.reload();
               }} style={{
                 background: 'none', border: `1px solid ${THEME.white10}`, borderRadius: 12,
