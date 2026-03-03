@@ -1,0 +1,210 @@
+import { useState, useRef, useEffect } from "react";
+import { useApp } from "./WafrApp.jsx";
+import { SAVING_TIPS, CATEGORIES, FREE_LIMITS, THEME } from "./constants.js";
+
+export default function AICoach() {
+  const { curr, isPremium, expenses, currentMonthExpenses, totalSpent, budget, profile, goals,
+    aiChatHistory, setAiChatHistory, canSendAiMessage, incrementAiCount, aiMessageCount,
+    showPaywall } = useApp();
+
+  const [input, setInput] = useState("");
+  const [typing, setTyping] = useState(false);
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [aiChatHistory, typing]);
+
+  const remainingMessages = isPremium ? "∞" : Math.max(0, FREE_LIMITS.maxAiMessages - (aiMessageCount.date === new Date().toDateString() ? aiMessageCount.count : 0));
+
+  const generateResponse = (userMsg) => {
+    const msg = userMsg.toLowerCase();
+    const catTotals = {};
+    currentMonthExpenses.forEach(e => { catTotals[e.category] = (catTotals[e.category] || 0) + e.amount; });
+    const topCat = Object.entries(catTotals).sort((a, b) => b[1] - a[1]);
+    const savingsRate = budget > 0 ? Math.round(((budget - totalSpent) / budget) * 100) : 0;
+    const topCatName = topCat[0] ? (CATEGORIES.find(c => c.id === topCat[0][0])?.name || topCat[0][0]) : "N/A";
+
+    // Context-aware responses
+    if (msg.includes("analyz") || msg.includes("spending") || msg.includes("habit")) {
+      const breakdown = topCat.slice(0, 4).map(([id, amt]) => {
+        const cat = CATEGORIES.find(c => c.id === id);
+        return `  ${cat?.icon || "📦"} ${cat?.name || id}: ${curr.symbol} ${amt.toLocaleString()} (${Math.round((amt / totalSpent) * 100)}%)`;
+      }).join("\n");
+
+      return `📊 **Spending Analysis for ${new Date().toLocaleDateString("en", { month: "long" })}**\n\nYou've spent ${curr.symbol} ${totalSpent.toLocaleString()} out of your ${curr.symbol} ${budget.toLocaleString()} budget (${Math.round((totalSpent / budget) * 100)}% used).\n\n**Top Categories:**\n${breakdown || "  No expenses tracked yet"}\n\n${savingsRate > 20 ? "✅ Great job! You're on track to save " + savingsRate + "% this month." : savingsRate > 0 ? "⚠️ You're saving " + savingsRate + "% — try to reach 20% for healthy finances." : "🚨 You've exceeded your budget! Let's find areas to cut back."}\n\n💡 **Tip:** ${getRelevantTip(topCat[0]?.[0])}\n\nWant me to help you set a budget for specific categories?`;
+    }
+
+    if (msg.includes("save") && (msg.includes("food") || msg.includes("eat") || msg.includes("dining"))) {
+      const foodSpent = catTotals["food"] || 0;
+      return `🍔 **Food & Dining Savings Plan**\n\nYou've spent ${curr.symbol} ${foodSpent.toLocaleString()} on food this month.\n\n**Here's your personalized plan:**\n\n1. 🏠 **Cook at home 3 more days/week**\n   Potential savings: ${curr.symbol} ${Math.round(foodSpent * 0.3).toLocaleString()}/month\n\n2. 🥗 **Pack lunch twice a week**\n   Potential savings: ${curr.symbol} ${Math.round(foodSpent * 0.15).toLocaleString()}/month\n\n3. 📱 **Use delivery app promo codes**\n   Always check for discounts before ordering\n\n4. 🛒 **Meal prep on weekends**\n   Saves both money and time during the week\n\n**Total potential savings: ${curr.symbol} ${Math.round(foodSpent * 0.45).toLocaleString()}/month!**`;
+    }
+
+    if (msg.includes("save") && (msg.includes("transport") || msg.includes("car") || msg.includes("uber") || msg.includes("taxi"))) {
+      const transportSpent = catTotals["transport"] || 0;
+      return `🚗 **Transport Savings Plan**\n\nYou've spent ${curr.symbol} ${transportSpent.toLocaleString()} on transport this month.\n\n**Smart alternatives:**\n\n1. 🚶 **Walk for trips under 2km**\n   Saves money AND improves health\n\n2. 🚌 **Use public transport 2 more days/week**\n   Potential savings: ${curr.symbol} ${Math.round(transportSpent * 0.25).toLocaleString()}/month\n\n3. 🚗 **Carpool with colleagues**\n   Split fuel costs for daily commute\n\n4. 📍 **Batch your errands**\n   Group trips by location to reduce rides\n\n**Potential savings: ${curr.symbol} ${Math.round(transportSpent * 0.35).toLocaleString()}/month!**`;
+    }
+
+    if (msg.includes("goal") || msg.includes("target") || msg.includes("dream")) {
+      const totalSaved = goals.reduce((s, g) => s + g.saved, 0);
+      return `🎯 **Your Savings Goals Overview**\n\n${goals.length > 0
+        ? goals.map(g => `${g.icon || "⭐"} **${g.name}**: ${curr.symbol} ${g.saved.toLocaleString()} / ${curr.symbol} ${g.target.toLocaleString()} (${Math.round((g.saved / g.target) * 100)}%)`).join("\n")
+        : "You haven't set any savings goals yet!"}\n\n**Total saved: ${curr.symbol} ${totalSaved.toLocaleString()}**\n\n💡 Based on your income of ${curr.symbol} ${budget.toLocaleString()}, I recommend saving at least ${curr.symbol} ${Math.round(budget * 0.2).toLocaleString()}/month (20% rule).\n\nWant me to help you create a new savings goal? Go to the Goals tab!`;
+    }
+
+    if (msg.includes("budget") || msg.includes("plan") || msg.includes("allocat")) {
+      return `💼 **Recommended Budget (50/30/20 Rule)**\n\nBased on your income of ${curr.symbol} ${budget.toLocaleString()}:\n\n📋 **Needs (50%):** ${curr.symbol} ${Math.round(budget * 0.5).toLocaleString()}\n  → Rent, bills, groceries, transport\n\n🎉 **Wants (30%):** ${curr.symbol} ${Math.round(budget * 0.3).toLocaleString()}\n  → Dining out, entertainment, shopping\n\n💰 **Savings (20%):** ${curr.symbol} ${Math.round(budget * 0.2).toLocaleString()}\n  → Emergency fund, investments, goals\n\n${totalSpent > budget * 0.8 ? "⚠️ You've already used " + Math.round((totalSpent / budget) * 100) + "% of your budget. Time to slow down!" : "✅ You're doing well so far this month!"}\n\nGo to the Budget tab to set spending limits per category!`;
+    }
+
+    if (msg.includes("tip") || msg.includes("advice") || msg.includes("help") || msg.includes("suggest")) {
+      const tips = getRelevantTips(topCat, 3);
+      const totalPotential = tips.reduce((s, t) => s + t.saving, 0);
+      return `💡 **Personalized Savings Tips**\n\nBased on your spending patterns:\n\n${tips.map((t, i) => `${i + 1}. ${t.tip}\n   💰 Save up to ${curr.symbol} ${t.saving}/month`).join("\n\n")}\n\n**Total potential savings: ${curr.symbol} ${totalPotential}/month (${curr.symbol} ${totalPotential * 12}/year!)**\n\nWant me to dive deeper into any of these?`;
+    }
+
+    // Default response with contextual awareness
+    const tip = SAVING_TIPS[Math.floor(Math.random() * SAVING_TIPS.length)];
+    return `Based on your spending pattern, here's a tip:\n\n💡 ${tip.tip}\n\n📊 Potential savings: ${curr.symbol} ${tip.saving}/month\n\nYour top spending category is **${topCatName}** at ${curr.symbol} ${(topCat[0]?.[1] || 0).toLocaleString()} this month.\n\nTry asking me:\n• "Analyze my spending"\n• "How can I save on food?"\n• "Help me set a budget"\n• "Show my savings goals"`;
+  };
+
+  const sendMessage = () => {
+    if (!input.trim()) return;
+    if (!canSendAiMessage()) {
+      showPaywall();
+      return;
+    }
+
+    const userMsg = input.trim();
+    setAiChatHistory(prev => [...prev, { role: "user", text: userMsg, time: Date.now() }]);
+    setInput("");
+    incrementAiCount();
+    setTyping(true);
+
+    setTimeout(() => {
+      const response = generateResponse(userMsg);
+      setAiChatHistory(prev => [...prev, { role: "ai", text: response, time: Date.now() }]);
+      setTyping(false);
+    }, 800 + Math.random() * 800);
+  };
+
+  return (
+    <div style={{ padding: "16px 24px", display: "flex", flexDirection: "column", height: "calc(100vh - 150px)" }}>
+      {/* Header */}
+      <div style={{
+        background: "rgba(0,212,170,0.08)", borderRadius: 16, padding: "14px",
+        border: `1px solid rgba(0,212,170,0.12)`, marginBottom: 12,
+        display: "flex", justifyContent: "space-between", alignItems: "center",
+      }}>
+        <div>
+          <p style={{ color: THEME.accent, fontSize: 12, fontWeight: 700, margin: "0 0 2px", fontFamily: THEME.font }}>
+            🤖 AI SAVINGS COACH
+          </p>
+          <p style={{ color: THEME.white50, fontSize: 12, margin: 0, fontFamily: THEME.font }}>
+            Personalized advice based on your real spending data
+          </p>
+        </div>
+        {!isPremium && (
+          <div style={{
+            background: "rgba(255,182,72,0.15)", borderRadius: 10, padding: "4px 10px",
+            border: "1px solid rgba(255,182,72,0.2)",
+          }}>
+            <p style={{ color: THEME.orange, fontSize: 11, fontWeight: 700, margin: 0, fontFamily: THEME.font }}>
+              {remainingMessages}/day
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Chat Area */}
+      <div style={{ flex: 1, overflowY: "auto", marginBottom: 12, paddingRight: 4 }}>
+        {aiChatHistory.length === 0 && (
+          <div style={{ textAlign: "center", padding: "32px 16px" }}>
+            <div style={{ fontSize: 48, marginBottom: 16 }}>🤖</div>
+            <p style={{ color: THEME.white50, fontSize: 15, margin: "0 0 20px", fontFamily: THEME.font }}>
+              Hi{profile.name ? ` ${profile.name}` : ""}! I'm your AI savings coach. Try asking me:
+            </p>
+            {[
+              "Analyze my spending habits",
+              "How can I save more on food?",
+              "Help me set a budget plan",
+              "Show my savings goals progress",
+            ].map((q, i) => (
+              <button key={i} onClick={() => setInput(q)} style={{
+                display: "block", width: "100%", textAlign: "left",
+                background: THEME.white04, border: `1px solid ${THEME.cardBorder}`,
+                borderRadius: 12, padding: "11px 14px", marginBottom: 8,
+                color: THEME.white50, fontSize: 13, cursor: "pointer", fontFamily: THEME.font,
+              }}>💬 {q}</button>
+            ))}
+          </div>
+        )}
+
+        {aiChatHistory.map((msg, i) => (
+          <div key={i} style={{
+            display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start",
+            marginBottom: 10, animation: "fadeIn 0.3s ease",
+          }}>
+            <div style={{
+              maxWidth: "85%",
+              background: msg.role === "user"
+                ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})`
+                : THEME.white06,
+              color: msg.role === "user" ? THEME.bg : THEME.white,
+              borderRadius: 18, padding: "11px 15px",
+              fontSize: 13, lineHeight: 1.7, whiteSpace: "pre-line", fontFamily: THEME.font,
+            }}>
+              {msg.text}
+            </div>
+          </div>
+        ))}
+
+        {typing && (
+          <div style={{ display: "flex", marginBottom: 10 }}>
+            <div style={{
+              background: THEME.white06, borderRadius: 18, padding: "12px 18px",
+              color: THEME.white50, fontSize: 13, fontFamily: THEME.font,
+            }}>
+              <span style={{ animation: "pulse 1s infinite" }}>🤖 Analyzing...</span>
+            </div>
+          </div>
+        )}
+        <div ref={chatEndRef} />
+      </div>
+
+      {/* Input */}
+      <div style={{ display: "flex", gap: 8 }}>
+        <input value={input} onChange={e => setInput(e.target.value)}
+          onKeyDown={e => e.key === "Enter" && sendMessage()}
+          placeholder={canSendAiMessage() ? "Ask your AI savings coach..." : "Upgrade for more messages"}
+          disabled={!canSendAiMessage() && !isPremium}
+          style={{
+            flex: 1, background: THEME.white06, border: `1px solid ${THEME.white10}`,
+            borderRadius: 14, padding: "13px 16px", color: THEME.white, fontSize: 14,
+            outline: "none", fontFamily: THEME.font,
+          }} />
+        <button onClick={sendMessage} disabled={!input.trim()} style={{
+          background: input.trim() ? `linear-gradient(135deg, ${THEME.accent}, ${THEME.accentDark})` : THEME.white10,
+          border: "none", borderRadius: 14, width: 48, height: 48,
+          cursor: input.trim() ? "pointer" : "default", fontSize: 18,
+          display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+        }}>↑</button>
+      </div>
+    </div>
+  );
+}
+
+// Helpers
+function getRelevantTip(categoryId) {
+  const relevant = SAVING_TIPS.filter(t => t.category === categoryId);
+  if (relevant.length > 0) return relevant[Math.floor(Math.random() * relevant.length)].tip;
+  return SAVING_TIPS[Math.floor(Math.random() * SAVING_TIPS.length)].tip;
+}
+
+function getRelevantTips(topCategories, count = 3) {
+  const catIds = topCategories.map(([id]) => id);
+  const relevant = SAVING_TIPS.filter(t => catIds.includes(t.category));
+  const others = SAVING_TIPS.filter(t => !catIds.includes(t.category));
+  const pool = [...relevant, ...others];
+  const shuffled = pool.sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+}
